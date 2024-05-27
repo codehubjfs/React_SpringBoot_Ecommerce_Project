@@ -44,7 +44,23 @@ public class SellerService {
     public Seller getSellerByEmailAndPassword(String email, String password) {
         return sellerRepository.findByEmailAndPassword(email, password);
     }
+    public Seller getSellerByEmail(String email) {
+        return sellerRepository.findByEmail(email);
+    }
+
+    public boolean checkIfEmailExists(String email) {
+        return sellerRepository.existsByEmail(email);
+    }
     
+    public Seller updateSellerPassword(String email, String newPassword) {
+        Seller seller = sellerRepository.findByEmail(email);
+        if (seller != null) {
+            seller.setPassword(newPassword);
+            return sellerRepository.save(seller);
+        } else {
+            return null; // Handle the case where the seller is not found
+        }
+    }
     public List<Seller> getAllActiveSellers() {
         return sellerRepository.findByStatus("Active");
     }
@@ -79,4 +95,3 @@ public class SellerService {
         return sellerRepository.findByStatus("Suspended");
     }
 }
-

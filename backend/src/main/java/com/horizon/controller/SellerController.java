@@ -2,6 +2,7 @@ package com.horizon.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -150,6 +151,31 @@ public class SellerController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
+        }
+    }
+    @PostMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        Seller seller = sellerService.getSellerByEmail(email);
+
+        if (seller != null) {
+            return ResponseEntity.ok(seller);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> updatePassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String newPassword = request.get("newPassword");
+
+        Seller seller = sellerService.updateSellerPassword(email, newPassword);
+
+        if (seller != null) {
+            return ResponseEntity.ok(seller);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
         }
     }
 }
