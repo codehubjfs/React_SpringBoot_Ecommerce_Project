@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure Sidebar1 is hidden by default */
+.AdminSidebar {
+  width: 250px;
+  font-size: 1rem;
+  position: fixed;
+  left: -250px; /* Move the sidebar off-screen */
+  top: 0;
+  bottom: 0;
+  background-color: #000;
+  z-index: 100;
+  color: #fff;
+  overflow-y: auto;
+  padding-top: 20px; /* Add padding to the top */
+  transition: transform 0.3s ease;
+}
+.AdminSidebar.visible {
+  transform: translateX(250px);
+}
+
+/* Ensure Sidebar1 is hidden when isSidebarVisible is false */
+.AdminSidebar.hidden {
+  transform: translateX(-250px); /* Move the sidebar off-screen */
+}
+
+.AdminSidebarBrand {
+  height: 90px;
+  padding: 1rem 0 1rem 2rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.AdminSidebarBrand span {
+  display: inline-block;
+  padding-right: 1rem;
+  color: #fff;
+}
+
+.AdminSidebarMenu {
+  width: 100%;
+}
+
+.AdminSidebarMenu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #fff ;
+}
+
+.AdminSidebarMenu li {
+  width: 100%;
+  margin-bottom: 1.3rem;
+  padding-left: 1rem; /* Add padding to align menu items */
+}
+
+.AdminSidebarMenu a {
+  display: block;
+  color: #fff !important;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.AdminSidebarMenu a:hover {
+  background-color: #fff;
+  color: #000 !important;
+  font-weight: bolder;
+  text-decoration: none !important;
+}
+
+.AdminSidebarMenu a span:first-child {
+  font-size: 1.5rem;
+  padding-right: 1rem;
+  margin: 0;
+}
+
+.AdminDropdown:hover .AdminDropdownMenu {
+  display: block;
+  background-color: #000;
+  justify-content: right;
+  border: none;
+}
+
+#sidebar-toggle {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+#sidebar-toggle .las {
+  font-size: 24px;
+  color: #000;
+}
+
+#sidebar-toggle.active .las {
+  color: #fff;
+}
+
+#sidebar-toggle:hover .las {
+  color: #aaa;
+}

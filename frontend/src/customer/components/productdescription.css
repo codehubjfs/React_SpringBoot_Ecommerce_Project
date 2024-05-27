@@ -1,0 +1,118 @@
+/* productdescription.css */
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+.container-lg {
+    max-width: 1200px; /* Set the maximum width of the container */
+}
+.image-container {
+    margin-bottom: 20px;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-container p {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.tab-content {
+    padding-top: 20px;
+}
+
+.nav-link {
+    color: #5180b0;
+    font-weight: bold;
+}
+
+.nav-link.active {
+    color: #007bff;
+}
+
+.tab-pane {
+    padding: 20px 0;
+}
+
+h2 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.border-top {
+    border-top: 1px solid #dee2e6 !important;
+}
+
+.py-4 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+}
+
+.border {
+    border: 1px solid #a3c1ea !important;
+}
+
+.rounded-2 {
+    border-radius: 0.3rem !important;
+}
+
+.px-3 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.bg-white {
+    background-color: #fff !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.gx-4 > [class^="col"] {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+}
+
+@media (max-width: 992px) {
+    .gx-4 > [class^="col"] {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+#ex1-content div {
+    padding-left: 20px; /* Add padding to the left to push content to the right */
+}
+.image-container {
+    display: inline-flex; /* Display the image and text content in a row */
+    align-items: flex-start; /* Align items to the start (left) */
+    width: 40%; /* Set the width to 100% */
+}
+
+.image-container img {
+    margin-right: 20px; /* Add margin to separate the image from the text */
+}
+
+.seller-info {
+    flex: 1; /* Let the text content fill the remaining space */
+}

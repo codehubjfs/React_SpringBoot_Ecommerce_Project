@@ -1,0 +1,173 @@
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .about-content {
+    width: 80%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .header-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .about-content h1 {
+    color: #333;
+  }
+  
+  .main-content {
+    margin-bottom: 30px;
+  }
+  
+  .additional-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mission-values {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .mission-section,
+  .values-section {
+    flex-basis: 48%;
+  }
+  
+  .values-section ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .values-section li {
+    margin-bottom: 10px;
+  }
+  
+  .values-section li strong {
+    font-weight: bold;
+  }
+  
+  .why-choose-us {
+    margin-bottom: 30px;
+  }
+  
+  .reasons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .reason {
+    flex-basis: 30%;
+    text-align: center;
+  }
+  
+  .reason h3 {
+    margin-top: 10px;
+  }
+  
+  .reason p {
+    color: #777;
+  }
+  
+  .reason-image {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 70%;
+  }
+  
+  .testimonials {
+    margin-bottom: 30px;
+  }
+  
+  .testimonial {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .testimonial p {
+    margin-bottom: 10px;
+  }
+  
+  .testimonial-author {
+    font-style: italic;
+  }
+  
+  .milestones {
+    margin-bottom: 30px;
+  }
+  
+  .milestones ul {
+    padding-left: 20px;
+  }
+  
+  .team {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .team-member {
+    text-align: center;
+  }
+  
+  .team-member h3 {
+    margin-top: 10px;
+  }
+  
+  .team-member p {
+    color: #777;
+  }
+  
+  .team-member-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    /* margin-bottom: 10px; */
+    object-fit: cover;
+  }
+  
+  .achievements {
+    margin-bottom: 30px;
+  }
+  
+  .call-to-action {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .contact-info {
+    text-align: center;
+  }
+  

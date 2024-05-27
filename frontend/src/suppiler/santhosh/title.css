@@ -1,0 +1,338 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #343a40; 
+  position: fixed !important;
+  margin: 0 !important;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.notification-symbol {
+  margin-right: 20px;
+  /* margin-left: 412%; */
+}
+
+#img {
+
+  filter: invert(100%);
+}
+
+.navbar-brand img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+
+.container-fluid {
+padding-top: 0px !important;
+}
+.col-md-9 {
+height: 100vh; /* Ensure it occupies the full height of the viewport */
+margin-top: 0px !important; /* Adjust margin-top to accommodate fixed navbar */
+margin-left: 25%;
+}
+.sellernav-item {
+color: #dee2e6; /* Light text color */
+font-weight: bold;
+display: block;
+padding: 8px;
+margin-bottom: 30px;
+border: 1px solid #6c757d;
+border-radius: 5px;
+width: 100%; /* Adjust width for mobile view */
+transition: background-color 0.3s ease;
+}
+
+.sellernav-item:hover {
+color: #ffffff;
+background-color: #6c757d;
+text-decoration: none;
+}
+
+.sellersidebar {
+background-color: #343a40; /* Dark background color */
+padding: 20px;
+height: 90vh;
+overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+.sellersidebar {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    bottom: 0;
+    width: 350px;
+}
+
+.col-md-9 {
+    margin-left: 350px;
+}
+}
+
+@media (max-width: 767px) {
+.sellersidebar {
+    position: relative;
+    width: 100%;
+}
+}
+
+
+
+
+
+
+
+
+
+
+#sellernames{
+  font-size: 20px;
+  /* font-weight: bold; */
+}
+#sales{
+  text-align: center !important;
+}
+/* .data-section,
+.data-section1 {
+  margin-bottom: 10px;
+}
+
+.data-section div,
+.data-section1 div {
+  margin-bottom: 5px;
+  background-color: #343a40;
+  color: white;
+  padding: 40px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  border: 1px solid #dee2e6;
+} */
+
+
+
+.sales-report-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.canvas-container {
+  /* padding: 20px; */
+  margin-left: 0%;
+}
+
+.navbar {
+  background-color: #343a40 !important;
+  color: #fff;
+}
+
+.navbar-brand {
+  color: #fff !important;
+}
+
+.notification-symbol {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.user-info {
+  color: #fff;
+}
+
+.table {
+  /* border-collapse: collapse; */
+  width: 100%;
+}
+
+.table th,
+.table td {
+  border: 1px solid #0e0c0c;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #4e5154!important;
+  color: white !important;
+}
+
+
+.table-hover tbody tr:hover {
+background-color: #c58888;
+}
+
+
+.cards {
+background-color:  #e6f0fa !important; /* Card background color */
+border: 1px solid #080909; /* Card border */
+border-radius: 5px; /* Card border radius */
+margin-bottom: 15px; /* Card margin bottom */
+color: black !important;
+}
+
+
+/* title.css */
+.sellercard {
+background-color:  #343a40 !important; /* Card background color */
+border: 1px solid #dee2e6; /* Card border */
+border-radius: 5px; /* Card border radius */
+margin-bottom: 15px; /* Card margin bottom */
+}
+
+.sellercard-body {
+padding: 20px; /* Card body padding */
+color: white !important;
+}
+  
+.sellercard-title {
+font-size: 1.25rem; /* Card title font size */
+margin-bottom: 10px; /* Card title margin bottom */
+color: white;
+}
+
+.sellercard-text {
+font-size: 2rem; /* Card text font size */
+color: white;
+}
+
+
+.questionnaire-container {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+}
+
+.questionnaire-select {
+flex: 1;
+}
+
+.selected-questions {
+flex: 1;
+margin-left: 20px; /* Adjust margin as needed */
+}
+
+.selected-questions h3 {
+margin-top: 0; /* Remove default margin */
+}
+
+.questionnaire-form {
+margin-top: 20px; /* Add some space between select and form */
+}
+.form-group{
+margin-bottom:0px !important ;
+}
+.questionnaire-form label {
+display: block;
+margin-bottom: 10px;
+}
+
+/* Add any other styling as needed */
+
+.select {
+border: 1px solid #1f1c1c;
+background-color: #f0f0f0;
+padding: 20px; 
+}
+
+#saa{
+border: 1px solid #1f1c1c;
+background-color: rgb(247, 243, 243);
+padding: 20px;
+margin-top: 19px;
+}
+
+#qa{
+margin-top: 10px;
+margin-right: 20px;
+}
+
+.faq-grid {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+}
+
+
+/* title.css */
+.faq-card {
+flex: 1 1 calc(33.33% - 30px);
+border: 1px solid #ddd; /* Add border style */
+border-radius: 8px; /* Add border radius */
+overflow: hidden; /* Hide overflowing content */
+padding: 20px;
+background-color: rgb(184, 181, 181);
+}
+.contact-info {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+justify-content: center;
+}
+
+.contact-method {
+display: flex;
+align-items: center;
+}
+
+.contact-icon {
+font-size: 24px;
+margin-right: 10px;
+margin-top: 0px;
+}
+
+.label-hover {
+font-size: 1.2em;
+margin-bottom: 5px; /* Increase the font size on hover */
+}
+.form-control{
+margin-bottom: 15px;
+}
+
+
+
+
+#check input[type="checkbox"] {
+margin-right: 1
+
+0px; /* Adjust the spacing between checkbox and text as needed */
+}
+
+
+/* report table css */
+.qa-card {
+border: 1px solid #1f1c1c;
+background-color: #f0f0f0;
+padding: 20px;
+}
+
+.qa-card-selected {
+
+
+padding: 20px;
+
+}
+
+
+
+#qa-check input[type="checkbox"] {
+margin-right: 20px;
+}
+
+/* #qa {
+margin-top: 10px;
+margin-right: 20px;
+} */
+
+/* Other styles remain the same */

@@ -1,0 +1,39 @@
+/* card.css */
+
+/* Custom styles for the CardImage component */
+.ui-card-image-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .ui-card-image {
+    width: 25rem; /* Adjust the width as needed */
+    height: 20rem; /* Adjust the height for the card image */
+    margin: 0 auto; /* Center the card horizontally */
+  }
+  
+  .ui-card-image-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .ui-card-image-text {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .ui-card-image-button {
+    margin-top: 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .ui-card-image-button:hover {
+    background-color: #0056b3;
+  }
+  

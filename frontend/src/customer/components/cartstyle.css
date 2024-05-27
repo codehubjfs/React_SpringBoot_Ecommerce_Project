@@ -1,0 +1,51 @@
+.container {
+    padding-top: 20px;
+  }
+
+  /* .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-title {
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  } */
+
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    border-bottom: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .table th {
+    background-color: #f8f9fa;
+  }
+
+  .table td img {
+    max-width: 80px;
+    height: auto;
+  }
+
+  .quantity-input {
+    width: 70px;
+    text-align: center;
+  }
+
+  .btn-remove {
+    padding: 5px 10px;
+  }
+
+  .place-order-btn {
+    margin-top: 20px;
+  }

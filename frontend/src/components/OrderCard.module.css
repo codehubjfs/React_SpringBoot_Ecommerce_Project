@@ -1,0 +1,34 @@
+/* OrderCard.module.css */
+
+.keyMetricCard {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 10px;
+    text-align: center;
+  }
+  
+  .cardTitle {
+    font-size: 25px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+  
+  .cardIcon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    padding-right: 5px;
+  }
+  
+  .runningNumber {
+    font-size: 20px;
+    color: #fff;
+    text-align: left;
+    padding-left: 10px;
+  }
+  
+  .cardBody {
+    padding: 2px 0px;
+  }
+  

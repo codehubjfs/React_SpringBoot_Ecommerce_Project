@@ -1,0 +1,52 @@
+/* Container styling */
+.category-container {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff; /* White background for the container */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Add a shadow to the container */
+}
+
+/* Category link styling */
+.category-link {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 35px;
+}
+
+/* Individual category link */
+.category-item {
+  flex: 1 1 150px; /* Ensure each category link occupies equal space */
+  text-align: center;
+  transition: transform 0.3s ease;
+  border: 1px solid #ccc; /* Add a border to each category item */
+  border-radius: 8px; /* Add some border radius */
+  padding: 15px; /* Add padding to the category item */
+  background-color: #f9f9f9; /* Light gray background color */
+}
+
+/* Hover effect for category item */
+.category-item:hover {
+  transform: translateY(-5px); /* Move the category item up on hover */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Add a subtle shadow on hover */
+}
+
+/* Category image */
+.category-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Category title */
+.category-title {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Add some space above the container */
+.container-fluid {
+  margin-top: 30px;
+}

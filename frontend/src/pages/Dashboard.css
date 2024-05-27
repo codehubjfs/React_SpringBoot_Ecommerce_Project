@@ -1,0 +1,130 @@
+body {
+   /* Light grayish-blue background color */
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard {
+  /* background-color: rgb(242, 228, 228); */
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3f51b5 !important;
+  color: white !important;
+  padding: 10px 20px;
+}
+
+.dashboard-title {
+  font-size: 24px !important;
+  font-weight: bold !important;
+}
+
+.dashboard-actions {
+  display: flex;
+  align-items: center !important;
+}
+
+.notifications, .profile {
+  position: relative;
+  margin-left: 20px !important;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red !important;
+  color: white !important;
+  border-radius: 50% !important;
+  padding: 3px 7px !important;
+  font-size: 12px !important;
+}
+
+.dashboard-content {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+}
+
+h3 {
+  margin-bottom: 10px !important;
+}
+
+button {
+  padding: 10px 20px;
+  /* background-color: #3f51b5 !important; */
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+}
+
+button:hover {
+  background-color: #303f9f !important;
+}
+
+.card-bg-blue {
+  background-color: #e3f2fd !important; /* Light blue */
+}
+
+.card-bg-gray {
+  background-color: #f1f3f4 !important; /* Light gray */
+}
+
+.card-bg-green {
+  background-color: #e8f5e9 !important; /* Light green */
+}
+
+.card-bg-yellow {
+  background-color: #fffde7 !important; /* Light yellow */
+}
+
+.card-bg-pink {
+  background-color: #fce4ec !important; /* Light pink */
+}
+
+.card {
+  border-radius: 15px !important;
+  transition: transform 0.2s !important;
+}
+
+.card:hover {
+  transform: scale(1.05) !important;
+}
+
+#dashboard-card {
+  color:black;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+.card-text {
+  font-size: 1.25rem !important;
+}
+
+.text-center {
+  margin-bottom: 20px !important;
+}
+
+
+
+.stat-card,
+.todo-card,
+.schedule-card,
+.revenue-card {
+  /* background-color: #fff !important; */
+  padding: 20px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  text-align: center !important;
+}
+
+.chart-card {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}

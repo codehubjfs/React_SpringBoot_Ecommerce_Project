@@ -1,0 +1,42 @@
+/* Custom light tangy orange color */
+.btn-custom-orange {
+    background-color: rgb(255,164,28);
+    border-color: rgb(255,164,28); /* Match the border color with the background color for consistency */
+    color: #fff; /* Text color */
+}
+
+/* Hover styles for the custom orange button */
+.btn-custom-orange:hover {
+    background-color:rgb(255,164,28);/* Darker shade for hover effect */
+    border-color: rgb(255,164,28); /* Match the border color with the background color for consistency */
+    color: #fff; /* Text color */
+}
+
+.btn-custom-orange:focus {
+    background-color:rgb(255,164,28);/* Darker shade for hover effect */
+    border-color: rgb(255,164,28); /* Match the border color with the background color for consistency */
+    color: #fff; /* Text color */
+}
+/* Custom yellow color for the "Add to Cart" button */
+.btn-custom-yellow {
+    background-color: rgb(255,216,20); /* Yellow color code */
+    border-color: rgb(255,216,20); /* Match the border color with the background color for consistency */
+    color: #000; /* Text color */
+}
+
+/* Hover styles for the custom yellow button */
+.btn-custom-yellow:hover {
+    background-color: rgb(255,216,20); /* Darker shade for hover effect */
+    border-color: rgb(255,216,20); /* Match the border color with the background color for consistency */
+    color: #000; /* Text color */
+}
+
+.btn-group .btn-custom-orange, .btn-group .btn-custom-yellow, .btn-group .btn-primary{
+    /* Add your custom styles here */
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    margin-right: 10px; /* Example custom style */
+
+
+}

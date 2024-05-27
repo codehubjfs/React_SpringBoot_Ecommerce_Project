@@ -1,0 +1,5 @@
+label.error {
+    color: red;
+    font-size: 0.875rem; /* Adjust font size as needed */
+    margin-top: 5px;
+}

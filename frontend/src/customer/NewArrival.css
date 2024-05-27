@@ -1,0 +1,86 @@
+.card-p {
+  position: relative; /* Ensure the card is positioned relatively */
+  width: 300px; /* Fixed width for the card-p */
+  height: 500px; /* Fixed height for the card-p */
+  border: 1px solid #ddd; /* Border around the card-p */
+  border-radius: 10px; /* Rounded corners for the card-p */
+  overflow: hidden; /* Ensure content does not overflow */
+  transition: transform 0.5s ease;
+}
+
+.card-p:hover {
+  transform: scale(1.03);
+  box-shadow: 0 1px 5px rgba(86, 81, 81, 0.5);
+}
+
+.card-p .card-img-top {
+  width: 100%;
+  height: 200px;
+  border-bottom: 1px solid #ddd; /* Border separating the image from the card-p body */
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.like-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 15px; /* Adjusted right position */
+  background: none;
+  border: none;
+  font-size: 1.5em; /* Increase the font size for a larger like button */
+  transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.like-btn:hover .fas.fa-heart {
+  color: red;
+  transform: scale(1.2); /* Increase size on hover */
+}
+
+.like-btn .fas.fa-heart {
+  color: rgb(47, 43, 43);
+}
+
+.like-btn:active .fas.fa-heart {
+  color: red;
+  transform: scale(1.2); /* Increase size when pressed */
+}
+
+
+.btn-custom-orange {
+  background-color: rgb(255, 164, 28);
+  border-color: rgb(255, 164, 28); /* Match the border color with the background color for consistency */
+  color: #fff; /* Text color */
+}
+
+.btn-custom-orange:hover,
+.btn-custom-orange:focus {
+  background-color: rgb(255, 164, 28); /* Darker shade for hover effect */
+  border-color: rgb(255, 164, 28); /* Match the border color with the background color for consistency */
+  color: #fff; /* Text color */
+}
+
+.btn-custom-yellow {
+  background-color: rgb(255, 216, 20); /* Yellow color code */
+  border-color: rgb(255, 216, 20); /* Match the border color with the background color for consistency */
+  color: #000; /* Text color */
+}
+
+.btn-custom-yellow:hover {
+  background-color: rgb(255, 216, 20); /* Darker shade for hover effect */
+  border-color: rgb(255, 216, 20); /* Match the border color with the background color for consistency */
+  color: #000; /* Text color */
+}
+
+.msg-wrapper {
+  white-space: pre-wrap;
+}
+
+.card-p-title, .card-p-text, .review-stars {
+  margin-bottom: 10px; /* Spacing between elements */
+}
+
+.review-stars span {
+  margin-right: 2px; /* Spacing between stars */
+}

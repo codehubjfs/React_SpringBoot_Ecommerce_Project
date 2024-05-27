@@ -1,0 +1,55 @@
+.card-account {
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  border-radius: 10px; 
+}
+
+.card-account:hover {
+  transform: translateY(-5px);
+  text-decoration: none; 
+}
+
+.card-account-img-top {
+  padding: 25px;
+  max-height: 150px;
+  object-fit: scale-down;
+  border-top-left-radius: 10px; 
+  border-top-right-radius: 10px; 
+}
+
+.card-account-body {
+  padding: 20px;
+}
+
+.card-account-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.card-account-text {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: right;
+}
+
+.card-account-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding-left: 20px;
+}

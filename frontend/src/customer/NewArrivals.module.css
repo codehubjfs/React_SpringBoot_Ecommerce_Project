@@ -1,0 +1,56 @@
+.newArrivalsContainer {
+    .card:hover{
+        transform: scale(0);
+        box-shadow: 0 1px 2px rgba(86, 81, 81, 0.5);}
+      .card{
+        transition: transform 0.5s ease;
+      }
+      .card .card-img-top{
+        width: 100%;
+        height: 200px;
+      }
+       .like-btn:hover .fas.fa-heart{
+        color: red;
+      }
+      
+      .like-btn .fas.fa-heart{
+        color: rgb(47, 43, 43);
+      }
+      .like-btn:active .fas.fa-heart {
+        color: red; /* Change color to red when like button is pressed */
+      }
+      .btn-custom-orange {
+      background-color: rgb(255,164,28);
+      border-color: rgb(255,164,28); /* Match the border color with the background color for consistency */
+      color: #fff; /* Text color */
+    }
+    
+    /* Hover styles for the custom orange button */
+    .btn-custom-orange:hover {
+      background-color:rgb(255,164,28);/* Darker shade for hover effect */
+      border-color: rgb(255,164,28); /* Match the border color with the background color for consistency */
+      color: #fff; /* Text color */
+    }
+    
+    .btn-custom-orange:focus {
+      background-color:rgb(255,164,28);/* Darker shade for hover effect */
+      border-color: rgb(255,164,28); /* Match the border color with the background color for consistency */
+      color: #fff; /* Text color */
+    }
+    /* Custom yellow color for the "Add to Cart" button */
+    .btn-custom-yellow {
+      background-color: rgb(255,216,20); /* Yellow color code */
+      border-color: rgb(255,216,20); /* Match the border color with the background color for consistency */
+      color: #000; /* Text color */
+    }
+    
+    /* Hover styles for the custom yellow button */
+    .btn-custom-yellow:hover {
+      background-color: rgb(255,216,20); /* Darker shade for hover effect */
+      border-color: rgb(255,216,20); /* Match the border color with the background color for consistency */
+      color: #000; /* Text color */
+    }
+    .msg-wrapper{
+      white-space:pre-wrap;
+    }
+  }

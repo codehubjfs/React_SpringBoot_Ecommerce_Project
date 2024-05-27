@@ -1,0 +1,31 @@
+/* Sidebar.css */
+
+
+/* Sidebar styles */
+.ui-sidebar {
+    width: 450px; /* Adjust width as needed */
+    background-color: #f4f4f4; /* Example background color */
+    height: 100vh; /* Occupy full height of the viewport */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds viewport height */
+  }
+  
+  
+  .ui-sidebar .ui-flex-column {
+    width: 100%; /* Make the sidebar items take up the full width */
+  }
+  
+  .ui-sidebar .nav-link {
+    color: #333; /* Text color of the sidebar items */
+    padding: 10px 20px; /* Add padding to the sidebar items */
+  }
+  
+  .ui-sidebar .nav-link:hover:hover,
+  .ui-sidebar .nav-link.active {
+    background-color: #0b0b0b; /* Background color of the active sidebar item */
+    color: #fff; /* Text color of the active sidebar item */
+  }
+  
+  .ui-sidebar .nav-item {
+    margin-bottom: 5px; /* Add some margin between sidebar items */
+  }
+  

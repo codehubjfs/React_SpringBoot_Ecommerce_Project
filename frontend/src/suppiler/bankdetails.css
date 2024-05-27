@@ -1,0 +1,100 @@
+.content {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.error-msg {
+    color: red;
+    margin-top: 5px;
+}
+
+.statement {
+    margin-top: 20px;
+    font-weight: bold;
+}
+.continue-button {
+    text-align: center;
+    width: 100%;
+}
+
+.right-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.about-meesho {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#mee {
+    height: 70%;
+    width: 70%;
+    margin: 5px;
+}
+
+.navbar img {
+    height: 40px;
+    width: auto;
+}
+
+.navbar .login-link {
+    margin-left: auto;
+}
+
+
+.emoji-container {
+    font-size: 2em;
+    
+}
+.emoji-span {
+    /* Add some spacing between emojis */
+    margin-right: 50px;
+    margin-bottom: 20px;
+}
+.emoji-img {
+    width: 50px;
+    height: 50px;
+}
+.special-emoji {
+    /* Add animation to the special emoji */
+    animation: pulsate 1s infinite alternate;
+    padding: 10px;
+    border: 2px solid rgb(134, 134, 211);
+}
+@keyframes pulsate {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2);
+    }
+}

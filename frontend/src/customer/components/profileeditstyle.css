@@ -1,0 +1,23 @@
+#edit{
+    border-radius: 100px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.box-container {
+    margin: 50px auto; 
+    width: 80%; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    padding: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 80px; 
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #333;
+}

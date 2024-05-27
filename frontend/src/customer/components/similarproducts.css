@@ -1,0 +1,135 @@
+/*
+!* CSS for SimilarProductCard component *!
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.card-title:after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: #007bff; !* Blue color *!
+    margin-top: 10px;
+}
+
+.d-flex {
+    align-items: center;
+}
+
+.info {
+    flex: 1;
+}
+
+.info a {
+    color: #333;
+    text-decoration: none;
+}
+
+.info a:hover {
+    text-decoration: underline;
+}
+
+.text-dark {
+    color: #333;
+}
+
+.img-thumbnail {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+*/
+/* similarproducts.css */
+
+.a-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.a-carousel-controls {
+    flex: 1;
+}
+
+.a-carousel-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.a-carousel-left {
+    justify-content: center;
+    align-items: center;
+}
+
+.a-carousel-center {
+    overflow: hidden;
+}
+
+.a-carousel-viewport {
+    overflow-x: hidden;
+}
+
+.a-carousel {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.a-carousel-card {
+    margin-left: 14px;
+}
+
+.img-md {
+    width: 96px;
+}
+
+.img-thumbnail {
+    border: 0;
+}
+
+.info {
+    flex: 1;
+}
+/* similarproducts.css */
+
+.similar-products-carousel {
+    display: flex; /* Make the container a flex container */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    scrollbar-width: none; /* Hide scrollbar in browsers that support it */
+    -ms-overflow-style: none; /* Hide scrollbar in Internet Explorer and Edge */
+    white-space: nowrap; /* Prevent items from wrapping to the next line */
+    padding-bottom: 15px; /* Add some padding at the bottom to avoid cutting off last item */
+}
+
+.similar-products-carousel::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Webkit browsers */
+}
+
+.similar-product-item {
+    flex: 0 0 auto; /* Prevent items from growing or shrinking */
+    margin-right: 15px; /* Add margin between items */
+}
+
+.similar-product-item:last-child {
+    margin-right: 0; /* Remove margin from the last item */
+}
+

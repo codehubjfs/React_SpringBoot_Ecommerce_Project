@@ -1,0 +1,72 @@
+.navbar {
+    background-color: #000; 
+    position:fixed;
+  }
+  
+  .navbar-brand img {
+    max-height: 40px;
+  }
+  
+  .navbar-dark .navbar-nav .nav-link {
+    color: #fff; 
+  }
+  
+ 
+  .navbar-collapse form.form-inline {
+    flex: 1;
+    justify-content:center;
+  }
+  
+  .navbar-collapse form.form-inline input.form-control {
+    width: 500px; 
+    
+  }
+  .navbar {
+    min-height: 50px; /* Adjust as needed */
+  }
+  .navbar-brand img {
+    max-height: 30px; /* Adjust as needed */
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: #fff; /* White text color */
+  }
+  .navbar-collapse form.form-inline {
+    flex: 1;
+    justify-content: center;
+  }
+  .navbar-collapse form.form-inline input.form-control {
+    width: 200px; /* Adjust as needed */
+  }
+  .navbar-nav .nav-item {
+    margin-left: 15px; /* Adjust as needed */
+  }
+  .navbar-nav .nav-item:last-child {
+    margin-right: 15px; /* Adjust as needed */
+  }
+  .navbar-nav .nav-item a {
+    font-size: 18px; /* Adjust as needed */
+  }
+  .navbar-toggler {
+    border-color: #fff; /* White border color for toggler */
+  }
+  .navbar-toggler-icon {
+    background-color: #fff; /* White color for toggler icon */
+  }
+  .navbar-light .navbar-toggler-icon {
+    background-image: none; /* Ensure toggler icon is visible */
+  }
+  .nav-link:hover {
+    color: #ccc; /* Hover color for links */
+  }
+  .footer {
+    background-color: #333; /* Footer background color */
+    color: #fff; /* Footer text color */
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .footer-icons a {
+    color: #fff;
+    font-size: 24px;
+    margin: 0 10px;
+  }

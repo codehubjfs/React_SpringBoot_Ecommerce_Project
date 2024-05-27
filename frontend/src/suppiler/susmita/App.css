@@ -1,0 +1,793 @@
+
+.header{
+  margin-top: 110px; 
+  font-size: 40px;
+}
+
+/* maincontent */
+.ui-MainContent{
+  text-align:left;
+  margin-top:60px;
+  margin-left: 0;
+
+}
+
+
+.ui-faq-text {
+  font-size: 24px;
+}
+.ui-faq-question-container {
+  display: flex;
+  align-items: center;
+}
+
+.ui-content-left {
+  flex: 1;
+  padding: 20px; 
+}
+
+.ui-content-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items:right;
+}
+
+.ui-image-containers{
+  height: 100%; /* Adjust height as needed */
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%); /* Replace 'path/to/your/image.jpg' with the path to your image */
+  background-size: cover;
+  background-position: right;
+  width: 300px;
+  
+}
+.ui-content-right img {
+  max-width: 100%; /* Ensure the image doesn't exceed the container's width */
+  height: auto; /* Maintain aspect ratio */
+}
+
+
+.ui-rounded-button {
+  border: none;
+  border-radius: 30px; /* Adjust the value to change the roundness of the button */
+  padding: 10px 20px; /* Adjust padding as needed */
+
+  color: #fff; /* Change text color */
+  font-size: 16px; /* Change font size */
+  cursor: pointer;
+  margin-left:90px;
+
+ 
+}
+/* ParentComponent.css */
+.ui-col-md-3 {
+  margin-bottom: 20px; /* Adjust the margin bottom as needed */
+}
+
+/* Add additional styles as needed */
+
+
+.ui-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust height as needed */
+}
+
+.ui-input-group {
+  display: flex;
+  align-items: center;
+  width: 300px; /* Adjust width as needed */
+}
+.ui-row{
+  display:flex;
+  text-align: center;
+  margin-left: 40px;
+}
+.ui-input-group-addon {
+  padding: 10px;
+  background-color: #e0e0e0;
+}
+.ui-button-box {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.1), /* Top highlight */
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset, /* Top border */
+    0 2px 0 rgba(255, 255, 255, 0.4) inset, /* Top highlight */
+    0 -2px 2px rgba(0, 0, 0, 0.1), /* Bottom shadow */
+    0 0 0 1px rgba(255, 255, 255, 0.4) inset, /* Bottom border */
+    0 -2px 0 rgba(255, 255, 255, 0.4) inset; /* Bottom highlight */
+}
+
+.ui-form-control {
+  padding: 10px;
+  flex: 1;
+  border: 1px solid #ccc;
+}
+
+.ui-button {
+  padding: 10px 20px; 
+  background-color: #f6f60f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.ui-button:hover {
+  background-color: #cdea0e;
+}
+#ui-button-container{
+   color: #030404;
+}
+/* App.css */
+
+.ui-benefits-container {
+  border: 1px solid #dee2e6; /* Add a border */
+  border-radius: 5px; /* Add border radius */
+  padding: 20px; /* Add padding */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow */
+}
+
+.ui-categories-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align items horizontally at the center */
+  justify-content: center; /* Align items vertically at the center */
+}
+
+.ui-Category-component {
+  text-align: center;
+}
+
+.ui-categories-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ui-categories-list li {
+  margin: 10px; /* Adjust spacing between categories */
+}
+
+.ui-hidden {
+  display: none;
+}
+
+.ui-toggle-button{
+  margin-top: 10px; /* Adjust spacing between category list and button */
+  width: 150px; /* Set button width */
+  
+}
+#ui-howworks {
+  text-align: center;
+  background-image: linear-gradient(to right, #ded2d2, #675c61); 
+  padding: 30px;
+ 
+ 
+}
+.ui-benefit-module-container {
+  text-align: center;
+}
+
+/* App.css */
+
+
+
+#ui-support{
+  color: #0e0e0e;
+}
+#ui-para1{
+  color:#040404;
+}
+
+.ui-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left:90px;
+  
+}
+.ui-how-it-works .ui-step-description {
+  text-align: justify;
+  justify-content: center;
+}
+
+/* Additional styles for better spacing and readability */
+.ui-how-it-works .ui-step-description p {
+  margin-bottom: 10px;
+}
+
+
+.ui-offer-ended {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.ui-button {
+  margin-top: 10px; /* Adjust spacing between category list and button */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ui-availability{
+  color:black;
+}
+.ui-mail{
+  color:black;
+}
+.ui-App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+/* App.css */
+
+/* Style for the navigation bar */
+
+
+.ui-hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+.ui-five-items-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ui-five-items-list li {
+  flex-basis: 20%; /* Each item takes up 20% of the container width */
+}
+
+.ui-five-items-list li:not(:last-child)::after {
+  content: '|'; /* Add pipe symbol after each item except the last one */
+  margin-left: 5px; /* Adjust spacing between items */
+}
+.ui-horizontal-items-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ui-horizontal-items-list li {
+  display: inline-block;
+}
+
+.ui-horizontal-items-list li:not(:last-child)::after {
+  content: '|';
+  margin-left: 5px;
+}
+.ui-sidebar-container {
+  display: flex;
+}
+
+
+
+.ui-additional-content {
+  flex: 0;
+  padding: 10px;
+}
+
+.ui-main-container {
+  display: flex;
+}
+
+.ui-content-right {
+  margin-left: 60px; /* This will push the content to the right */
+}
+
+
+.ui-opportunity-container {
+  text-align: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.ui-opportunity-heading {
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+.ui-feature-description {
+  text-align: justify;
+  margin-left: 2px;
+}
+
+.ui-opportunity-description {
+  font-size: 24px;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+
+.ui-opportunity-description a {
+  color: blue;
+  text-decoration: underline;
+}
+
+.ui-opportunity-description a:hover {
+  text-decoration: none;
+}
+
+
+.ui-step-image {
+  width: 100px; /* Adjust the width as needed */
+  margin: 0 10px;
+}
+
+
+.ui-slogan-card {
+  background: linear-gradient(135deg, #4e4949, #eeedeb);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ui-flex-container {
+  display: flex;
+}
+.ui-register-paragraphs{
+  font-size:24px;
+  text-align:center;
+
+
+}
+
+.ui-slogan-card h5{
+  color:#080808;
+  font-weight: bold;
+  font-size: 40px;
+
+}
+.ui-slogan-card p {
+  font-weight: bold;
+  color: #080808; /* Adjust the color as needed */
+  font-size: 40px;
+}
+.ui-slogan-card strong{
+  color:#f2efef;
+}
+.ui-container .ui-product-listing{
+  font-size:18px;
+  color:black;
+}
+.ui-product-listing h4 {
+  font-size: 24px; /* Heading font size */
+  color: black; /* Heading color */
+}
+.ui-slogan-card p:last-child {
+  margin-bottom: 0; /* Remove bottom margin for the last paragraph */
+}
+/* App.css */
+.ui-pricing-card {
+  background-color: #8e780b;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ui-pricing-card h5 {
+  color: #0056b3;
+  font-weight: bold;
+  font-size: 40px;
+}
+.ui-comma{
+  font-size: 80px;
+  color:blanchedalmond;
+}
+.ui-pricing-card p {
+  font-weight: bold;
+  color: #333; /* Adjust the color as needed */
+  font-size: 40px;
+}
+
+.ui-pricing-card p:last-child {
+  margin-bottom: 0; /* Remove bottom margin for the last paragraph */
+}
+.ui-calculation-card {
+  background-image: linear-gradient(45deg, #a9ccd3, #3f9fc7);
+  border: 2px solid #247486; /* Add border */
+  border-radius: 8px; /* Add border radius */
+  padding: 20px; /* Add padding */
+  text-align: center; /* Center-align text */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
+}
+
+.ui-calculation-card h5 {
+  margin-bottom: 20px; /* Add space below heading */
+  font-size: 24px; /* Set font size */
+  font-weight: bold; /* Set font weight to bold */
+}
+
+.ui-calculation-card ol {
+  padding-left: 20px; /* Add padding to the left of ordered list */
+  text-align: left; /* Left-align text within the list */
+}
+
+.ui-calculation-card ol li {
+  margin-bottom: 10px; /* Add space between list items */
+  font-size: 18px; /* Set font size for list items */
+}
+.ui-business-growth-container {
+  background-color: #f8f9fa; /* Background color */
+  padding: 20px; /* Padding around the content */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+
+.ui-business-growth-container h2 {
+  color: #080809; /* Heading color */
+}
+
+.ui-business-growth-container p {
+  color: #333; /* Text color */
+}
+.ui-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.5) inset, /* Top highlight */
+    0 -1px 0 rgba(0, 0, 0, 0.1) inset, /* Bottom shadow */
+    0 2px 0 rgba(0, 0, 0, 0.1); /* Bottom highlight */
+}
+
+/* App.css */
+
+/* PrimeComponent.css */
+
+.ui-prime-container {
+  background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradient background color */
+  padding: 20px; /* Add padding */
+  border-radius: 10px; /* Add border radius for rounded corners */
+}
+
+.ui-prime-title {
+  color: #080808; /* Title text color */
+  text-align: center; /* Center align the title */
+}
+
+.ui-prime-description {
+  color: #fff; /* Description text color */
+}
+
+.ui-prime-subtitle {
+  color: #141111; /* Subtitle text color */
+  margin-top: 20px; /* Add top margin to subtitle */
+  text-align: center;
+}
+
+.ui-custom-buttons {
+  background-color: #050505;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+
+.ui-custom-buttons:hover {
+  background-color: #101112;
+}
+
+.ui-header{
+  text-align: center;
+}
+
+.ui-prime-content {
+  color: #fff; /* Content text color */
+}
+.ui-resources-library {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(to left, #FFA41C, #f0f0f0);
+  margin-top: 60px;
+}
+
+.ui-resources-categories {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+}
+
+.ui-resources-category {
+  margin: 10px 10px;
+}
+
+.ui-registration-guide {
+  margin-top: 20px;
+}
+
+.ui-button {
+  background-color: #040405;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+ 
+}
+.ui-signinbutton{
+  align-items: center;
+}
+.ui-button:hover {
+  background-color: #040404;
+}
+
+.ui-headingresource{
+       color:#020303;
+       font-size: 40px;
+}
+.ui-faq-section{
+  text-align: center;
+}
+
+.ui-faq-item {
+  margin-bottom: 20px;
+  text-align:center;
+  justify-content: space-between;
+ 
+}
+
+.ui-faq-question {
+  display: flex;
+  justify-content: space-between;
+
+  justify-content: center;
+
+  
+}
+.ui-faq-answer {
+  width: 75%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+
+.ui-toggle-buttons {
+  margin-left: 1200px; /* Add some space between question and button */
+  border: 1px solid #ccc;
+  border-radius: 100%; /* Make the button circular */
+  width: 10px;
+  height: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-top:5px;
+
+}
+
+.ui-toggle-buttons.active {
+  background-color: #ccc; /* Change to your desired active color */
+  color: #0e0c0c; /* Change to your desired active color */
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.ui-App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.ui-contents{
+  text-align: center;
+  color:#090a0b;
+}
+.ui-contents-h3{
+  text-align: center;
+}
+.ui-contents-para{
+  justify-content: center;
+  font-size: 20px;
+}
+.ui-App-link {
+  color: #61dafb;
+}
+
+.ui-features {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.ui-features td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.ui-features td:first-child {
+  font-weight: bold;
+}
+
+/* View Comparison Button */
+.ui-view-comparison-btn {
+  background-color: #0c0d0f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.ui-view-comparison-btn:hover {
+  background-color: #0f0f10;
+}
+
+/* RegisterPage.css */
+
+.ui-icon-list {
+  display: flex;
+  justify-content: space-between;
+   /* Change border color to black */
+  margin-bottom: 10px;
+ 
+}
+
+.ui-icon-item {
+  text-align: center;
+  margin-right: 70px; /* Adjust margin as needed */
+ margin-bottom: 5px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  
+ 
+}
+
+.ui-icon-item:last-child {
+  margin-right: 0; /* Remove margin for the last icon-item */
+}
+
+.ui-icon-item img {
+  width: 70px; /* Adjust the width of the images */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* registration.css */
+.ui-register-header {
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center;
+  font-size: 30px;
+  width:100%;
+  background-image: linear-gradient(to right, #ded2d2, #675c61); /* Apply linear gradient */
+  
+}
+
+#ui-register-account{
+  margin-left:60px;
+  
+}
+.ui-register-paragraph {
+  font-size: 18px;
+  color: #070606;
+
+}
+.ui-container {
+  padding: 20px;
+}
+
+.ui-tips {
+  padding-left: 20px;
+}
+
+.ui-tips li {
+  margin-bottom: 20px;
+}
+
+.ui-tips strong {
+  color: #090a0c;
+  font-size:30px;
+}
+.ui-sub-list {
+  margin-top: 20px;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.ui-sub-list h4 {
+  margin-bottom: 10px;
+}
+
+.ui-sub-list p {
+  margin-bottom: 10px;
+}
+
+.ui-order-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+p {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+strong {
+  color: #0e0e0e;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.ui-col-md-10 {
+  flex: 0 0 80%;
+}
+.ui-image-container {
+  text-align: center;
+}
+
+.ui-image-container img {
+  margin: 20px; /* Adjust margin as needed */
+  max-width: 100%;
+}
+
+
+@media (max-width: 768px) {
+  .col-md-10 {
+      flex: 0 0 100%;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

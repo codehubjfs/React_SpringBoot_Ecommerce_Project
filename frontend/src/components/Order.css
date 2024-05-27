@@ -1,0 +1,72 @@
+/* Order.css */
+
+.key-metric-card {
+  background-color: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 15px; /* Increased padding for better spacing */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add smooth transition effects */
+}
+
+.key-metric-card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow on hover for depth */
+}
+
+.key-metric-card h2 {
+  font-size: 24px;
+}
+
+.key-metric-card .card-title {
+  font-size: 25px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  text-align: left; /* Align title to the left for a clean layout */
+}
+
+.key-metric-card i {
+  font-size: 30px;
+  margin-bottom: 10px;
+  padding-right: 5px;
+  color: #fff; /* Adding a contrasting color for the icon */
+}
+
+.key-metric-card p {
+  font-size: 20px;
+  color: #fff;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.card-body {
+  padding: 2px 0px;
+}
+
+.butn {
+  background-color: #000000;
+  color: #fff;
+  text-align: center;
+}
+
+.detail-container {
+  padding: 20px;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.value {
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.customer-name {
+  white-space: nowrap;
+}
