@@ -1,4 +1,4 @@
-package com.horizon.model;
+package com.horizon.customer.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
