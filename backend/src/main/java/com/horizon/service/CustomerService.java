@@ -1,4 +1,4 @@
-package com.horizon.service;
+package com.horizon.customer.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +8,9 @@ import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.horizon.model.Address;
-import com.horizon.model.Customer;
-import com.horizon.repository.CustomerRepository;
+import com.horizon.customer.model.Address;
+import com.horizon.customer.model.Customer;
+import com.horizon.customer.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
@@ -38,11 +38,7 @@ public class CustomerService {
     
     
     public void deleteCustomer(int id) {
-        Optional<Customer> customerOptional = customerRepository.findById(id);
-        customerOptional.ifPresent(customer -> {
-            customer.setStatus("Inactive");
-            customerRepository.save(customer);
-        });
+        customerRepository.deleteById(id);
     }
     
     public Set<Address> getAddressesByCustomerId(int customerId) {
@@ -72,7 +68,32 @@ public class CustomerService {
 	public Optional<Customer> getCustomerById(int id) {
 		return customerRepository.findById(id);
 	}
-	public List<Customer> getAllCustomersByStatus(String status) {
-	    return customerRepository.findByStatus(status);
-	}
+	public Optional<Customer> getCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
+	public boolean updateCustomerPassword(String email, String newPassword) {
+        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customer.setPassword(newPassword);
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+	public Customer updateCustomerPrimeStatus(int customerId, String prime) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customer.setMembership(prime);
+            return customerRepository.save(customer);
+        }
+		return null;
+        
+}
+
+
+
+
+	   
 }

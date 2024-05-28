@@ -1,4 +1,4 @@
-package com.horizon.model;
+package com.horizon.customer.model;
 
 public class CustomerLoginRequest {
     private String email;
