@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch ,useSelector} from 'react-redux';
-import { updateSubcategory } from '../slices/subCategorySlice';
-import { fetchCategories } from '../slices/categorySlice';
+import { updateSubcategory } from '../Slices/subCategorySlice';
+import { fetchCategories } from '../Slices/categorySlice';
 
 const EditSubCategoryModal = ({ subcategoryData, onClose }) => {
     const [subcategory, setSubcategory] = useState(subcategoryData);
@@ -31,15 +31,41 @@ const EditSubCategoryModal = ({ subcategoryData, onClose }) => {
     };
 
     const validateField = (name, value) => {
-        // Add validation logic if needed
+        const newErrors = { ...errors };
+        switch (name) {
+            case 'categoryId':
+                newErrors.categoryId = value.trim() ? null : "category is required";
+                break;
+            case 'subCategoryName':
+                newErrors.subCategoryName = /^[A-Za-z\s]+$/.test(value) ? null : "Invalid subcategory name";
+                break;
+            case 'subCategoryImage':
+                newErrors.subCategoryImage = value.trim() ? null : "category image url is required";
+                break;
+            default:
+                break;
+        }
+        setErrors(newErrors);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Add validation logic if needed
+        e.preventDefault();
+        const emptyFields = Object.entries(subcategory).filter(([key, value]) => typeof value === 'string' && value.trim() === '');
 
-        // Dispatch action to edit subcategory
+        if (emptyFields.length > 0) {
+            const newErrors = { ...errors };
+            emptyFields.forEach(([fieldName]) => {
+                newErrors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+            });
+            setErrors(newErrors);
+            return;
+        }
+
+        if (Object.values(errors).some(val => val !== null)) {
+            return;
+        }
         dispatch(updateSubcategory(subcategory));
         handleClose();
     };
