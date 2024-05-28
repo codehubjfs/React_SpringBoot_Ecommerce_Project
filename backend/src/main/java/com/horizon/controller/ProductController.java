@@ -32,6 +32,7 @@ public class ProductController {
         product.setStatus("active");
         productService.saveProduct(product);
         productService.saveElectronic(product);
+        productService.createNotification(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -43,6 +44,7 @@ public class ProductController {
         product.setStatus("active");
         productService.saveProduct(product);
         productService.saveFurniture(product);
+        productService.createNotification(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -54,6 +56,7 @@ public class ProductController {
         product.setStatus("active");
         productService.saveProduct(product);
         productService.saveBeauty(product);
+        productService.createNotification(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 

@@ -5,7 +5,6 @@ import com.horizon.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,22 +18,21 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public Notification createNotification(Notification notification) {
-        notification.setTimestamp(new Date());
-        return notificationRepository.save(notification);
-    }
-
-    public void markAsRead(Long id) {
-        Optional<Notification> notificationOptional = notificationRepository.findById(id);
-        notificationOptional.ifPresent(notification -> {
-            notification.setRead(true);
-            notificationRepository.save(notification);
-        });
+    public Optional<Notification> markAsRead(int id) {
+        Optional<Notification> notification = notificationRepository.findById(id);
+        if (notification.isPresent()) {
+            Notification notif = notification.get();
+            notif.setProdStatus("read");
+            notificationRepository.save(notif);
+        }
+        return notification;
     }
 
     public void markAllAsRead() {
         List<Notification> notifications = notificationRepository.findAll();
-        notifications.forEach(notification -> notification.setRead(true));
+        for (Notification notification : notifications) {
+            notification.setProdStatus("read");
+        }
         notificationRepository.saveAll(notifications);
     }
 }

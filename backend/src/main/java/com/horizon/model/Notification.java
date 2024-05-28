@@ -1,51 +1,57 @@
 package com.horizon.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "notifications")
 public class Notification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_seq")
-    @SequenceGenerator(name = "notification_seq", sequenceName = "NOTIFICATION_SEQ", allocationSize = 1)   
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notific_seq")
+    @SequenceGenerator(name = "notific_seq", sequenceName = "NOTIFICATION_SEQ", allocationSize = 1)
+    private int id;
+    private int sellerId;
     private String message;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date timestamp;
-    private boolean read;
-    
-	public Long getId() {
-		return id;
-	}
+    private String prod_Status;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Notification() {
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public Notification(int sellerId, String message, String prod_Status) {
+        this.sellerId = sellerId;
+        this.message = message;
+        this.prod_Status = prod_Status;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Date getTimestamp() {
-		return timestamp;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
+    public int getSellerId() {
+        return sellerId;
+    }
 
-	public boolean isRead() {
-		return read;
-	}
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
+    }
 
-	public void setRead(boolean read) {
-		this.read = read;
-	}
-    
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getProdStatus() {
+        return prod_Status;
+    }
+
+    public void setProdStatus(String prod_Status) {
+        this.prod_Status = prod_Status;
+    }
 }
