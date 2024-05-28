@@ -2,30 +2,38 @@ import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "../loginstyle.css";
-import { useDispatch } from "react-redux";
-import { loginCustomer } from "../slices/CustomerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { loginCustomer, verifyEmail, resetPassword } from "../slices/CustomerSlice";
 import { useAuth } from "../AuthContext";
+
 export function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
-  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmailError, setLoginEmailError] = useState("");
+  const [loginPasswordError, setLoginPasswordError] = useState("");
+  const [loginFailureError, setLoginFailureError] = useState("");
+  const [modalEmail, setModalEmail] = useState("");
+  const [modalEmailError, setModalEmailError] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
+  const [showVerificationCodeModal, setShowVerificationCodeModal] = useState(false);
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { login } = useAuth();
+  const customerState = useSelector(state => state.customer);
 
   const isValidEmail = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\d{10}$/;
-    return emailRegex.test(value) || phoneRegex.test(value);
+    // const phoneRegex = /^\d{10}$/;
+    return emailRegex.test(value) ;
   };
 
   const isValidPassword = (value) => {
@@ -34,42 +42,48 @@ export function LoginForm() {
     return passwordPattern.test(value);
   };
 
-  const handleEmailChange = (e) => {
+  const handleLoginEmailChange = (e) => {
     const { value } = e.target;
-    setEmail(value);
+    setLoginEmail(value);
     if (!value.trim()) {
-      setEmailError("Please enter your email address or phone number");
+      setLoginEmailError("Please enter your email address ");
     } else if (!isValidEmail(value.trim())) {
-      setEmailError("Please enter a valid email address or phone number");
+      setLoginEmailError("Please enter a valid email address");
     } else {
-      setEmailError("");
+      setLoginEmailError("");
     }
+    setLoginFailureError(""); // Clear login error on email input change
   };
 
-  const handlePasswordChange = (e) => {
+  const handleLoginEmailFocus = () => {
+    setLoginFailureError(""); // Clear login error on email input focus
+  };
+
+  const handleLoginPasswordChange = (e) => {
     const { value } = e.target;
-    setPassword(value);
+    setLoginPassword(value);
     if (!value.trim()) {
-      setPasswordError("Please enter your password");
+      setLoginPasswordError("Please enter your password");
     } else if (!isValidPassword(value.trim())) {
-      setPasswordError("Invalid Password");
+      setLoginPasswordError("Please enter the password in correct format");
     } else {
-      setPasswordError("");
+      setLoginPasswordError("");
     }
+    setLoginFailureError(""); // Clear login error on password input change
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      dispatch(loginCustomer({ email, password }))
+    if (validateLoginForm()) {
+      dispatch(loginCustomer({ email: loginEmail, password: loginPassword }))
         .unwrap()
         .then(() => {
           login();
-          // dispatch()
           setShowSuccessModal(true);
         })
         .catch((error) => {
           console.error("Login failed:", error);
+          setLoginFailureError("Invalid username and password"); // Set login failure error
         });
     }
   };
@@ -78,13 +92,41 @@ export function LoginForm() {
     setShowForgotPasswordModal(true);
   };
 
-  const handleProceedForgotPassword = () => {
-    if (isValidEmail(email)) {
-      setShowForgotPasswordModal(false);
-      setShowResetPasswordModal(true);
+  const handleModalEmailChange = (e) => {
+    const { value } = e.target;
+    setModalEmail(value);
+    if (!value.trim()) {
+      setModalEmailError("Please enter your email address");
+    } else if (!isValidEmail(value.trim())) {
+      setModalEmailError("Please enter a valid email address");
     } else {
-      setEmailError("Please enter a valid email address or phone number");
+      setModalEmailError("");
     }
+  };
+
+  const handleProceedForgotPassword = () => {
+    if (isValidEmail(modalEmail)) {
+      dispatch(verifyEmail(modalEmail))
+        .unwrap()
+        .then((response) => {
+          if (response.status === 'verified') {
+            setShowForgotPasswordModal(false);
+            setShowResetPasswordModal(true);        
+            } else {
+            setModalEmailError("Email not found");
+          }
+        })
+        .catch((error) => {
+          console.error("Email verification failed:", error);
+          setModalEmailError("Email verification failed");
+        });
+    } else {
+      setModalEmailError("Please enter a valid email address");
+    }
+  };
+
+  const handleVerificationCodeChange = (e) => {
+    setVerificationCode(e.target.value);
   };
 
   const handleNewPasswordChange = (e) => {
@@ -109,33 +151,45 @@ export function LoginForm() {
 
   const handleResetPassword = () => {
     if (isValidPassword(newPassword) && newPassword === confirmPassword) {
-      setShowResetPasswordModal(false);
-      // setShowSuccessModal(true);
-      navigate("/sigin");
+      dispatch(resetPassword({ email: modalEmail, password: newPassword }))
+        .unwrap()
+        .then((response) => {
+          if (response.status === 'success') {
+            setShowResetPasswordModal(false);
+            navigate("/signin");
+          } else {
+            setNewPasswordError("Password reset failed");
+          }
+        })
+        .catch((error) => {
+          console.error("Password reset failed:", error);
+          setNewPasswordError("Password reset failed");
+        });
     }
   };
+  
 
-  const validateForm = () => {
+  const validateLoginForm = () => {
     let isValid = true;
 
-    if (!email.trim()) {
-      setEmailError("Please enter your email address or phone number");
+    if (!loginEmail.trim()) {
+      setLoginEmailError("Please enter your email address ");
       isValid = false;
-    } else if (!isValidEmail(email.trim())) {
-      setEmailError("Please enter a valid email address or phone number");
+    } else if (!isValidEmail(loginEmail.trim())) {
+      setLoginEmailError("Please enter a valid email address");
       isValid = false;
     } else {
-      setEmailError("");
+      setLoginEmailError("");
     }
 
-    if (!password.trim()) {
-      setPasswordError("Please enter your password");
+    if (!loginPassword.trim()) {
+      setLoginPasswordError("Please enter your password");
       isValid = false;
-    } else if (!isValidPassword(password.trim())) {
-      setPasswordError("Invalid Password");
+    } else if (!isValidPassword(loginPassword.trim())) {
+      setLoginPasswordError("Please enter password in correct format");
       isValid = false;
     } else {
-      setPasswordError("");
+      setLoginPasswordError("");
     }
 
     return isValid;
@@ -154,18 +208,19 @@ export function LoginForm() {
             <Form id="loginForm" onSubmit={handleSubmit}>
               <Form.Group controlId="login_email">
                 <Form.Label>
-                  Email Address/PhoneNumber
+                  Email Address
                   <span style={{ color: "red" }}>*</span>
                 </Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter email/phone"
                   style={{ border: "2px solid #ccc", borderRadius: "5px" }}
-                  value={email}
-                  onChange={handleEmailChange}
+                  value={loginEmail}
+                  onChange={handleLoginEmailChange}
+                  onFocus={handleLoginEmailFocus} // Clear error on focus
                 />
                 <Form.Text className="error" style={{ color: "red" }}>
-                  {emailError}
+                  {loginEmailError}
                 </Form.Text>
               </Form.Group>
               <div>
@@ -179,16 +234,19 @@ export function LoginForm() {
                   type="password"
                   placeholder="Password"
                   style={{ border: "2px solid #ccc", borderRadius: "5px" }}
-                  value={password}
-                  onChange={handlePasswordChange}
+                  value={loginPassword}
+                  onChange={handleLoginPasswordChange}
                 />
                 <Form.Text className="error" style={{ color: "red" }}>
-                  {passwordError}
+                  {loginPasswordError}
                 </Form.Text>
               </Form.Group>
               <div>
                 <br />
               </div>
+              <Form.Text className="error" style={{ color: "red" }}>
+                {loginFailureError}
+              </Form.Text>
               <p>
                 By continuing, you agree to Horizon's Conditions of Use and
                 Privacy Notice.
@@ -233,11 +291,11 @@ export function LoginForm() {
           <Form.Control
             type="text"
             placeholder="Enter your email"
-            value={email}
-            onChange={handleEmailChange}
+            value={modalEmail}
+            onChange={handleModalEmailChange}
           />
           <Form.Text className="error" style={{ color: "red" }}>
-            {emailError}
+            {modalEmailError}
           </Form.Text>
         </Modal.Body>
         <Modal.Footer>
@@ -249,6 +307,42 @@ export function LoginForm() {
           </Button>
           <Button variant="primary" onClick={handleProceedForgotPassword}>
             Proceed
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showVerificationCodeModal}
+        onHide={() => setShowVerificationCodeModal(false)}
+      >
+        <Modal.Header>
+          <Modal.Title>Enter Verification Code</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="verificationCode">
+            <Form.Label>
+              Verification Code<span style={{ color: "red" }}>*</span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter verification code"
+              value={verificationCode}
+              onChange={handleVerificationCodeChange}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowVerificationCodeModal(false)}
+          >
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => {
+            setShowVerificationCodeModal(false);
+            setShowResetPasswordModal(true);
+          }}>
+            Verify
           </Button>
         </Modal.Footer>
       </Modal>
