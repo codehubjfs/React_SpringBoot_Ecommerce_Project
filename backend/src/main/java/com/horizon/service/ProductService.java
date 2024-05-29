@@ -4,6 +4,8 @@ import com.horizon.repository.BeautyRepository;
 import com.horizon.repository.ElectronicRepository;
 import com.horizon.repository.FurnitureRepository;
 import com.horizon.repository.ProductRepository;
+import com.horizon.repository.NotificationRepository;
+import com.horizon.model.Notification;
 import com.horizon.model.Beauty;
 import com.horizon.model.Electronic;
 import com.horizon.model.Furniture;
@@ -50,6 +52,13 @@ public class ProductService {
     public Furniture saveFurniture(Furniture furniture) {
         return furnitureRepo.save(furniture);
     }
+    
+    public void createNotification(Product product) {
+        String message = "Supplier Id "+product.getSupplierId()+" request to add the "+product.getProductTitle();
+        Notification notification = new Notification(product.getSupplierId(), message, "pending");
+        notificationRepo.save(notification);
+    }
+
 
     // Get product by ID
     public Optional<Product> getProductById(int productId) {
