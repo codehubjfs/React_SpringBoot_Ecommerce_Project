@@ -1,27 +1,15 @@
-//package com.horizon.admin.service;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.horizon.admin.model.Order;
-//import com.horizon.admin.repository.OrderRepository;
-//
-//@Service
-//public class OrderService {
-//
-//    @Autowired
-//    private OrderRepository orderRepository;
-//
-//    public List<Order> getAllOrders() {
-//        return orderRepository.findAll();
-//    }
-//
-//    public Optional<Order> getOrderById(Long id) {
-//        return orderRepository.findById(id);
-//    }
-//}
+package com.horizon.repository;
 
+import com.horizon.model.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    @Query("SELECT SUM(o.amount) FROM Order o")
+    BigDecimal findTotalRevenue();
+
+    Long countByStatus(String status);
+}
