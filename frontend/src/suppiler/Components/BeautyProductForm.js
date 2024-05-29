@@ -1,114 +1,117 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link , useNavigate} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { addProduct } from '../../slices/productSlice';
-//import the suplier id
+
 const BeautyProductForm = ({ subcategory }) => {
-    const [formData, setFormData] = useState({
-        productTitle: '',
-        description: '',
-        skinType: '',
-        productBenefit: '',
-        supplierId:null,
-        usedFor: '',
-        brand: '',
-        price: '',
-        stock: '',
-        itemWeight: '',
-        mainImage: '',
-        thumbnail1: '',
-        thumbnail2: '',
-        thumbnail3: '',
-        thumbnail4: '',
-        video: '',
-        subCategory: subcategory // Set the subcategory value from the prop
+  const sellerDetails = useSelector(state => state.sellerDetails);
+  const sellerId = sellerDetails ? sellerDetails.sellerId : null;
+
+  const [formData, setFormData] = useState({
+    productTitle: '',
+    description: '',
+    skinType: '',
+    productBenefit: '',
+    supplierId: sellerId,
+    usedFor: '',
+    brand: '',
+    price: '',
+    stock: '',
+    itemWeight: '',
+    mainImage: '',
+    thumbnail1: '',
+    thumbnail2: '',
+    thumbnail3: '',
+    thumbnail4: '',
+    video: '',
+    subCategory: subcategory
+  });
+
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      subCategory: subcategory
+    }));
+  }, [subcategory]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
     });
+    validateField(name, value);
+  };
 
-    const [errors, setErrors] = useState({});
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+  const validateField = (name, value) => {
+    const newErrors = { ...errors };
+    switch (name) {
+      case 'productTitle':
+        newErrors.productTitle = value.trim() ? null : 'Product title is required';
+        break;
+      case 'description':
+        newErrors.description = value.trim() ? null : 'Description is required';
+        break;
+      case 'skinType':
+        newErrors.skinType = /^[A-Za-z\s]+$/.test(value) ? null : 'Skin type should contain only alphabets';
+        break;
+      case 'productBenefit':
+        newErrors.productBenefit = /^[A-Za-z\s]+$/.test(value) ? null : 'Product benefit should contain only alphabets';
+        break;
+      case 'usedFor':
+        newErrors.usedFor = /^[A-Za-z\s]+$/.test(value) ? null : 'Used for should contain only alphabets';
+        break;
+      case 'brand':
+        newErrors.brand = /^[A-Za-z\s]+$/.test(value) ? null : 'Brand should contain only alphabets';
+        break;
+      case 'itemWeight':
+        newErrors.itemWeight = /^[0-9]+$/.test(value) ? null : 'Item weight should contain only numeric characters';
+        break;
+      case 'price':
+        newErrors.price = /^[0-9.]+$/.test(value) ? null : 'Price should contain only numeric characters';
+        break;
+      case 'stock':
+        newErrors.stock = /^[0-9]+$/.test(value) ? null : 'Stock should contain only numeric characters';
+        break;
+      case 'mainImage':
+      case 'thumbnail1':
+      case 'thumbnail2':
+      case 'thumbnail3':
+      case 'thumbnail4':
+      case 'video':
+        newErrors[name] = value.trim() ? null : `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+        break;
+      default:
+        break;
+    }
+    setErrors(newErrors);
+  };
 
-    useEffect(() => {
-        // Update subcategory in formData when the prop changes
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            subCategory: subcategory
-        }));
-    }, [subcategory]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-        validateField(name, value);
-    };
+    const emptyFields = Object.entries(formData).filter(([key, value]) => typeof value === 'string' && value.trim() === '');
 
-    const validateField = (name, value) => {
-        const newErrors = { ...errors };
-        switch (name) {
-            case 'productTitle':
-                newErrors.productTitle = value.trim() ? null : "Product title is required";
-                break;
-            case 'description':
-                newErrors.description = value.trim() ? null : "Description is required";
-                break;
-            case 'skinType':
-                newErrors.skinType = /^[A-Za-z\s]+$/.test(value) ? null : "Skin type should contain only alphabets";
-                break;
-            case 'productBenefit':
-                newErrors.productBenefit = /^[A-Za-z\s]+$/.test(value) ? null : "Product benefit should contain only alphabets";
-                break;
-            case 'usedFor':
-                newErrors.usedFor = /^[A-Za-z\s]+$/.test(value) ? null : "Used for should contain only alphabets";
-                break;
-            case 'brand':
-                newErrors.brand = /^[A-Za-z\s]+$/.test(value) ? null : "Brand should contain only alphabets";
-                break;
-            case 'itemWeight':
-                newErrors.itemWeight = /^[0-9]+$/.test(value) ? null : "Item weight should contain only numeric characters";
-                break;
-            case 'price':
-                newErrors.price = /^[0-9.]+$/.test(value) ? null : "Price should contain only numeric characters";
-                break;
-            case 'stock':
-                newErrors.stock = /^[0-9]+$/.test(value) ? null : "Stock should contain only numeric characters";
-                break;
-            case 'mainImage':
-            case 'thumbnail1':
-            case 'thumbnail2':
-            case 'thumbnail3':
-            case 'thumbnail4':
-            case 'video':
-                newErrors[name] = value.trim() ? null :` ${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
-                break;
-            default:
-                break;
-        }
-        setErrors(newErrors);
-    };
+    if (emptyFields.length > 0) {
+      const newErrors = { ...errors };
+      emptyFields.forEach(([fieldName]) => {
+        newErrors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+      });
+      setErrors(newErrors);
+      return;
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    if (Object.values(errors).some(val => val !== null)) {
+      return;
+    }
 
-        const emptyFields = Object.entries(formData).filter(([key, value]) => typeof value === 'string' && value.trim() === '');
-
-        if (emptyFields.length > 0) {
-            const newErrors = { ...errors };
-            emptyFields.forEach(([fieldName]) => {
-                newErrors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
-            });
-            setErrors(newErrors);
-            return;
-        }
-
-        if (Object.values(errors).some(val => val !== null)) {
-            return;
-        }
-        dispatch(addProduct({ category: 'beauty', productData: formData }));
-        navigate('/dashboard/products');
-    };
+    dispatch(addProduct({ category: 'beauty', productData: formData }));
+    navigate('/dashboard/products');
+  };
 
   return (
     <div>
