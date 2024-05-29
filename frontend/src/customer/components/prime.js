@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import primeimage from "./images/prime.png";
 import GetPrimeModal from "./primemodal";
+import { useSelector } from "react-redux";
 
 function PrimeHeroModule() {
   const [showModal, setShowModal] = useState(false);
+  const customer = useSelector((state) => state.customers.customer);
 
   const handleButtonClick = () => {
     setShowModal(true);
@@ -26,17 +28,21 @@ function PrimeHeroModule() {
                 Free delivery, award-winning TV, exclusive deals, and more
               </Card.Subtitle>
               <div className="prime-hero-module-pricingText">
-                <p className="paragraph">Only Rs.399/month. Cancel anytime.</p>
+                <p className="paragraph">Only Rs.399/month</p>
               </div>
               <div className="prime-header-CTA">
-                <Button
-                  id="primebutton"
-                  variant="primary"
-                  size="lg"
-                  onClick={handleButtonClick}
-                >
-                  Get Prime Now
-                </Button>
+                {customer && customer.membership === "Basic" ? (
+                  <Button
+                    id="primebutton"
+                    variant="primary"
+                    size="lg"
+                    onClick={handleButtonClick}
+                  >
+                    Get Prime Now
+                  </Button>
+                ) : (
+                  <></>
+                )}
               </div>
             </Card.Body>
           </Card>

@@ -4,9 +4,28 @@ import { Link, NavLink } from "react-router-dom";
 import icon from "../Images/Webpage-icon-1.png";
 import img1 from "../Images/avatar.jpg";
 import "../Navbar.css";
+// import { useAuth } from "../AuthContext";
 import { useAuth } from "../AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import WeatherComponent from "../components/Citycomponent";
+import { fetchWishlist } from "../slices/WishlistSlice";
+import { fetchCarts } from "../slices/CartSlice";
+
 function NavBar() {
   const { isLoggedIn, login, logout } = useAuth();
+  const data = JSON.parse(sessionStorage.getItem("customerData"));
+  const [cityName, setCityName] = useState("");
+  const [pincode, setPincode] = useState("");
+  const dispatch = useDispatch();
+  // const city = JSON.parse(sessionStorage.getItem("cityname"));
+  // const pincode = JSON.parse(sessionStorage.getItem("pinCode"));
+  console.log(isLoggedIn);
+  if (isLoggedIn) {
+    console.log(data +"logeshee");
+    // dispatch(fetchWishlist(data.id));
+    // dispatch(fetchCarts(data.id));
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-sm navbar-dark fixed-top">
@@ -34,8 +53,16 @@ function NavBar() {
             <li className="nav-item active">
               <Link className="nav-link" to="/">
                 <i className="fas fa-map-marker-alt"></i>
-                <span className="text" style={{ marginLeft: "5px" }}>
-                  Location
+                <span className="text" style={{ marginLeft: "0px" }}>
+                  {/* <MyLocation setCityName={setCityName} /> */}
+                  <span>
+                    <WeatherComponent
+                      setCityName={setCityName}
+                      setPincode={setPincode}
+                    />
+                    {cityName}
+                    {pincode}
+                  </span>
                 </span>
               </Link>
             </li>
@@ -57,7 +84,7 @@ function NavBar() {
           </form>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/registration">
+              <Link className="nav-link" to="/become-seller">
                 <i className="fas fa-store"></i>
                 <span className="text" style={{ marginLeft: "5px" }}>
                   Become Seller
@@ -83,7 +110,7 @@ function NavBar() {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span>Logesh</span>
+                  <span>{data.fname}</span>
                   <img
                     src={img1}
                     alt="Avatar"
@@ -114,21 +141,38 @@ function NavBar() {
             ) : (
               <li className="nav-item">
                 <Link className="nav-link" to="/signin">
-                  <i className="fas fa-sign-in-alt"></i>
+                  {/* <i className="fas fa-sign-in"></i> */}
                   <span>Sign In</span>
                 </Link>
               </li>
             )}
-            <li className="nav-item">
-              <Link className="nav-link" to="/wishlist">
-                <i className="fas fa-heart"></i>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/Cart">
-                <i className="fas fa-shopping-cart"></i>
-              </Link>
-            </li>
+            {isLoggedIn ? (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/wishlist">
+                    <i className="fas fa-heart"></i>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/cart">
+                    <i className="fas fa-shopping-cart"></i>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/signin">
+                    <i className="fas fa-heart"></i>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/signin">
+                    <i className="fas fa-shopping-cart"></i>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>

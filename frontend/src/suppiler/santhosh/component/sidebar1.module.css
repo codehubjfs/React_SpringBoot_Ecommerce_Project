@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Ensure Sidebar is hidden by default */
+  .SellerSidebar {
+    width: 250px;
+    font-size: 1rem;
+    position: fixed;
+    left: -250px; /* Move the sidebar off-screen */
+    top: 0;
+    bottom: 0;
+    background-color: #343a40;
+    z-index: 100;
+    color: #fff;
+    overflow-y: auto;
+    padding-top: 20px; /* Add padding to the top */
+    transition: transform 0.3s ease;
+  }
+  .SellerSidebar.visible {
+    transform: translateX(250px);
+  }
+  
+  /* Ensure Sidebar is hidden when isSidebarVisible is false */
+  .SellerSidebar.hidden {
+    transform: translateX(-250px); /* Move the sidebar off-screen */
+  }
+  
+  .SellerSidebarBrand {
+    height: 90px;
+    padding: 1rem 0 1rem 2rem;
+    color: #f2eded;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+  
+  .SellerSpan {
+    display: inline-block;
+    padding-right: 2rem;
+    color: #fff;
+  }
+  
+  .SellerSidebarMenu {
+    width: 100%;
+  }
+  
+  .SellerSidebarMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+  }
+  
+  .SellerSidebarMenu li {
+    width: 100%;
+    margin-bottom: 1.3rem;
+    padding-left: 0.5 rem; /* Add padding to align menu items */
+  }
+  
+  .SellerSidebarMenu a {
+    display: block;
+    color: #fff !important;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+ .Span{
+  font-size: 20px;
+ 
+ } 
+  .SellerSidebarMenu a:hover {
+    background-color: #fff;
+    color: #000 !important;
+    font-weight: bolder;
+    text-decoration: none !important;
+  }
+  
+  .SellerSidebarMenu a span:first-child {
+    font-size: 1.5rem;
+    padding-right: 1rem;
+    margin: 0;
+  }
+  
+  .SellerDropdown:hover .SellerDropdownMenu {
+    display: block;
+    background-color: #343a40;
+    justify-content: right;
+    border: none;
+  }
+  
+  #sidebar-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  #sidebar-toggle .las {
+    font-size: 24px;
+    color: #fff;
+  }
+  
+  #sidebar-toggle.active .las {
+    color: #aaa;
+  }
+  
+  #sidebar-toggle:hover .las {
+    color: #ccc;
+  }

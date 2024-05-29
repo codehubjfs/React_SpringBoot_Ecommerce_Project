@@ -47,6 +47,7 @@ import PricingCommission from "../suppiler/susmita/Pages/PricingCommission";
 import Gstgrowth from "../suppiler/susmita/Pages/Gstgrowth";
 import ProductRequestDetails from "../suppiler/santhosh/component/ProductRequestDetails";
 import { FormProvider } from '../suppiler/context/FormContext';
+import SupplierProductForm from "../suppiler/Components/ProductForm";
 
 // customer
 import { HomePage } from "../customer/pages/Homepage";
@@ -108,8 +109,9 @@ function AllRoutes() {
         <Route path="/pickupaddress" element={<Layouts><AddressPage /></Layouts>} />
         <Route path="/bankdetails" element={<Layouts><BankDetail /></Layouts>} />
         <Route path="/addproduct" element={<Layouts><ProductForm1 /></Layouts>} />
-        <Route path="/signin" element={<Layouts><SignInPage /></Layouts>} />
+        <Route path="/sellerlogin" element={<Layouts><SignInPage /></Layouts>} />
         <Route path="/home" element={<Layout3><Landing /></Layout3>} />
+        <Route path="/supplieraddproduct" element={<Layout3><SupplierProductForm /></Layout3>} />
         <Route path="/Inventory" element={<Layout3><InventoryManagement /></Layout3>} />
         <Route path="/Product" element={<Layout3><DropdownComponent /></Layout3>} />
         <Route path="/TableDetails" element={<Layout3><TableDetails /></Layout3>} />

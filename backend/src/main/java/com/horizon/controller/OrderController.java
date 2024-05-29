@@ -1,74 +1,106 @@
 package com.horizon.controller;
 
-import com.horizon.model.Order;
-import com.horizon.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/orders")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.horizon.model.Order;
+import com.horizon.service.OrderService;
+
+
+
+@org.springframework.web.bind.annotation.RestController
+@CrossOrigin
 public class OrderController {
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@GetMapping("/orders/all")
+	public ResponseEntity<List<Order>> getAllOrders() {
+		try {
+			List<Order> orders = orderService.getAllOrders();
+			if (orders.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(orders, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+		
+	
+	
+	// Get order by ID
+	@GetMapping("/orders/{orderId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<Order> getOrderById(@PathVariable int orderId) {
+		try {
+			Optional<Order> order = orderService.getOrderById(orderId);
+			if (order.isPresent()) {
+				return new ResponseEntity<>(order.get(), HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// Get all orders by status
+	
+	@GetMapping("/orders/status/{status}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<List<Order>> getAllOrdersByStatus(@PathVariable String status) {
+		try {
+			List<Order> orders = orderService.getAllOrdersByStatus(status);
+			if (orders.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(orders, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	// Create  an order
+	@PostMapping("/orders/all")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+	    try {
+	        // Set status, order date, delivery date, price, sellerId, productId, and quantity
+	        order.setStatus("Pending");
+	        order.setOrderDate(new java.util.Date());
+	        order.setDeliveryDate(new java.util.Date());    
+	        Order _order = orderService.saveOrder(order);
+	        return new ResponseEntity<>(_order, HttpStatus.CREATED);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 
-    @Autowired
-    private OrderService orderService;
+	
+	// Delete an order
+	
+	@DeleteMapping("/orders/{orderId}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public ResponseEntity<HttpStatus> deleteOrder(@PathVariable int orderId) {
+		try {
+			orderService.deleteOrder(orderId);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	}
 
-    @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        if (orders.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Optional<Order> order = orderService.getOrderById(id);
-        return order.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.saveOrder(order);
-        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestBody Order order) {
-        Optional<Order> existingOrder = orderService.getOrderById(id);
-        if (existingOrder.isPresent()) {
-            Order updatedOrder = existingOrder.get();
-            updatedOrder.setStatus(order.getStatus());
-            orderService.saveOrder(updatedOrder);
-            return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/total")
-    public ResponseEntity<Long> getTotalOrders() {
-        Long totalOrders = orderService.getTotalOrders();
-        return new ResponseEntity<>(totalOrders, HttpStatus.OK);
-    }
-
-    @GetMapping("/revenue")
-    public ResponseEntity<BigDecimal> getRevenue() {
-        BigDecimal revenue = orderService.getRevenue();
-        return new ResponseEntity<>(revenue, HttpStatus.OK);
-    }
-
-    @GetMapping("/pending")
-    public ResponseEntity<Long> getPendingOrders() {
-        Long pendingOrders = orderService.getPendingOrders();
-        return new ResponseEntity<>(pendingOrders, HttpStatus.OK);
-    }
-}

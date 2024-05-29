@@ -1,4 +1,4 @@
-package com.horizon.customer.model;
+package com.horizon.model;
 
 public class UpdatePasswordRequest {
     private String email;

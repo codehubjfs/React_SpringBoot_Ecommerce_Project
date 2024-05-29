@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersFromDb, getTotalOrders, getRevenue, getPendingOrders } from '../slices/OrderSlice';
 import OrderCard from '../components/OrderCard';
 import OrderTable from '../components/OrderTable';
-import DescriptionCard from '../components/DescriptionCard';
-import '../Order.css';
+import '../components/Order.css';
+import DescriptionCard from '../components/DescriptionCard ';
 
 const Order = () => {
   const dispatch = useDispatch();

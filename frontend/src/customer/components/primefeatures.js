@@ -32,7 +32,7 @@ function PrimeFeatures() {
       <Row>
         {features.map((feature, index) => (
           <Col md={4} key={index}>
-            <Card className="card-prime">
+            <Card className="card-prime" style={{ height: "100%" }}>
               <div className="image-container">
                 <Card.Img
                   variant="top"

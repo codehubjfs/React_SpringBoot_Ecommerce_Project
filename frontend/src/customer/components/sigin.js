@@ -3,7 +3,11 @@ import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "../loginstyle.css";
 import { useDispatch, useSelector } from "react-redux";
-import { loginCustomer, verifyEmail, resetPassword } from "../slices/CustomerSlice";
+import {
+  loginCustomer,
+  verifyEmail,
+  resetPassword,
+} from "../slices/CustomerSlice";
 import { useAuth } from "../AuthContext";
 
 export function LoginForm() {
@@ -22,18 +26,19 @@ export function LoginForm() {
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
-  const [showVerificationCodeModal, setShowVerificationCodeModal] = useState(false);
+  const [showVerificationCodeModal, setShowVerificationCodeModal] =
+    useState(false);
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { login } = useAuth();
-  const customerState = useSelector(state => state.customer);
+  const customerState = useSelector((state) => state.customer);
 
   const isValidEmail = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // const phoneRegex = /^\d{10}$/;
-    return emailRegex.test(value) ;
+    return emailRegex.test(value);
   };
 
   const isValidPassword = (value) => {
@@ -65,7 +70,7 @@ export function LoginForm() {
     if (!value.trim()) {
       setLoginPasswordError("Please enter your password");
     } else if (!isValidPassword(value.trim())) {
-      setLoginPasswordError("Please enter the password in correct format");
+      setLoginPasswordError("Please enter a valid password");
     } else {
       setLoginPasswordError("");
     }
@@ -75,6 +80,9 @@ export function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateLoginForm()) {
+      console.log(loginEmail+"inside the validate ")
+      console.log(loginPassword+"inside the validate ")
+
       dispatch(loginCustomer({ email: loginEmail, password: loginPassword }))
         .unwrap()
         .then(() => {
@@ -109,10 +117,10 @@ export function LoginForm() {
       dispatch(verifyEmail(modalEmail))
         .unwrap()
         .then((response) => {
-          if (response.status === 'verified') {
+          if (response.status === "verified") {
             setShowForgotPasswordModal(false);
-            setShowResetPasswordModal(true);        
-            } else {
+            setShowResetPasswordModal(true);
+          } else {
             setModalEmailError("Email not found");
           }
         })
@@ -154,7 +162,7 @@ export function LoginForm() {
       dispatch(resetPassword({ email: modalEmail, password: newPassword }))
         .unwrap()
         .then((response) => {
-          if (response.status === 'success') {
+          if (response.status === "success") {
             setShowResetPasswordModal(false);
             navigate("/signin");
           } else {
@@ -167,7 +175,6 @@ export function LoginForm() {
         });
     }
   };
-  
 
   const validateLoginForm = () => {
     let isValid = true;
@@ -186,7 +193,7 @@ export function LoginForm() {
       setLoginPasswordError("Please enter your password");
       isValid = false;
     } else if (!isValidPassword(loginPassword.trim())) {
-      setLoginPasswordError("Please enter password in correct format");
+      setLoginPasswordError("Please enter a valid password");
       isValid = false;
     } else {
       setLoginPasswordError("");
@@ -338,10 +345,13 @@ export function LoginForm() {
           >
             Close
           </Button>
-          <Button variant="primary" onClick={() => {
-            setShowVerificationCodeModal(false);
-            setShowResetPasswordModal(true);
-          }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setShowVerificationCodeModal(false);
+              setShowResetPasswordModal(true);
+            }}
+          >
             Verify
           </Button>
         </Modal.Footer>

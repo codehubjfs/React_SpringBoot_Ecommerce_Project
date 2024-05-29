@@ -9,10 +9,13 @@ const initialState = {
 export const fetchNotifications = createAsyncThunk(
   'notifications/fetchNotifications',
   async (_, { rejectWithValue }) => {
+    console.log("try")
     try {
-      const response = await fetch('http://localhost:8080/notifications');
+      const response = await fetch('http://localhost:8086/notifications');
+      console.log(response);
       if (!response.ok) throw new Error('No notifications found');
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -23,8 +26,8 @@ export const fetchNotifications = createAsyncThunk(
 export const markNotificationAsRead = createAsyncThunk(
   'notifications/markNotificationAsRead',
   async (id, { rejectWithValue }) => {
-    try {gewesjnf 
-      const response = await fetch(`http://localhost:8080/notifications/${id}/read`, {
+    try {
+      const response = await fetch(`http://localhost:8086/notifications/${id}/read`, {
         method: 'PUT',
       });
       if (!response.ok) throw new Error('Failed to mark notification as read');
@@ -39,7 +42,7 @@ export const markAllNotificationsAsRead = createAsyncThunk(
   'notifications/markAllNotificationsAsRead',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch('http://localhost:8080/notifications/read-all', {
+      const response = await fetch('http://localhost:8086/notifications/read-all', {
         method: 'PUT',
       });
       if (!response.ok) throw new Error('Failed to mark all notifications as read');
@@ -73,8 +76,8 @@ export const NotificationSlice = createSlice({
         state.error = '';
       })
       .addCase(markNotificationAsRead.fulfilled, (state, action) => {
-        state.notificationsList = state.notificationsList.filter(
-          (notification) => notification.id !== action.payload
+        state.notificationsList = state.notificationsList.map(notification =>
+          notification.id === action.payload ? { ...notification, read: true } : notification
         );
         state.status = 'succeeded';
       })
@@ -87,7 +90,10 @@ export const NotificationSlice = createSlice({
         state.error = '';
       })
       .addCase(markAllNotificationsAsRead.fulfilled, (state) => {
-        state.notificationsList = [];
+        state.notificationsList = state.notificationsList.map(notification => ({
+          ...notification,
+          read: true,
+        }));
         state.status = 'succeeded';
       })
       .addCase(markAllNotificationsAsRead.rejected, (state, action) => {
@@ -98,3 +104,5 @@ export const NotificationSlice = createSlice({
 });
 
 export default NotificationSlice.reducer;
+
+

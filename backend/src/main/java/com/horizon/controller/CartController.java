@@ -1,57 +1,80 @@
-package com.horizon.customer.controller;
+package com.horizon.controller;
 
-import com.horizon.customer.model.Cart;
-import com.horizon.customer.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.horizon.repository.CartRepository;
+import com.horizon.repository.CustomerRepository;
+import com.horizon.model.Cart;
+import com.horizon.model.Customer;
 
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-
-@RequestMapping("/horizon/carts")
+@RequestMapping("/horizon/customer/cart")
 public class CartController {
 
     @Autowired
     private CartRepository cartRepository;
 
-    @GetMapping
-    public List<Cart> getAllCarts() {
-    	List<Cart> data=cartRepository.findAll();
-    	System.out.println(data);
-        return cartRepository.findAll();
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<List<Cart>> getCart(@PathVariable int customerId) {
+        List<Cart> cartItems = cartRepository.findByCustomerId(customerId);
+        return ResponseEntity.ok(cartItems);
     }
 
-    @GetMapping("/{id}")
-    public Cart getCartById(@PathVariable int id) {
-        return cartRepository.findById(id).orElse(null);
+    @PostMapping("/{customerId}")
+    public ResponseEntity<Cart> addItemToCart(@PathVariable int customerId, @RequestBody Cart cart) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        cart.setCustomer(customer);
+        Cart savedCart = cartRepository.save(cart);
+        return ResponseEntity.ok(savedCart);
     }
 
-    @PostMapping
-    public Cart createCart(@RequestBody Cart cart) {
-        return cartRepository.save(cart);
+    @PutMapping("/{customerId}")
+    public ResponseEntity<Cart> updateCart(@PathVariable int customerId, @RequestBody Cart cart) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
+        cart.setCustomer(customer);
+        Cart updatedCart = cartRepository.save(cart);
+        return ResponseEntity.ok(updatedCart);
     }
 
-    @PutMapping("/{id}")
-    public Cart updateCart(@PathVariable int id, @RequestBody Cart cartDetails) {
-        Cart cart = cartRepository.findById(id).orElse(null);
-        if (cart != null) {
-            cart.setProductId(cartDetails.getProductId());
-            cart.setProductName(cartDetails.getProductName());
-            cart.setProductDescription(cartDetails.getProductDescription());
-            cart.setProductPrice(cartDetails.getProductPrice());
-            cart.setProductImageUrl(cartDetails.getProductImageUrl());
-            cart.setCustomer(cartDetails.getCustomer());
-            cart.setQuantity(cartDetails.getQuantity());
-            return cartRepository.save(cart);
-        }
-        return null;
+    @DeleteMapping("/{customerId}/{productId}")
+    public ResponseEntity<Void> removeItemFromCart(@PathVariable int customerId, @PathVariable int productId) {
+        Cart cart = cartRepository.findByCustomerId(customerId)
+                .stream()
+                .filter(item -> item.getProductId() == productId)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+        cartRepository.delete(cart);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteCart(@PathVariable int id) {
-        cartRepository.deleteById(id);
-        return "Cart with ID " + id + " has been deleted.";
+    @PutMapping("/{customerId}/{productId}/increase")
+    public ResponseEntity<Cart> increaseQuantity(@PathVariable int customerId, @PathVariable int productId) {
+        Cart updatedCart = cartRepository.findByCustomerIdAndProductId(customerId, productId)
+                .map(existingCart -> {
+                    existingCart.setQuantity(existingCart.getQuantity() + 1);  // Default increase by 1
+                    return cartRepository.save(existingCart);
+                })
+                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+        return ResponseEntity.ok(updatedCart);
     }
+
+    @PutMapping("/{customerId}/{productId}/decrease")
+    public ResponseEntity<Cart> decreaseQuantity(@PathVariable int customerId, @PathVariable int productId) {
+        Cart updatedCart = cartRepository.findByCustomerIdAndProductId(customerId, productId)
+                .map(existingCart -> {
+                    existingCart.setQuantity(Math.max(0, existingCart.getQuantity() - 1));  // Default decrease by 1
+                    return cartRepository.save(existingCart);
+                })
+                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+        return ResponseEntity.ok(updatedCart);
+    }
+
+
 }

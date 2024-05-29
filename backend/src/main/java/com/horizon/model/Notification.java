@@ -23,6 +23,8 @@ public class Notification {
         this.prod_Status = prod_Status;
     }
 
+    // Getters and Setters
+
     public int getId() {
         return id;
     }

@@ -22,63 +22,64 @@ const ElectronicProductFormModal = ({ initialFormData, closeModal }) => {
         }));
         validateField(name, value);
     };
-
-    const validateField = (name, value) => {
-        const newErrors = { ...errors };
-        switch (name) {
-            case 'productTitle':
-                newErrors.title = value.trim() ? null : "Product title is required";
-                break;
-            case 'description':
-                newErrors.description = value.trim() ? null : "Description is required";
-                break;
-            case 'storage':
-                newErrors.storage = value.trim() ? null : "Storage is required";
-                break;
-            case 'ram':
-                newErrors.ram = value.trim() ? null : "RAM is required";
-                break;
-            case 'price':
-                newErrors.price = value.trim() ? null : "Price is required";
-                break;
-            case 'stock':
-                newErrors.stock = value.trim() ? (value.trim() < 0 ? "Invalid input" : null) : "Stock available is required";
-                break;
-            case 'brand':
-                newErrors.brand = value.trim() ? null : "Brand is required";
-                break;
-            case 'model':
-                newErrors.model = value.trim() ? null : "Model is required";
-                break;
-            case 'displayType':
-                newErrors.displayType = /^[a-zA-Z]+$/.test(value.trim()) ? null : "Display Type should contain only alphabetic characters";
-                break;
-            case 'displaySize':
-                newErrors.displaySize = value.trim() ? null : "Display Size should be a numeric value greater than zero";
-                break;
-            case 'processor':
-                newErrors.processor = value.trim() ? null : "Processor is required";
-                break;
-            case 'frontCamera':
-                newErrors.frontCamera = value.trim() && !isNaN(value.trim()) && Number(value.trim()) > 0 && !value.includes('.') ? null : "Front Camera should be a numeric value greater than zero (non-decimal)";
-                break;
-            case 'rearCamera':
-                newErrors.rearCamera = value.trim() && !isNaN(value.trim()) && Number(value.trim()) > 0 && !value.includes('.') ? null : "Rear Camera should be a numeric value greater than zero (non-decimal)";
-                break;
-            case 'battery':
-                newErrors.battery = value.trim() && !isNaN(value.trim()) && !value.includes('.') ? null : "Battery should be a numeric value (non-decimal)";
-                break;
-            case 'operatingSystem':
-                newErrors.operatingSystem = value.trim() ? null : "Operating System is required";
-                break;
-            case 'color':
-                newErrors.color = /^[a-zA-Z]+$/.test(value.trim()) ? null : "Color should contain only alphabetic characters";
-                break;
-            default:
-                break;
-        }
-        setErrors(newErrors);
-    };
+        const validateField = (name, value) => {
+            const newErrors = { ...errors };
+            switch (name) {
+                case 'productTitle':
+                    newErrors.title = value.trim() ? null : "Product title is required";
+                    break;
+                case 'description':
+                    newErrors.description = value.trim() ? null : "Description is required";
+                    break;
+                case 'storage':
+                    newErrors.storage = /^[0-9]+(\s)?(gb|tb)?$/i.test(value.trim()) ? null : "Storage should be a number followed by 'gb' or 'tb'";
+                    break;
+                case 'ram':
+                    newErrors.ram = value.trim() ? null : "RAM is required";
+                    break;
+                case 'price':
+                    newErrors.price = value.trim() ? null : "Price is required";
+                    break;
+                case 'stock':
+                    newErrors.stock = value.trim() ? (value.trim() < 0 ? "Invalid input" : null) : "Stock available is required";
+                    break;
+                case 'brand':
+                    newErrors.brand = value.trim() ? null : "Brand is required";
+                    break;
+                case 'model':
+                    newErrors.model = value.trim() ? null : "Model is required";
+                    break;
+                case 'displayType':
+                    newErrors.displayType = /^[a-zA-Z]+$/.test(value.trim()) ? null : "Display Type should contain only alphabetic characters";
+                    break;
+                case 'displaySize':
+                    newErrors.displaySize = value.trim() ? null : "Display Size should be a numeric value greater than zero";
+                    break;
+                case 'processor':
+                    newErrors.processor = value.trim() ? null : "Processor is required";
+                    break;
+                case 'frontCamera':
+                    newErrors.frontCamera = value.trim() === "null" || /^[0-9 mp+]+$/i.test(value.trim()) ? null : "Rear Camera should contain numeric characters, 'm', 'p', spaces, or '+'";
+                    break;
+                case 'rearCamera':
+                    newErrors.rearCamera = value.trim() === "null" || /^[0-9 mp+]+$/i.test(value.trim()) ? null : "Rear Camera should contain numeric characters, 'm', 'p', spaces, or '+'";
+                    break;
+                case 'battery':
+                    newErrors.battery = value.trim() && !isNaN(value.trim()) && !value.includes('.') ? null : "Battery should be a numeric value";
+                    break;
+                case 'operatingSystem':
+                    newErrors.operatingSystem = value.trim() ? null : "Operating System is required";
+                    break;
+                case 'color':
+                    newErrors.color = /^[a-zA-Z]+$/.test(value.trim()) ? null : "Color should contain only alphabetic characters";
+                    break;
+                default:
+                    break;
+            }
+            setErrors(newErrors);
+        };
+    
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();

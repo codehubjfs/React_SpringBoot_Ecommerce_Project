@@ -134,6 +134,13 @@ margin-top: 0px !important;
     margin-left: 14%;
 } */
 
+@media (max-width: 767px) {
+    .forgot-password-button {
+      margin-top: 5px ;
+      margin-left: 0px !important; /* Adjust as needed for smaller screens */
+    }
+  }
+  
 
 #createAcc{
     width: 100%;

@@ -1,37 +1,60 @@
-import React from 'react';
-import '../title.css';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSellerDetails } from '../../slice/sellerDetailsSlice';
+import { Link } from 'react-router-dom';
 import logo from '../photos/Webpage-icon.png';
 import profile from '../photos/smart.jpg';
-import { Nav, NavDropdown } from 'react-bootstrap';
-// import Nav from "react-bootstrap/Nav";
-import { Link } from "react-router-dom";
-function Title() {
-  return (
-    <div>
-      <nav className="navbar navbar-expand-lg " style={{ backgroundColor: '#343a40' , padding:"0px"}}>
-        <div className="container-fluid">
-          <a className="navbar-brand" href="e.html" style={{ fontFamily: 'sans-serif', fontSize: 'large' }}>
-            <img src={logo} alt="Logo" id='img' />    
-            <span style={{ color: 'white', marginLeft: '10px' }}>Horizon</span>
-          </a>
-          
-          <div className="d-flex align-items-center">
-            <span className="notification-symbol" style={{ marginRight: '10px' }}>🔔</span>
-            <Nav className="ms-auto d-flex align-items-center">
-              <NavDropdown title={<img src={profile} alt="avatar" className="rounded-circle" style={{ width: '40px', height: '40px' }} />} align="end">
-                <NavDropdown.Item ><Nav.Link as={Link} to="/UserProfileForm ">Profile</Nav.Link></NavDropdown.Item>
-                <NavDropdown.Item ><Nav.Link as={Link} to="/homesupplier ">Logout</Nav.Link></NavDropdown.Item>
-              </NavDropdown>
-              <div className="user-info ml-2" style={{ color: 'white !important' }}>
-                <p className="mb-0">Santhosh</p>
-                <p className="mb-0">santhosh@gmail.com</p>
-              </div>
-            </Nav>
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-}
+import NotificationModal from './NotificationModal';
+import '../title.css';
 
-export default Title;
+const SellerTitle = ({ toggleSidebar }) => {
+  const sellerDetails = useSelector((state) => state.sellerDetails);
+  const dispatch = useDispatch();
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+
+  useEffect(() => {
+    if (sellerDetails.id) {
+      dispatch(fetchSellerDetails(sellerDetails.id));
+    }
+  }, [dispatch, sellerDetails.id]);
+
+  const handleNotificationClick = () => {
+    setShowNotificationModal(true);
+  };
+
+  const handleCloseNotificationModal = () => {
+    setShowNotificationModal(false);
+  };
+
+  return (
+    <header id="header" className="Seller-main-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#343a40', padding: '0px' }}>
+      <h3 style={{ color: 'white', margin: '0' }}>
+        <button id="sidebar-toggle" style={{ background: 'none', border: 'none' }} onClick={toggleSidebar}>
+          <span className="las la-bars" style={{ color: 'white' }}></span>
+        </button>
+        Horizon
+      </h3>
+
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="Seller-notification-icon" style={{ marginRight: '10px' }}>
+          <Link to="#" style={{ color: 'white', textDecoration: 'none' }} onClick={handleNotificationClick}>
+            <span>🔔</span>
+          </Link>
+        </div>
+        <div className="Seller-profile-dropdown" style={{ position: 'relative', marginLeft: '10px' }}>
+          <div className="Seller-dropdown">
+            <img src={profile} alt="Profile" style={{ borderRadius: '100%', height: '40px', width: '40px' }} />
+            <span className="ms-2" style={{ color: 'white', fontSize: 'medium', marginRight: '10px' }}>{sellerDetails.fullName}</span>
+            <div className="Seller-dropdown-menu">
+              <Link to="/UserProfileForm" className="dropdown-item">Profile</Link>
+              <Link to="/homesupplier" className="dropdown-item">Logout</Link>
+            </div>
+          </div> 
+        </div>
+      </div>
+      <NotificationModal show={showNotificationModal} handleClose={handleCloseNotificationModal} />
+    </header>
+  );
+};
+
+export default SellerTitle;

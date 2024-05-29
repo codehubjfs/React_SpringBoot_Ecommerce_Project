@@ -193,12 +193,20 @@ function EditProfileModal({ profile }) {
               <Form.Control type="text" name="employeeId" value={formData.employeeId} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Official Email</Form.Label>
               <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formPhone">
-              <Form.Label>Phone</Form.Label>
+              <Form.Label>Office</Form.Label>
               <Form.Control type="text" name="phone" value={formData.phone} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formPersonalEmail">
+              <Form.Label>Personal Email</Form.Label>
+              <Form.Control type="email" name="personalEmail" value={formData.personalEmail} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formMobile">
+              <Form.Label>Mobile</Form.Label>
+              <Form.Control type="text" name="mobile" value={formData.mobile} onChange={handleChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formAddress">
               <Form.Label>Address</Form.Label>

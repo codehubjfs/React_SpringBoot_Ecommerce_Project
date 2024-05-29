@@ -29,8 +29,6 @@ function CustomerDetails() {
       console.log(customers.length);
       if (customers.length > 0) {
           const table = $('#customerTable').DataTable();
-
-          // Cleanup DataTable on component unmount or data change
           
       }
   }, [customers]);
@@ -40,20 +38,20 @@ function CustomerDetails() {
     };
 
     const openDeleteModal = (customer) => {
-        console.log('Delete modal opened'); // Check if the function is triggered
+        console.log('Delete modal opened'); 
         dispatch(setSelectedCustomer(customer));
         setDeleteModalShow(true);
         console.log('Delete modal show state after set:', deleteModalShow);
     };
 
     const handleDeleteCustomer = () => {
-        console.log('Deleting customer'); // Check if the function is triggered
+        console.log('Deleting customer'); 
         dispatch(deleteCustomer(selectedCustomer.id));
         setDeleteModalShow(false);
     };
 
-    console.log('Delete modal show state:', deleteModalShow); // Check the state value
-    console.log('Selected customer:', selectedCustomer); // Check the selected customer value
+    console.log('Delete modal show state:', deleteModalShow); 
+    console.log('Selected customer:', selectedCustomer); 
 
     return (
         <Container>
@@ -106,7 +104,7 @@ function CustomerDetails() {
                 show={deleteModalShow}
                 onHide={() => setDeleteModalShow(false)}
                 selectedCustomer={selectedCustomer}
-                onDelete={handleDeleteCustomer} // Make sure onDelete is passed here
+                onDelete={handleDeleteCustomer} 
             />
         </Container>
     );

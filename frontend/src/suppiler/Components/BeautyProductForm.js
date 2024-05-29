@@ -99,7 +99,7 @@ const BeautyProductForm = ({ subcategory }) => {
     if (emptyFields.length > 0) {
       const newErrors = { ...errors };
       emptyFields.forEach(([fieldName]) => {
-        newErrors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
+        newErrors[fieldName] =`${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
       });
       setErrors(newErrors);
       return;

@@ -1,57 +1,46 @@
 package com.horizon.service;
 
-import com.horizon.model.Order;
-import com.horizon.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.horizon.model.Order;
+import com.horizon.repository.OrderRepository;
+
+
+
+@org.springframework.stereotype.Service
 public class OrderService {
+	
+	@Autowired
+	private OrderRepository orderRepo;
 
-    private final OrderRepository orderRepository;
-
-    @Autowired
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+	// Create or update an order
+	public Order saveOrder(Order order) {
+        return orderRepo.save(order);
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+	// Get order by ID
+	public Optional<Order> getOrderById(int orderId)
+	{
+		return orderRepo.findById(orderId);
+	}
+	
+	
+	public List<Order> getAllOrders() {
+        return orderRepo.findAll();
     }
-
-    public Optional<Order> getOrderById(Long id) {
-        return orderRepository.findById(id);
-    }
-
-    public Order saveOrder(Order order) {
-        return orderRepository.save(order);
-    }
-
-    public Optional<Order> updateOrderStatus(Long id, String status) {
-        Optional<Order> orderOptional = orderRepository.findById(id);
-        if (orderOptional.isPresent()) {
-            Order order = orderOptional.get();
-            order.setStatus(status);
-            orderRepository.save(order);
-            return Optional.of(order);
-        } else {
-            return Optional.empty();
-        }
-    }
-
-    public Long getTotalOrders() {
-        return orderRepository.count();
-    }
-
-    public BigDecimal getRevenue() {
-        return orderRepository.findTotalRevenue();
-    }
-
-    public Long getPendingOrders() {
-        return orderRepository.countByStatus("pending");
-    }
+	
+	// Delete an order
+	
+	public void deleteOrder(int orderId) {
+		orderRepo.deleteById(orderId);
+	}
+	
+	// Get all orders by status
+	public List<Order> getAllOrdersByStatus(String status) {
+		return orderRepo.findByStatus(status);
+	}
+	
 }

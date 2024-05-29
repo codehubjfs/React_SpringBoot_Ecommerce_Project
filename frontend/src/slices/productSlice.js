@@ -5,7 +5,7 @@ export const fetchApprovedProducts = createAsyncThunk(
   'products/fetchApprovedProducts',
   async (_, { rejectWithValue }) => {
       try {
-          const response = await fetch("http://localhost:8086/products/approved", {
+          const response = await fetch("http://localhost:8086/products/approvedd", {
               method: "GET",
               mode: "cors",
               credentials: "same-origin",
@@ -206,11 +206,46 @@ export const rejectProduct = createAsyncThunk(
       }
   }
 );
+
+// Thunk to fetch pending products using fetch
+export const fetchPendingProducts = createAsyncThunk(
+  'products/fetchPendingProducts',
+  async () => {
+      const response = await fetch('http://localhost:8086/products/pending', {
+        method: "GET",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
+  }
+);
+export const fetchProductSales = createAsyncThunk(
+  'products/fetchProductSales',
+  async () => {
+      const response = await fetch('http://localhost:8086/products/sales', {
+        method: "GET",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return response.json();
+  }
+);
+
 // Product slice
 const productSlice = createSlice({
   name: 'products',
   initialState: {
     products: [],
+    sales:[],
     totalProducts:[],
     availableProducts:[],
     outofStockProducts:[],
@@ -301,13 +336,46 @@ const productSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
+      .addCase(fetchApprovedProducts.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchApprovedProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.products = action.payload;
+      })
+      .addCase(fetchApprovedProducts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
       .addCase(approveProduct.fulfilled, (state, action) => {
         state.products = state.products.filter(product => product.id !== action.payload);
         state.error = "";
       })
       .addCase(approveProduct.rejected, (state, action) => {
           state.error = action.payload.error;
-      });
+      })
+      .addCase(fetchPendingProducts.pending, (state) => {
+        state.status = 'loading';
+    })
+    .addCase(fetchPendingProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.products = action.payload;
+    })
+    .addCase(fetchPendingProducts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+    })
+    .addCase(fetchProductSales.pending, (state) => {
+      state.status = 'loading';
+    })
+    .addCase(fetchProductSales.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.sales = action.payload;
+    })
+    .addCase(fetchProductSales.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+    });
   },
 });
 

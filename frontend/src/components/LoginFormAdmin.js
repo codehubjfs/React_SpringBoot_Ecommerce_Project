@@ -107,10 +107,33 @@ export function LoginFormAdmin() {
     }
   };
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     if (isValidPassword(newPassword) && newPassword === confirmPassword) {
-      setShowResetPasswordModal(false);
-      navigate("/admin");
+      try {
+        const response = await fetch(`http://localhost:8086/api/admins/reset-admin-password`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, newPassword })
+        });
+
+        if (response.ok) {
+          setShowResetPasswordModal(false);
+          navigate('/adminhome');
+        } else {
+          setConfirmPasswordError("Failed to reset password. Please try again.");
+        }
+      } catch (error) {
+        setConfirmPasswordError("An error occurred. Please try again.");
+      }
+    } else {
+      if (!isValidPassword(newPassword)) {
+        setNewPasswordError("Invalid Password");
+      }
+      if (newPassword !== confirmPassword) {
+        setConfirmPasswordError("Passwords do not match");
+      }
     }
   };
 
@@ -142,7 +165,7 @@ export function LoginFormAdmin() {
 
   const handleCloseModal = () => {
     setShowSuccessModal(false);
-    navigate("/dashboard"); // Redirect to admin dashboard
+    navigate("/dashboard");
   };
 
   return (
@@ -261,12 +284,9 @@ export function LoginFormAdmin() {
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="newPassword">
-            <Form.Label>
-              New Password<span style={{ color: "red" }}>*</span>
-            </Form.Label>
+            <Form.Label>New Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="New Password"
               value={newPassword}
               onChange={handleNewPasswordChange}
             />
@@ -275,12 +295,9 @@ export function LoginFormAdmin() {
             </Form.Text>
           </Form.Group>
           <Form.Group controlId="confirmPassword">
-            <Form.Label>
-              Confirm Password<span style={{ color: "red" }}>*</span>
-            </Form.Label>
+            <Form.Label>Confirm New Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Confirm Password"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
             />
@@ -297,7 +314,7 @@ export function LoginFormAdmin() {
             Close
           </Button>
           <Button variant="primary" onClick={handleResetPassword}>
-            OK
+            Reset Password
           </Button>
         </Modal.Footer>
       </Modal>

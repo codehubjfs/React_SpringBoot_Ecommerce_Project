@@ -61,6 +61,7 @@ export const loginCustomer = createAsyncThunk(
           sessionStorage.getItem("customerData")
         );
         console.log(storedCustomerData);
+        console.log(sessionStorage.getItem("customerData")+"session data")
         return data;
       }
 
@@ -150,14 +151,17 @@ export const updateCustomerProfile = createAsyncThunk(
 //   },
 // });
 export const verifyEmail = createAsyncThunk(
-  'customer/verifyEmail',
+  "customer/verifyEmail",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:8086/horizon/customers/verify-email", {
-        method: 'POST',
-        body: JSON.stringify(email),
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await fetch(
+        "http://localhost:8086/horizon/customers/verify-email",
+        {
+          method: "POST",
+          body: JSON.stringify(email),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -165,7 +169,7 @@ export const verifyEmail = createAsyncThunk(
         return data;
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Email verification failed');
+        throw new Error(errorData.message || "Email verification failed");
       }
     } catch (error) {
       return rejectWithValue(error.message);
@@ -174,21 +178,24 @@ export const verifyEmail = createAsyncThunk(
 );
 
 export const resetPassword = createAsyncThunk(
-  'customer/resetPassword',
+  "customer/resetPassword",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:8086/horizon/customers/update-password", {
-        method: 'PUT',
-        body: JSON.stringify({ email, newPassword: password }),
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await fetch(
+        "http://localhost:8086/horizon/customers/update-password",
+        {
+          method: "PUT",
+          body: JSON.stringify({ email, newPassword: password }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         return data;
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Password reset failed');
+        throw new Error(errorData.message || "Password reset failed");
       }
     } catch (error) {
       return rejectWithValue(error.message);
@@ -199,7 +206,9 @@ export const fetchCustomerData = createAsyncThunk(
   "customers/fetchCustomerData",
   async (customerId, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:8086/horizon/customers/${customerId}`);
+      const response = await fetch(
+        `http://localhost:8086/horizon/customers/${customerId}`
+      );
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -215,25 +224,29 @@ export const updatePrimeStatus = createAsyncThunk(
   "customers/updatePrimeStatus",
   async ({ id, prime }, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:8086/horizon/customers/${id}/prime", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prime }),
-      });
+      const response = await fetch(
+        `http://localhost:8086/horizon/customers/${id}/prime`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prime }), // Correctly pass the prime parameter
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error("Error data:", errorData);
         throw new Error(errorData.message || "Failed to update prime status");
       }
 
       const data = await response.json();
       return data;
     } catch (error) {
+      console.error("Error updating prime status:", error);
       return rejectWithValue(error.message);
     }
   }
 );
-
 
 
 const customerSlice = createSlice({
@@ -243,8 +256,8 @@ const customerSlice = createSlice({
     error: null,
     customerList: [],
     customer: null, // Default to null
-    emailVerificationStatus: 'idle',
-    passwordResetStatus: 'idle',
+    emailVerificationStatus: "idle",
+    passwordResetStatus: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -286,25 +299,25 @@ const customerSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(verifyEmail.pending, (state) => {
-        state.emailVerificationStatus = 'loading';
+        state.emailVerificationStatus = "loading";
       })
       .addCase(verifyEmail.fulfilled, (state) => {
-        state.emailVerificationStatus = 'succeeded';
+        state.emailVerificationStatus = "succeeded";
         state.error = null;
       })
       .addCase(verifyEmail.rejected, (state, action) => {
-        state.emailVerificationStatus = 'failed';
+        state.emailVerificationStatus = "failed";
         state.error = action.payload;
       })
       .addCase(resetPassword.pending, (state) => {
-        state.passwordResetStatus = 'loading';
+        state.passwordResetStatus = "loading";
       })
       .addCase(resetPassword.fulfilled, (state) => {
-        state.passwordResetStatus = 'succeeded';
+        state.passwordResetStatus = "succeeded";
         state.error = null;
       })
       .addCase(resetPassword.rejected, (state, action) => {
-        state.passwordResetStatus = 'failed';
+        state.passwordResetStatus = "failed";
         state.error = action.payload;
       })
       .addCase(fetchCustomerData.pending, (state) => {
@@ -324,7 +337,7 @@ const customerSlice = createSlice({
       })
       .addCase(updatePrimeStatus.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.customer = action.payload;
+        state.customer = { ...state.customer, prime: action.payload.prime };
         state.error = null;
       })
       .addCase(updatePrimeStatus.rejected, (state, action) => {

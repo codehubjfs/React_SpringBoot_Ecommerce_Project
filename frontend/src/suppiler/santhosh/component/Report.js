@@ -44,8 +44,8 @@ function Report({ data }) {
   };
 
   return (
-    <div className="report-table-container" style={{marginTop:'80px !important'}}>
-      <h2 className="mt-3" id="product" >Report</h2>
+    <div className="report-table-container" style={{marginLeft:'100px !important'}}>
+      <h2 className="mt-5" id="product"  >Report</h2>
       <table className="table table-striped table-bordered" ref={dataTableRef}>
         <thead>
           <tr>

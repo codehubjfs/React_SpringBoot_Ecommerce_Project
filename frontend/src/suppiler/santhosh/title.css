@@ -1,4 +1,5 @@
-.navbar {
+//title.css
+/* .navbar {
   display: flex;
   justify-content: space-between;
   background-color: #343a40; 
@@ -7,7 +8,8 @@
   top: 0;
   width: 100%;
   z-index: 1000;
-}
+  
+} */
 
 .user-info {
   display: flex;
@@ -35,20 +37,20 @@
 .container-fluid {
 padding-top: 0px !important;
 }
-.col-md-9 {
-height: 100vh; /* Ensure it occupies the full height of the viewport */
-margin-top: 0px !important; /* Adjust margin-top to accommodate fixed navbar */
-margin-left: 25%;
-}
+/* .col-md-9 {
+height: 100vh;
+margin-top: 0px !important;
+margin-left:20% !important;
+} */
 .sellernav-item {
 color: #dee2e6; /* Light text color */
 font-weight: bold;
 display: block;
-padding: 8px;
-margin-bottom: 30px;
-border: 1px solid #6c757d;
+padding: 5px;
+margin-bottom: 30px !important;
+/* border: 1px solid #6c757d; */
 border-radius: 5px;
-width: 100%; /* Adjust width for mobile view */
+width: 90%; /* Adjust width for mobile view */
 transition: background-color 0.3s ease;
 }
 
@@ -60,9 +62,11 @@ text-decoration: none;
 
 .sellersidebar {
 background-color: #343a40; /* Dark background color */
-padding: 20px;
+padding: 10px;
 height: 90vh;
 overflow-y: auto;
+width: 20% !important;
+margin-top: 0% !important;
 }
 
 @media (min-width: 768px) {
@@ -71,11 +75,11 @@ overflow-y: auto;
     top: 80px;
     left: 0;
     bottom: 0;
-    width: 350px;
+    width: 450px;
 }
 
 .col-md-9 {
-    margin-left: 350px;
+    margin-left: 450px !important;
 }
 }
 
@@ -85,9 +89,6 @@ overflow-y: auto;
     width: 100%;
 }
 }
-
-
-
 
 
 
@@ -120,12 +121,12 @@ overflow-y: auto;
 
 
 
-.sales-report-container {
+/* .sales-report-container {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .canvas-container {
   /* padding: 20px; */
@@ -173,28 +174,28 @@ overflow-y: auto;
 background-color: #c58888;
 }
 
-
+/* 
 .cards {
-background-color:  #e6f0fa !important; /* Card background color */
-border: 1px solid #080909; /* Card border */
-border-radius: 5px; /* Card border radius */
-margin-bottom: 15px; /* Card margin bottom */
+background-color:  #e6f0fa !important;
+border: 1px solid #080909; 
+border-radius: 5px; 
+margin-bottom: 15px;
 color: black !important;
-}
+} */
 
 
 /* title.css */
-.sellercard {
-background-color:  #343a40 !important; /* Card background color */
-border: 1px solid #dee2e6; /* Card border */
-border-radius: 5px; /* Card border radius */
-margin-bottom: 15px; /* Card margin bottom */
-}
+/* .sellercard {
+background-color:  #343a40 !important; 
+border: 1px solid #dee2e6; 
+border-radius: 5px; 
+margin-bottom: 15px; 
+} */
 
-.sellercard-body {
-padding: 20px; /* Card body padding */
+/* .sellercard-body {
+padding: 20px; 
 color: white !important;
-}
+} */
   
 .sellercard-title {
 font-size: 1.25rem; /* Card title font size */
@@ -263,8 +264,15 @@ display: flex;
 flex-wrap: wrap;
 gap: 20px;
 }
-
-
+.Seller-main-content{
+  margin-left: 0 !important;
+  position: fixed !important;
+  width:100%;
+  z-index: 1000;
+}
+.formm{
+  margin-top: 70px !important;
+}
 /* title.css */
 .faq-card {
 flex: 1 1 calc(33.33% - 30px);
@@ -336,3 +344,96 @@ margin-right: 20px;
 } */
 
 /* Other styles remain the same */
+
+.text-danger{
+  margin-top: 0px !important;
+}
+
+.input-group{
+  margin-bottom: 0px !important;
+}
+
+.input{
+  width: 0% !important;
+}
+
+#header{
+  height: 70px;
+}
+
+.Seller-dropdown:hover {
+  display: block;
+  background-color:#000(228, 163, 230) ;
+  justify-content:right;
+  border: none;
+
+}
+
+.Seller-dropdown:hover .Seller-dropdown-menu {
+  display: block;
+  background-color: white;
+  justify-content: right;
+  border: none;
+}
+
+* Dropdown menu styling */
+.Seller-dropdown-menu {
+  display: none; /* Hide dropdown menu by default */
+  position: absolute;
+  top: 100%; /* Position below the dropdown trigger button */
+  right: 0; /* Align with the right edge of the button */
+  background-color: #fff;
+  min-width: 120px; /* Set a minimum width for the dropdown menu */
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.Seller-dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  color: #333; /* Adjust text color */
+  text-decoration: none;
+  transition: background-color 0.3s ease; /* Add smooth transition */
+}
+
+.Seller-dropdown-menu a:hover {
+  background-color: #000;
+  color: white; /* Change background color on hover */
+}
+
+.Seller-profile-dropdown:hover .Seller-dropdown-menu {
+  display: block;
+}
+
+.Seller-dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  min-width: 150px;
+}
+
+.Seller-dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.Seller-dropdown-menu a:hover {
+  background-color: white;
+  color: black;
+}
+
+
+
+
+/* style */
+
+/* .Admin-main{
+  margin-left: 120px !important;
+} */

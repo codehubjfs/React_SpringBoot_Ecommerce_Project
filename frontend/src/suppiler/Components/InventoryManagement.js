@@ -18,9 +18,7 @@ function InventoryManagement() {
     const navigate = useNavigate();
     const tableRef = useRef(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [isElectronicModal, setIsElectronicModal] = useState(false);
-    const [isFurnitureModal, setIsFurnitureModal] = useState(false);
-    const [isBeautyModal, setIsBeautyModal] = useState(false);
+    const [selectedModal, setSelectedModal] = useState(null);
 
     useEffect(() => {
         if (status === 'idle') {
@@ -37,30 +35,36 @@ function InventoryManagement() {
         }
     }, [products]);
 
-    const handleView = (product) => {
+    const handleView = (product, modal) => {
         setSelectedProduct(product);
-        if (product.category === 'Furniture') {
-            setIsFurnitureModal(true);
-        } else if (product.category === 'Beauty') {
-            setIsBeautyModal(true);
-        } else {
-            setIsElectronicModal(true);
-        }
+        setSelectedModal(modal);
     };
 
     const closeModal = () => {
-        setIsElectronicModal(false);
-        setIsFurnitureModal(false);
-        setIsBeautyModal(false);
+        setSelectedModal(null);
     };
 
     const handleDelete = (productId) => {
         const isConfirmed = window.confirm("Are you sure you want to delete this product?");
         if (isConfirmed) {
+            // Update local state of products by filtering out the deleted product
+            const updatedProducts = products.filter(product => product.productId !== productId);
+            dispatch({ type: 'products/productsUpdated', payload: updatedProducts });
+            // Dispatch deleteProduct action to delete the product from the server
             dispatch(deleteProduct(productId));
-            navigate('/dashboard/products');
         }
     };
+    
+    useEffect(() => {
+        // Check if deletion status has changed to 'succeeded'
+        if (status === 'succeeded') {
+            navigate('/inventory');
+        }
+    }, [status, navigate]);
+    
+    
+    
+    
 
     if (status === 'loading') {
         return <div>Loading...</div>;
@@ -71,9 +75,9 @@ function InventoryManagement() {
     }
 
     return (
-        <div>
+        <div style={{marginTop:'50px'}}>
             <div style={{ textAlign: 'right' }}>
-                    <Link to="/addproduct" className="active">
+                    <Link to="/supplieraddproduct" className="active">
                         <button type="button" className="btn btn-primary" id="addbtn">Add product</button>
                     </Link>
                 </div>
@@ -109,7 +113,8 @@ function InventoryManagement() {
                                 <button
                                     type="button"
                                     className="btn btn-view"
-                                    onClick={() => handleView(product)}
+                                    onClick={() => handleView(product, product.category)}
+                                     style={{backgroundColor:'gray',color:'black'}}
                                 >
                                     <i className="bi bi-eye"></i>
                                 </button>
@@ -117,6 +122,8 @@ function InventoryManagement() {
                                     type="button"
                                     className="btn btn-delete"
                                     onClick={() => handleDelete(product.productId)}
+                                    style={{ backgroundColor:'gray',  marginLeft:'5px'}}
+
                                 >
                                     <i className="bi bi-trash"></i>
                                 </button>
@@ -125,19 +132,19 @@ function InventoryManagement() {
                     ))}
                 </tbody>
             </table>
-            {isElectronicModal && selectedProduct && (
+            {selectedModal === 'Electronic' && selectedProduct && (
                 <ElectronicProductFormModal
                     initialFormData={selectedProduct}
                     closeModal={closeModal}
                 />
             )}
-            {isFurnitureModal && selectedProduct && (
+            {selectedModal === 'Furniture' && selectedProduct && (
                 <FurnitureFormModal
                     initialFormData={selectedProduct}
                     closeModal={closeModal}
                 />
             )}
-            {isBeautyModal && selectedProduct && (
+            {selectedModal === 'Beauty' && selectedProduct && (
                 <BeautyProductFormModal
                     initialFormData={selectedProduct}
                     closeModal={closeModal}

@@ -1,7 +1,7 @@
-package com.horizon.customer.controller;
+package com.horizon.controller;
 
-import com.horizon.customer.model.*;
-import com.horizon.customer.service.CustomerService;
+import com.horizon.model.*;
+import com.horizon.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

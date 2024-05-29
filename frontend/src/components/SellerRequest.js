@@ -12,9 +12,9 @@ function SellerRequest({ sellerRequests, onApprove, onReject }) {
   
   const dispatch = useDispatch(); // Initialize useDispatch hook
  
-  useEffect(() => {
-      dispatch(fetchApprovedProducts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //     dispatch(fetchApprovedProducts());
+  // }, [dispatch]);
 
   const handleApprove = (productId) => {
     dispatch(approveProduct(productId))

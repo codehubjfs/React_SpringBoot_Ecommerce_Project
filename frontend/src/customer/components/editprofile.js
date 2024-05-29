@@ -174,7 +174,6 @@ function EditProfile() {
     <div className="edit-profile-box">
       <div>
         <br />
-        <p>{formData.id}</p>
       </div>
       <h1 className="text-center mb-4">EDIT PROFILE</h1>
       <Container>

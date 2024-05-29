@@ -217,6 +217,8 @@ import TodayStatus from '../components/TodayStatus';
 import PeakDays from '../components/PeakDays';
 import { fetchCustomers } from '../slices/customerSlice';
 import { fetchAllProducts } from '../slices/productSlice';
+import { getOrdersFromDb } from '../slices/OrderSlice'; // Import getOrdersFromDb
+import { fetchAllPayments, fetchTotalRevenue } from '../slices/PaymentSlice'; // Import fetchAllPayments
 import product from '../assets/product.jpeg';
 import order from '../assets/order.png';
 import revenue from '../assets/salary.png';
@@ -227,6 +229,8 @@ function Dashboard() {
   const dispatch = useDispatch();
   const { customers, status: customerStatus } = useSelector((state) => state.customers);
   const { products, status: productStatus } = useSelector((state) => state.products);
+  const { orders, status: orderStatus } = useSelector((state) => state.orders); // Get orders from state
+  const { totalRevenue, status: revenueStatus } = useSelector((state) => state.payments); // Get total revenue from state
 
   useEffect(() => {
     if (customerStatus === 'idle') {
@@ -235,12 +239,17 @@ function Dashboard() {
     if (productStatus === 'idle') {
       dispatch(fetchAllProducts());
     }
-  }, [dispatch, customerStatus, productStatus]);
+    if (orderStatus === 'idle') {
+      dispatch(getOrdersFromDb());
+    }
+    if (revenueStatus === 'idle') {
+      dispatch(fetchTotalRevenue());
+    }
+  }, [dispatch, customerStatus, productStatus, orderStatus, revenueStatus]);
 
   const customerCount = customers.length;
   const productCount = products.length;
-  const orderCount = 8147; // Replace with actual data fetching if necessary
-  const revenueCount = 20029; // Replace with actual data fetching if necessary
+  const orderCount = orders.length; // Get order count dynamically
 
   return (
     <>
@@ -248,7 +257,8 @@ function Dashboard() {
       <Container fluid className="dashboard p-4">
         <Row className="mb-4">
           <Col>
-            <h2 className="dashboard">Dashboard</h2>
+            <h2 className="dashboard text-center">Dashboard</h2>
+            <hr></hr>
           </Col>
         </Row>
         <Row className="mb-4 text-center">
@@ -291,7 +301,7 @@ function Dashboard() {
                 <img src={revenue} alt="" className="rounded-circle mb-3 card-icon" style={{ height: '70px', width: '70px' }} />
                 <div className="ml-3">
                   <Card.Title id="dashboard-card">Revenue</Card.Title>
-                  <Card.Text className="card-text">{revenueCount}</Card.Text>
+                  <Card.Text className="card-text">${totalRevenue}</Card.Text> {/* Display total revenue */}
                 </div>
               </Card.Body>
             </Card>

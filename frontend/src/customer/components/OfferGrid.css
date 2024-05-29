@@ -1,0 +1,26 @@
+.offer-img-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px; /* Adjust the gap between images as needed */
+    padding: 20px;
+    background-color: white;
+    /* border: 1px solid #ccc; */
+    /* border-radius: 8px; */
+}
+
+.offer-img-item {
+    flex: 1 1 calc(33.333% - 32px); /* 33.333% width minus the gap */
+    max-width: calc(33.333% - 32px);
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.offer-img-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
