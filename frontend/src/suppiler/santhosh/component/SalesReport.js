@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
+import { fetchProducts, setProductsFromSession } from '../../slice/productsSlice';
 import PieChart from './pieChart';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../dashboard.css';
@@ -11,11 +12,14 @@ import listed from '../photos/listed.jpg';
 import ProductCard from './ProductCard';
 import UsersOverview from './UserOverView';
 import PeakDays from './PeakDays';
+import SellerDetails from '../../../components/SellerDetails';
 
 function SalesReport() {
   const dispatch = useDispatch();
-  const { orders, status, error } = useSelector(state => state.orders);
-  const sellerId = '1'; // Example sellerId; replace with actual logged-in seller ID
+  const { orders, status: ordersStatus, error: ordersError } = useSelector(state => state.orders);
+  const { products, status: productsStatus, error: productsError } = useSelector(state => state.products);
+  const storedDetails = JSON.parse(sessionStorage.getItem('sellerDetails'));
+  const sellerId = storedDetails.sellerId;
 
   useEffect(() => {
     const storedOrders = JSON.parse(sessionStorage.getItem('orders'));
@@ -24,21 +28,31 @@ function SalesReport() {
     } else {
       dispatch(fetchOrders(sellerId));
     }
+
+    const storedProducts = JSON.parse(sessionStorage.getItem('products'));
+    if (storedProducts && storedProducts.sellerId === sellerId) {
+      dispatch(setProductsFromSession(storedProducts));
+    } else {
+      dispatch(fetchProducts(sellerId));
+    }
   }, [dispatch, sellerId]);
 
-  if (status === 'loading') {
+  
+
+  if (ordersStatus === 'loading' || productsStatus === 'loading') {
     return <div>Loading...</div>;
   }
 
-  if (status === 'failed') {
-    return <div>Error: {error}</div>;
+  if (ordersStatus === 'failed' || productsStatus === 'failed') {
+    return <div>Error: {ordersError || productsError}</div>;
   }
-  console.log(orders.totalPrice);
+
+  
   const productData = [
     { label: 'Product Ordered', value: orders.length },
-    { label: 'Product Available', value: orders.filter(order => order.status === 'available').length },
+    { label: 'Product Available', value: products.filter(product => product.status === 'available' && product.supplierId === sellerId).length },
     { label: 'Total Revenue', value: orders.reduce((sum, order) => sum + order.totalPrice, 0) },
-    { label: 'Total Listing', value: orders.length }, // Adjust this based on actual data structure
+    { label: 'Total Listing', value: orders.length },
   ];
 
   const stockDetails = orders.map((order, index) => ({
