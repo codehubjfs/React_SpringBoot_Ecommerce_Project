@@ -1,8 +1,8 @@
 import React, { useState ,useEffect} from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch ,useSelector} from 'react-redux';
-import { addSubcategory } from '../Slices/subCategorySlice';
-import { fetchCategories } from '../Slices/categorySlice';
+import { addSubcategory } from '../slices/subCategorySlice';
+import { fetchCategories } from '../slices/categorySlice';
 
 const AddSubCategoryModal = ({ onClose }) => {
     const [formData, setFormData] = useState({

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch ,useSelector} from 'react-redux';
-import { updateSubcategory } from '../Slices/subCategorySlice';
-import { fetchCategories } from '../Slices/categorySlice';
+import { updateSubcategory } from '../slices/subCategorySlice';
+import { fetchCategories } from '../slices/categorySlice';
 
 const EditSubCategoryModal = ({ subcategoryData, onClose }) => {
     const [subcategory, setSubcategory] = useState(subcategoryData);

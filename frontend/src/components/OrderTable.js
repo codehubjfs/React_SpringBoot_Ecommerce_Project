@@ -5,7 +5,7 @@ import { getOrderById, setSelectedOrder, updateOrderStatus } from '../slices/Ord
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import $ from 'jquery';
-import '../Order.css';
+import '../components/Order.css';
 
 const OrderTable = ({ orders }) => {
   const [showModal, setShowModal] = useState(false);

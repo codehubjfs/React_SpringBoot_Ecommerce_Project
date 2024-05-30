@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPayments } from '../Slices/PaymentSlice';
+import { fetchAllPayments } from '../slices/paymentSlice';
 
 function PaymentHistoryTable() {
     const dispatch = useDispatch();

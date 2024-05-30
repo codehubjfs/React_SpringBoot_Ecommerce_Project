@@ -23,7 +23,7 @@ export const fetchNotifications = createAsyncThunk(
 export const markNotificationAsRead = createAsyncThunk(
   'notifications/markNotificationAsRead',
   async (id, { rejectWithValue }) => {
-    try {gewesjnf 
+    try {
       const response = await fetch(`http://localhost:8080/notifications/${id}/read`, {
         method: 'PUT',
       });

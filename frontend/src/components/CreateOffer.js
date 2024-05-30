@@ -184,9 +184,12 @@ export default function CreateOffer({ onCreate }) {
 
   return (
     <>
-      <Button variant="primary" onClick={openModal} className="mt-3">
-        Add Offer
-      </Button>
+    <br></br>
+      <div className="align-right">
+        <button variant="primary" onClick={openModal} className="custom-button mt-3">
+          Add Offer
+        </button>
+      </div>
 
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>

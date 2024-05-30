@@ -65,6 +65,8 @@ const HomeSlider = () => {
 
   return (
     <div className="col-md-12 ml-sm-auto col-lg-12 px-4">
+                <br></br>
+                <br></br>
       <h1 className='text-center mt-2'>Home Slider Images</h1>
       <hr />
       <DescriptionCard title="Explore Dynamic Home Slider Images">
