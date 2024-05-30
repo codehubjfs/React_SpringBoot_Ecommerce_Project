@@ -4,7 +4,6 @@ import { Link, NavLink } from "react-router-dom";
 import icon from "../Images/Webpage-icon-1.png";
 import img1 from "../Images/avatar.jpg";
 import "../Navbar.css";
-// import { useAuth } from "../AuthContext";
 import { useAuth } from "../AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
@@ -20,11 +19,10 @@ function NavBar() {
   const dispatch = useDispatch();
   // const city = JSON.parse(sessionStorage.getItem("cityname"));
   // const pincode = JSON.parse(sessionStorage.getItem("pinCode"));
-  console.log(isLoggedIn);
   if (isLoggedIn) {
-    console.log(data +"logeshee");
-    // dispatch(fetchWishlist(data.id));
-    // dispatch(fetchCarts(data.id));
+    console.log(data);
+    dispatch(fetchWishlist(data.id));
+    dispatch(fetchCarts(data.id));
   }
   return (
     <div>
@@ -92,7 +90,7 @@ function NavBar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/adminhome">
+              <Link className="nav-link" to="/admin">
                 <i className="fas fa-user-shield"></i>
                 <span className="text" style={{ marginLeft: "5px" }}>
                   Admin
@@ -100,53 +98,78 @@ function NavBar() {
               </Link>
             </li>
             {isLoggedIn ? (
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <span>{data.fname}</span>
-                  <img
-                    src={img1}
-                    alt="Avatar"
-                    style={{
-                      width: "32px",
-                      height: "32px",
-                      borderRadius: "50%",
-                    }}
-                  />
-                </Link>
-                <div
-                  className="dropdown-menu dropdown-menu-right"
-                  aria-labelledby="navbarDropdown"
-                >
-                  <Link className="dropdown-item" to="/profile">
-                    Profile
-                  </Link>
-                  <div className="dropdown-divider"></div>
+              <>
+                <li className="nav-item dropdown">
                   <Link
-                    className="dropdown-item"
-                    to="/HomePage"
-                    onClick={logout}
+                    className="nav-link dropdown-toggle"
+                    to="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
                   >
-                    Log Out
+                    <span>{data.fname}</span>
+                    <img
+                      src={img1}
+                      alt="Avatar"
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "50%",
+                      }}
+                    />
                   </Link>
-                </div>
-              </li>
+                  <div
+                    className="dropdown-menu dropdown-menu-right"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <Link className="dropdown-item" to="/profile">
+                      Profile
+                    </Link>
+                    <div className="dropdown-divider"></div>
+                    <Link
+                      className="dropdown-item"
+                      to="/HomePage"
+                      onClick={logout}
+                    >
+                      Log Out
+                    </Link>
+                  </div>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/wishlist">
+                    <i className="fas fa-heart"></i>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/cart">
+                    <i className="fas fa-shopping-cart"></i>
+                  </Link>
+                </li>
+              </>
             ) : (
-              <li className="nav-item">
-                <Link className="nav-link" to="/signin">
-                  {/* <i className="fas fa-sign-in"></i> */}
-                  <span>Sign In</span>
-                </Link>
-              </li>
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/signin">
+                  <i className="fa fa-user"></i>
+                    <span> Sign In</span>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/signin">
+                    <i className="fas fa-heart"></i>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/signin">
+                    <i className="fas fa-shopping-cart"></i>
+                  </Link>
+                </li>
+              </>
             )}
-            {isLoggedIn ? (
+            {/* {isLoggedIn ? (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/wishlist">
@@ -172,7 +195,7 @@ function NavBar() {
                   </Link>
                 </li>
               </>
-            )}
+            )} */}
           </ul>
         </div>
       </nav>
