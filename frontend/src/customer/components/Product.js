@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { GeneralProductCard } from "./Productdatas";
 import "../Producte.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../AuthContext";
 import {
   fetchWishlist,
   addItemToWishlist,
@@ -35,49 +36,50 @@ const ProductCard = ({
   ratings,
 }) => {
   const dispatch = useDispatch();
-  // const items = useSelector((state) => state.wishlist.items);
-  // const customer = useSelector((state) => state.customers.customers);
+  const items = useSelector((state) => state.wishlist.items);
+  const customer = useSelector((state) => state.customers.customers);
+  const { isLoggedIn, login, logout } = useAuth();
 
-  // const handleLikeButtonClick = (
-  //   productId,
-  //   imageSrc,
-  //   title,
-  //   description,
-  //   price,
-  //   ratings
-  // ) => {
-  //   console.log(items);
-  //   const isItemInWishlist = items.some(
-  //     (wishlistItem) => wishlistItem.id === productId
-  //   );
-  //   const storedCustomerData = sessionStorage.getItem("customerData");
-  //   const parsedCustomer = JSON.parse(storedCustomerData);
+  const handleLikeButtonClick = (
+    productId,
+    imageSrc,
+    title,
+    description,
+    price,
+    ratings
+  ) => {
+    console.log(items);
+    const isItemInWishlist = items.some(
+      (wishlistItem) => wishlistItem.id === productId
+    );
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
 
-  //   if (isItemInWishlist) {
-  //     dispatch(
-  //       removeItemFromWishlist({
-  //         id: productId,
-  //         customerId: parsedCustomer.id,
-  //       })
-  //     );
-  //   } else {
-  //     console.log(items);
-  //     dispatch(
-  //       addItemToWishlist({
-  //         ProductCard: {
-  //           productId,
-  //           imageSrc,
-  //           title,
-  //           description,
-  //           price,
-  //           ratings,
-  //         },
-  //         customerId: parsedCustomer.id,
-  //       })
-  //     );
-  //   }
-  // };
-  const handleLikeButtonClick = () => {};
+    if (isItemInWishlist) {
+      dispatch(
+        removeItemFromWishlist({
+          id: productId,
+          customerId: parsedCustomer.id,
+        })
+      );
+    } else {
+      console.log(items);
+      dispatch(
+        addItemToWishlist({
+          ProductCard: {
+            productId,
+            imageSrc,
+            title,
+            description,
+            price,
+            ratings,
+          },
+          customerId: parsedCustomer.id,
+        })
+      );
+    }
+  };
+  const handleCartButtonClick = () => {};
   return (
     <div className="col-md-4 mb-4">
       <div className="card-p">
@@ -110,22 +112,43 @@ const ProductCard = ({
           </p>
         </div>
         <div className="buttons-container">
-          <button type="button" className="btn btn-custom-orange shadow-0">
+          <button
+            type="button"
+            className="btn btn-custom-orange shadow-0"
+            onClick={() => {
+              if (isLoggedIn) {
+                handleCartButtonClick(
+                  productId,
+                  imageSrc,
+                  title,
+                  description,
+                  price,
+                  ratings
+                );
+              } else {
+                window.location.href = "/signin";
+              }
+            }}
+          >
             <i className="fas fa-cart-plus"></i>
           </button>
           <button
             type="button"
             className="like-btn"
-            onClick={() =>
-              handleLikeButtonClick(
-                productId,
-                imageSrc,
-                title,
-                description,
-                price,
-                ratings
-              )
-            }
+            onClick={() => {
+              if (isLoggedIn) {
+                handleLikeButtonClick(
+                  productId,
+                  imageSrc,
+                  title,
+                  description,
+                  price,
+                  ratings
+                );
+              } else {
+                window.location.href = "/signin";
+              }
+            }}
           >
             <i className="fas fa-heart"></i>
           </button>
