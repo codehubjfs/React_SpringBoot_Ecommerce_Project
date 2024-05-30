@@ -18,6 +18,8 @@ function OfferImagePage() {
     <><br></br>
     <br></br>
     <div>
+                <br></br>
+                <br></br>
       <h1 style={{ textAlign: 'center' }}>Offer Images</h1>
       <hr></hr>
       <DescriptionCard title="Manage Offer Images">
