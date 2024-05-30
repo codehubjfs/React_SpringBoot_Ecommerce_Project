@@ -10,6 +10,29 @@ const SellerSidebar = ({ isSidebarVisible }) => {
         <ul>
         
           <li>
+<<<<<<< HEAD
+            <Link to="/home" className={styles.active}><span className="las la-chalkboard"></span>
+              <span className={styles.Span}><i class="fa-sharp fa-solid fa-house"></i> Dashboard</span></Link>
+          </li>
+          <li>
+            <Link to="/Inventory"><span className="las la-gifts"></span>
+              <span className={styles.Span}>📦 Inventory</span></Link>
+          </li>
+          <li>
+            <Link to="/ProductRequest"><span className="las la-truck"></span>
+              <span className={styles.Span}>🛒 Product Request</span></Link>
+          </li>
+          <li>
+            <Link to="/Product"><span className="lab la-hotjar"></span>
+              <span className={styles.Span}><img width="25" height="25" src="https://img.icons8.com/emoji/48/question-mark-emoji.png" alt="question-mark-emoji"/> Product Q/A</span></Link>
+          </li>
+          <li>
+            <Link to="/TableDetails"><span className="las la-user-circle"></span>
+              <span className={styles.Span}>📋 Report</span></Link>
+          </li>
+          <li>
+            <Link to="/Support"><span className="las la-user-circle"></span>
+=======
             <Link to="/home" className={styles.active}><span ></span>
               <span className={styles.Span}><i class="fa-sharp fa-solid fa-house"></i> Dashboard</span></Link>
           </li>
@@ -31,6 +54,7 @@ const SellerSidebar = ({ isSidebarVisible }) => {
           </li>
           <li>
             <Link to="/Support"><span></span>
+>>>>>>> dbb67c4e42ab8d22227bd13c41487e9b5832379a
               <span className={styles.Span}>❤ Support/Help</span></Link>
           </li>
         </ul>
@@ -39,4 +63,8 @@ const SellerSidebar = ({ isSidebarVisible }) => {
   );
 };
 
+<<<<<<< HEAD
 export default SellerSidebar;
+=======
+export default SellerSidebar;
+>>>>>>> dbb67c4e42ab8d22227bd13c41487e9b5832379a
