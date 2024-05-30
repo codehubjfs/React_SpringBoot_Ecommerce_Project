@@ -42,6 +42,8 @@ function Offer() {
   };
 
   return (
+    <><br></br>
+  <br></br>
     <div className="offer-container">
       <h1 className="mt-3 text-center">Sale Offers</h1>
       <hr />
@@ -58,6 +60,7 @@ function Offer() {
       {/* {error && <p className="error">{error}</p>} */}
       <OfferTable offers={offers} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
+    </>
   );
 }
 

@@ -17,9 +17,11 @@ export function LoginForm() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [newPasswordError, setNewPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
+  const [forgotPasswordEmailError, setForgotPasswordEmailError] = useState('');
 
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const isValidEmailOrPhone = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,33 +34,10 @@ export function LoginForm() {
     return passwordPattern.test(value);
   };
 
-  const handleEmailChange = (e) => {
-    const { value } = e.target;
-    setEmail(value);
-    if (!value.trim()) {
-      setIdentifierError("Please enter your email address or phone number");
-    } else if (!isValidEmailOrPhone(value.trim())) {
-      setIdentifierError("Please enter a valid email address or phone number");
-    } else {
-      setIdentifierError("");
-    }
-  };
-
-  const handlePasswordChange = (e) => {
-    const { value } = e.target;
-    setPassword(value);
-    if (!value.trim()) {
-      setPasswordError("Please enter your password");
-    } else if (!isValidPassword(value.trim())) {
-      setPasswordError("Invalid Password");
-    } else {
-      setPasswordError('');
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    const isValid = validateForm();
+    if (isValid) {
       try {
         const response = await fetch('http://localhost:8086/sellers/login', {
           method: 'POST',
@@ -67,23 +46,24 @@ export function LoginForm() {
           },
           body: JSON.stringify({ email, password })
         });
-        
+
         if (response.ok) {
           const responseData = await response.json();
-          const sellerId = responseData.sellerId; // Assuming you get the seller ID from the login response
-          
-          // Store the seller ID in local storage
-          localStorage.setItem('sellerId', sellerId);
-
-          // Dispatch the fetch seller details action
-          dispatch(fetchSellerDetails(sellerId));
-          
-          setShowSuccessModal(true);
+          if (responseData.status === "Active") {
+            const sellerId = responseData.sellerId;
+            sessionStorage.setItem('sellerId', sellerId);
+            dispatch(fetchSellerDetails(sellerId));
+            setShowSuccessModal(true);
+          } else if (responseData.status === "Inactive") {
+            setPasswordError('Your login credentials are suspended due to bad product feedback');
+          } else {
+            setPasswordError('Invalid Email or Password');
+          }
         } else {
-          setPasswordError('Invalid login credentials');
+          setPasswordError('Invalid Email or Password');
         }
       } catch (error) {
-        setPasswordError('Invalid login credentials');
+        setPasswordError('An error occurred during login. Please try again.');
       }
     }
   };
@@ -92,14 +72,39 @@ export function LoginForm() {
     setShowForgotPasswordModal(true);
   };
 
-  const handleProceedForgotPassword = () => {
-    if (isValidEmailOrPhone(email)) {
-      setShowForgotPasswordModal(false);
-      setShowResetPasswordModal(true);
+  const handleProceedForgotPassword = async () => {
+    if (isValidEmailOrPhone(forgotPasswordEmail)) {
+      try {
+        const response = await fetch('http://localhost:8086/verify-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: forgotPasswordEmail })
+        });
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData); // Debugging: log the response data
+  
+          // Check if the responseData contains any identifying property
+          if (responseData.email) {  // Adjust this condition as per your response structure
+            setShowForgotPasswordModal(false);
+            setShowResetPasswordModal(true);
+          } else {
+            setForgotPasswordEmailError("Email not found");
+          }
+        } else {
+          setForgotPasswordEmailError("Email not found");
+        }
+      } catch (error) {
+        setForgotPasswordEmailError("An error occurred. Please try again.");
+      }
     } else {
-      setIdentifierError("Please enter a valid email address");
+      setForgotPasswordEmailError("Please enter a valid email address");
     }
   };
+  
 
   const handleNewPasswordChange = (e) => {
     const { value } = e.target;
@@ -107,7 +112,7 @@ export function LoginForm() {
     if (!isValidPassword(value.trim())) {
       setNewPasswordError("Invalid Password");
     } else {
-      setNewPasswordError('');
+      setNewPasswordError("");
     }
   };
 
@@ -117,15 +122,46 @@ export function LoginForm() {
     if (value !== newPassword) {
       setConfirmPasswordError("Passwords do not match");
     } else {
-      setConfirmPasswordError('');
+      setConfirmPasswordError("");
     }
   };
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     if (isValidPassword(newPassword) && newPassword === confirmPassword) {
-      setShowResetPasswordModal(false);
-      // setShowSuccessModal(true);
-      // navigate('/home');
+      try {
+        const response = await fetch(`http://localhost:8086/reset-password`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: forgotPasswordEmail, newPassword })
+        });
+        // console.log(response);
+        if (response.ok) {
+          // Update the password field in the form
+          // console.log(response);
+
+          // setPassword(newPassword);
+          setPassword('');
+          setPasswordError('');
+          setShowResetPasswordModal(false);
+          // setShowSuccessModal(true);
+          navigate('/signin');
+          return; // Exit the function to prevent displaying error message
+        } else {
+          setConfirmPasswordError("Failed to reset password. Please try again.");
+        }
+      } catch (error) {
+        setConfirmPasswordError("An error occurred. Please try again.");
+      }
+    } else {
+      // Additional validation to ensure both fields are filled
+      if (!isValidPassword(newPassword)) {
+        setNewPasswordError("Invalid Password");
+      }
+      if (newPassword !== confirmPassword) {
+        setConfirmPasswordError("Passwords do not match");
+      }
     }
   };
 
@@ -157,7 +193,7 @@ export function LoginForm() {
 
   const handleCloseModal = () => {
     setShowSuccessModal(false);
-    navigate('/home'); 
+    navigate('/home');
   };
 
   return (
@@ -167,37 +203,45 @@ export function LoginForm() {
           <div className="login-section">
             <Form id="loginForm" onSubmit={handleSubmit}>
               <Form.Group controlId="login_email">
-                <Form.Label>Email Address/PhoneNumber<span style={{ color: 'red' }}>*</span></Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="Enter email/phone" 
-                  style={{ border: '2px solid #ccc', borderRadius: '5px' }} 
-                  value={email} 
-                  onChange={handleEmailChange} 
+                <Form.Label>Email Address<span style={{ color: 'red' }}>*</span></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter email"
+                  style={{ border: '2px solid #ccc', borderRadius: '5px' }}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <Form.Text className="error" style={{ color: 'red' }}>{identifierError}</Form.Text>
               </Form.Group>
               <div>
-                <br/>
+                <br />
               </div>
               <Form.Group controlId="login_pass">
                 <Form.Label>Password<span style={{ color: 'red' }}>*</span></Form.Label>
-                <Form.Control 
-                  type="password" 
-                  placeholder="Password" 
-                  style={{ border: '2px solid #ccc', borderRadius: '5px' }} 
-                  value={password} 
-                  onChange={handlePasswordChange} 
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  style={{ border: '2px solid #ccc', borderRadius: '5px' }}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <Form.Text className="error" style={{ color: 'red' }}>{passwordError}</Form.Text>
               </Form.Group>
               <div>
-                <br/>
+                <br />
               </div>
-             
+
               <p>By continuing, you agree to Horizon's Conditions of Use and Privacy Notice.</p>
               <Button variant="primary" type="submit" id="loginBtn">Sign in</Button>
-              <Button variant="link" onClick={handleForgotPassword} style={{ marginLeft: '180px' }}>Forgot your password?</Button>
+              <Button
+                variant="primary"
+                id="forgotpassword"
+                onClick={handleForgotPassword}
+                className="forgot-password-button "
+                style={{marginLeft:'180px'}}
+              >
+                Forgot password?
+              </Button>
             </Form>
           </div>
         </Col>
@@ -222,16 +266,16 @@ export function LoginForm() {
         </Modal.Header>
         <Modal.Body>
           <p>Please enter your email address to reset your password:</p>
-          <Form.Control 
-            type="text" 
-            placeholder="Enter your email" 
-            value={email} 
-            onChange={handleEmailChange} 
+          <Form.Control
+            type="text"
+            placeholder="Enter your email"
+            value={forgotPasswordEmail}
+            onChange={(e) => setForgotPasswordEmail(e.target.value)}
           />
-          <Form.Text className="error" style={{ color: 'red' }}>{identifierError}</Form.Text>
+          <Form.Text className="error" style={{ color: 'red' }}>{forgotPasswordEmailError}</Form.Text>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowForgotPasswordModal(false)}>
+          <Button variant="primary" onClick={() => setShowForgotPasswordModal(false)}>
             Close
           </Button>
           <Button variant="primary" onClick={handleProceedForgotPassword}>
@@ -247,27 +291,27 @@ export function LoginForm() {
         <Modal.Body>
           <Form.Group controlId="newPassword">
             <Form.Label>New Password<span style={{ color: 'red' }}>*</span></Form.Label>
-            <Form.Control 
-              type="password" 
-              placeholder="New Password" 
-              value={newPassword} 
-              onChange={handleNewPasswordChange} 
+            <Form.Control
+              type="password"
+              placeholder="New Password"
+              value={newPassword}
+              onChange={handleNewPasswordChange}
             />
             <Form.Text className="error" style={{ color: 'red' }}>{newPasswordError}</Form.Text>
           </Form.Group>
           <Form.Group controlId="confirmPassword">
             <Form.Label>Confirm Password<span style={{ color: 'red' }}>*</span></Form.Label>
-            <Form.Control 
-              type="password" 
-              placeholder="Confirm Password" 
-              value={confirmPassword} 
-              onChange={handleConfirmPasswordChange} 
+            <Form.Control
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
             />
             <Form.Text className="error" style={{ color: 'red' }}>{confirmPasswordError}</Form.Text>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowResetPasswordModal(false)}>
+          <Button variant="primary" onClick={() => setShowResetPasswordModal(false)}>
             Close
           </Button>
           <Button variant="primary" onClick={handleResetPassword}>

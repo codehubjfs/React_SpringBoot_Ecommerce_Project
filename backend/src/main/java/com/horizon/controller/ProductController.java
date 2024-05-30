@@ -4,6 +4,7 @@ import com.horizon.model.Beauty;
 import com.horizon.model.Electronic;
 import com.horizon.model.Furniture;
 import com.horizon.model.Product;
+import com.horizon.model.ProductSalesDTO;
 import com.horizon.model.Seller;
 import com.horizon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class ProductController {
         product.setStatus("active");
         productService.saveProduct(product);
         productService.saveElectronic(product);
+        productService.createNotification(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -43,6 +45,7 @@ public class ProductController {
         product.setStatus("active");
         productService.saveProduct(product);
         productService.saveFurniture(product);
+        productService.createNotification(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -54,6 +57,7 @@ public class ProductController {
         product.setStatus("active");
         productService.saveProduct(product);
         productService.saveBeauty(product);
+        productService.createNotification(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -250,10 +254,17 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/approved")
-    public ResponseEntity<?> getAllApprovedProducts() {
-        List<Product> products = productService.getAllApprovedProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    @GetMapping("/today-count")
+    public long getTodayProductCount() {
+        return productService.getTodayProductCount();
     }
-
+    @GetMapping("/pending")
+    public List<Product> getPendingProducts() {
+    	System.out.println("pending");
+        return productService.getPendingProducts();
+    }
+    @GetMapping("/sales")
+    public List<ProductSalesDTO> getProductSales() {
+        return productService.getProductSales();
+    }
 }

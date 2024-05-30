@@ -21,7 +21,7 @@ function Breadcrumb() {
     );
 }
 
-function ProductForm() {
+function SupplierProductForm() {
     const [category, setCategory] = useState('');
     const [subcategory, setSubcategory] = useState('');
     const dispatch = useDispatch();
@@ -119,4 +119,4 @@ function ProductForm() {
     );
 }
 
-export default ProductForm;
+export default SupplierProductForm;

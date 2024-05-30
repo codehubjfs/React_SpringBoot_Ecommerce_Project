@@ -3,21 +3,31 @@ package com.horizon.service;
 import com.horizon.repository.BeautyRepository;
 import com.horizon.repository.ElectronicRepository;
 import com.horizon.repository.FurnitureRepository;
+import com.horizon.repository.NotificationRepository;
 import com.horizon.repository.ProductRepository;
 import com.horizon.model.Beauty;
 import com.horizon.model.Electronic;
 import com.horizon.model.Furniture;
+import com.horizon.model.Notification;
 import com.horizon.model.Product;
+import com.horizon.model.ProductSalesDTO;
 import com.horizon.model.Seller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
+	
+	@Autowired
+    private NotificationRepository notificationRepo;
 
     @Autowired
     private ProductRepository productRepo;
@@ -50,7 +60,12 @@ public class ProductService {
     public Furniture saveFurniture(Furniture furniture) {
         return furnitureRepo.save(furniture);
     }
-
+    
+    public void createNotification(Product product) {
+        String message = "Supplier Id "+product.getSupplierId()+" request to add the "+product.getProductTitle();
+        Notification notification = new Notification(product.getSupplierId(), message, "pending");
+        notificationRepo.save(notification);
+    }
     // Get product by ID
     public Optional<Product> getProductById(int productId) {
         return productRepo.findById(productId);
@@ -119,5 +134,40 @@ public class ProductService {
     }
     public List<Product> getAllApprovedProducts() {
         return productRepo.findByDecession("pending");
+    }
+    public long getTodayProductCount() {
+        List<Product> allProducts = productRepo.findAll();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String todayDateString = sdf.format(new Date());
+        final Date todayDate;
+
+        try {
+            todayDate = sdf.parse(todayDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0; // Return 0 if there's an error parsing the date
+        }
+
+        if (todayDate == null) {
+            return 0;
+        }
+
+        return allProducts.stream()
+                .filter(product -> {
+                    try {
+                        Date productDate = sdf.parse(sdf.format(product.getDateOfAddition()));
+                        return productDate.equals(todayDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                })
+                .count();
+    }
+    public List<Product> getPendingProducts() {
+        return productRepo.findByDecession("pending");
+    }
+    public List<ProductSalesDTO> getProductSales() {
+        return productRepo.countProductsByCategory();
     }
 }

@@ -15,6 +15,8 @@ function OfferImagePage() {
   }, [dispatch]);
 
   return (
+    <><br></br>
+    <br></br>
     <div>
       <h1 style={{ textAlign: 'center' }}>Offer Images</h1>
       <hr></hr>
@@ -26,6 +28,7 @@ function OfferImagePage() {
       </div>
       <OfferImageTable offerImages={offerImages} />
     </div>
+    </>
   );
 }
 

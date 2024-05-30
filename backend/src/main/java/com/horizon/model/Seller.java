@@ -1,14 +1,18 @@
 package com.horizon.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import java.util.Date;
 
 @Entity
 public class Seller {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seller_seq")
-    @SequenceGenerator(name = "seller_seq", sequenceName = "seller_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int sellerId;
 
     @Column(name = "full_name")
@@ -59,24 +63,15 @@ public class Seller {
     @Column(name = "registration_date")
     private Date registrationDate;
 
-    @PrePersist
-    protected void onCreate() {
-        if (this.status == null) {
-            this.status = "Active";
-        }
-        if (this.registrationDate == null) {
-            this.registrationDate = new Date();
-        }
-    }
-
-    // Default constructor
+    // Constructors
     public Seller() {
+        // Default constructor
     }
 
-    // Parameterized constructor
     public Seller(int sellerId, String fullName, String storeName, String mobileNumber, String email, String password,
                   String gstin, String building, String street, String city, String state, String pincode, String country,
-                  String accountNumber, String ifscCode, String status, Date registrationDate) {
+                  String account_number, String ifsc_code, String status, Date registrationDate) {
+        super();
         this.sellerId = sellerId;
         this.fullName = fullName;
         this.storeName = storeName;
@@ -90,13 +85,22 @@ public class Seller {
         this.state = state;
         this.pincode = pincode;
         this.country = country;
-        this.accountNumber = accountNumber;
-        this.ifscCode = ifscCode;
+        this.accountNumber = account_number;
+        this.ifscCode = ifsc_code;
         this.status = status;
         this.registrationDate = registrationDate;
     }
 
-    // Getters and Setters
+    @PrePersist
+    protected void onCreate() {
+        if (this.status == null) {
+            this.status = "Active";
+        }
+        if (this.registrationDate == null) {
+            this.registrationDate = new Date();
+        }
+    }
+
     public int getSellerId() {
         return sellerId;
     }
@@ -205,16 +209,16 @@ public class Seller {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setAccountNumber(String account_number) {
+        this.accountNumber = account_number;
     }
 
     public String getIfscCode() {
         return ifscCode;
     }
 
-    public void setIfscCode(String ifscCode) {
-        this.ifscCode = ifscCode;
+    public void setIfscCode(String ifsc_code) {
+        this.ifscCode = ifsc_code;
     }
 
     public String getStatus() {

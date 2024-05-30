@@ -1,29 +1,56 @@
-import React from "react";
-import Header from "./Header";
-import MenuBar from "./Menubar";
-import '../title.css';
+import React, { useState, useEffect } from "react";
+import SellerTitle from "../component/Title";
+import SellerSidebar from "../component/sidebar";
+// import { NotificationModal } from "../components/NotificationModal";
 
-function Layout({ children }) {
+const SellerLayout = ({ children }) => {
+  const [isSidebarVisible, setSidebarVisible] = useState(false);
+  // const [isNotificationModalOpen, setNotificationModalOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!isSidebarVisible);
+  };
+
+  // const openNotificationModal = () => {
+  //   setNotificationModalOpen(true);
+  // };
+
+  // const closeNotificationModal = () => {
+  //   setNotificationModalOpen(false);
+  // };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 992) {
+        setSidebarVisible(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div>
-      <Header />
+    <div className="main-content">
+      <SellerSidebar isSidebarVisible={isSidebarVisible} />
+      <SellerTitle toggleSidebar={toggleSidebar}  />
 
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3 sellersidebar">
-            <MenuBar />
-          </div>
-          <div className="col-md-9">
-            <div className="sellercontent">
-              <div className="container-fluid mt-3"> {/* Use container-fluid for full width */}
-                <main>{children}</main>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div
+        style={{
+          marginLeft: isSidebarVisible ? "120px" : "-125px",
+          marginTop: isSidebarVisible ? "-80px" : "-80px",
+          transition: "margin 0.3s ease",
+        }}
+      >
+        <main className="Admin-main">{children}</main>
       </div>
+
+      {/* <NotificationModal isOpen={isNotificationModalOpen} onClose={closeNotificationModal} /> */}
     </div>
   );
-}
+};
 
-export default Layout;
+export default SellerLayout;

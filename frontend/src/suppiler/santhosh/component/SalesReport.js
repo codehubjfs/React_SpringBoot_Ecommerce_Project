@@ -4,7 +4,11 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../dashboard.css';
 import ordericon from '../photos/ordericon.jpg';
 import available from '../photos/available.jpg';
+<<<<<<< HEAD
 import revenue from '../photos/revenue.png'
+=======
+import revenue from '../photos/revenue.jpg'
+>>>>>>> dbb67c4e42ab8d22227bd13c41487e9b5832379a
 import listed from '../photos/listed.jpg';
 import ProductCard from './ProductCard';
 import UsersOverview from './UserOverView';

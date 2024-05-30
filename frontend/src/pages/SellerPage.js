@@ -124,18 +124,17 @@
 // }
 
 // export default SellerPage;
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchAllProducts, deleteProduct } from '../slices/productSlice';
+import { fetchPendingProducts, deleteProduct } from '../slices/productSlice';
 import SellerRequest from '../components/SellerRequest';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Breadcrumb Component
 function Breadcrumb() {
     return (
-        <nav aria-label="breadcrumb"> 
+        <nav aria-label="breadcrumb">
             <ol className="breadcrumb py-3 px-3">
                 <li className="breadcrumb-item">
                     Admin
@@ -152,16 +151,24 @@ function Breadcrumb() {
 function SellerPage() {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products);
-    const status = useSelector((state) => state.products.status);
-    const error = useSelector((state) => state.products.error);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchAllProducts());
-        }
-        console.log(products);  // Add this line to inspect the products structure
-    }, [status, dispatch]);
-    
+        const fetchData = async () => {
+            try {
+                await dispatch(fetchPendingProducts());
+            } catch (err) {
+                setError(err.toString());
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
+
     // Function to handle approval of a request
     const handleApprove = (requestId) => {
         dispatch(deleteProduct(requestId));
@@ -172,8 +179,6 @@ function SellerPage() {
         dispatch(deleteProduct(requestId));
     };
 
-    const [isHovered, setIsHovered] = useState(false);
-
     return (
         <>
             <br />
@@ -181,8 +186,8 @@ function SellerPage() {
                 <div className="d-flex justify-content-between align-items-center mt-4" style={{ margin: "0px" }}>
                     <Breadcrumb />
                     <div>
-                        <Link 
-                            to="/seller/sellerdetails" 
+                        <Link
+                            to="/seller/sellerdetails"
                             className="btn btn-dark"
                             style={{
                                 color: 'white',
@@ -199,15 +204,15 @@ function SellerPage() {
                     <h2 className="text-center mb-4" style={{ paddingTop: "20px" }}>Seller Product Requests</h2>
                     <div className="container">
                         <div className="row justify-content-center">
-                            {status === 'loading' ? (
+                            {loading ? (
                                 <div>Loading...</div>
-                            ) : status === 'failed' ? (
-                                <div>No product available</div>
+                            ) : error ? (
+                                <div>{error}</div>
                             ) : (
-                                <SellerRequest 
-                                    sellerRequests={products} 
-                                    onApprove={handleApprove} 
-                                    onReject={handleReject} 
+                                <SellerRequest
+                                    sellerRequests={products}
+                                    onApprove={handleApprove}
+                                    onReject={handleReject}
                                 />
                             )}
                         </div>
@@ -219,4 +224,3 @@ function SellerPage() {
 }
 
 export default SellerPage;
-

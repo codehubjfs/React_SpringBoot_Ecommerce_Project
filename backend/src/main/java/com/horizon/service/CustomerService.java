@@ -12,6 +12,8 @@ import com.horizon.model.Address;
 import com.horizon.model.Customer;
 import com.horizon.repository.CustomerRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CustomerService {
 	@Autowired
@@ -38,11 +40,7 @@ public class CustomerService {
     
     
     public void deleteCustomer(int id) {
-        Optional<Customer> customerOptional = customerRepository.findById(id);
-        customerOptional.ifPresent(customer -> {
-            customer.setStatus("Inactive");
-            customerRepository.save(customer);
-        });
+        customerRepository.deleteById(id);
     }
     
     public Set<Address> getAddressesByCustomerId(int customerId) {
@@ -72,7 +70,33 @@ public class CustomerService {
 	public Optional<Customer> getCustomerById(int id) {
 		return customerRepository.findById(id);
 	}
-	public List<Customer> getAllCustomersByStatus(String status) {
-	    return customerRepository.findByStatus(status);
-	}
+	public Optional<Customer> getCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
+	public boolean updateCustomerPassword(String email, String newPassword) {
+        Optional<Customer> optionalCustomer = customerRepository.findByEmail(email);
+        if (optionalCustomer.isPresent()) {
+            Customer customer = optionalCustomer.get();
+            customer.setPassword(newPassword);
+            customerRepository.save(customer);
+            return true;
+        }
+        return false;
+    }
+	@Transactional
+    public Customer updateMembershipStatusToPrime(int id) {
+        Optional<Customer> customerOpt = customerRepository.findById(id);
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            customer.setMembership("Prime");
+            return customerRepository.save(customer);
+        } else {
+            throw new RuntimeException("Customer not found");
+        }
+    }
+
+
+
+
+	   
 }

@@ -1,27 +1,46 @@
-//package com.horizon.admin.service;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import com.horizon.admin.model.Order;
-//import com.horizon.admin.repository.OrderRepository;
-//
-//@Service
-//public class OrderService {
-//
-//    @Autowired
-//    private OrderRepository orderRepository;
-//
-//    public List<Order> getAllOrders() {
-//        return orderRepository.findAll();
-//    }
-//
-//    public Optional<Order> getOrderById(Long id) {
-//        return orderRepository.findById(id);
-//    }
-//}
+package com.horizon.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.horizon.model.Order;
+import com.horizon.repository.OrderRepository;
 
 
+
+@org.springframework.stereotype.Service
+public class OrderService {
+	
+	@Autowired
+	private OrderRepository orderRepo;
+
+	// Create or update an order
+	public Order saveOrder(Order order) {
+        return orderRepo.save(order);
+    }
+
+	// Get order by ID
+	public Optional<Order> getOrderById(int orderId)
+	{
+		return orderRepo.findById(orderId);
+	}
+	
+	
+	public List<Order> getAllOrders() {
+        return orderRepo.findAll();
+    }
+	
+	// Delete an order
+	
+	public void deleteOrder(int orderId) {
+		orderRepo.deleteById(orderId);
+	}
+	
+	// Get all orders by status
+	public List<Order> getAllOrdersByStatus(String status) {
+		return orderRepo.findByStatus(status);
+	}
+	
+}

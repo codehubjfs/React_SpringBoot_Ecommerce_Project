@@ -1,0 +1,69 @@
+.seller-dashboard {
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+  }
+  
+  .seller-dashboard-title {
+    font-size: 24px !important;
+    font-weight: bold !important;
+  }
+  
+  .seller-dashboard-actions {
+    display: flex;
+  }
+  
+  .seller-notifications,
+  .seller-profile {
+    position: relative;
+    margin-left: 20px !important;
+  }
+  
+  .seller-dashboard-content {
+    display: grid;
+    gap: 3 0px;
+    padding: 30px;
+  }
+  
+  .seller-card {
+    border-radius: 15px !important;
+    transition: transform 0.1s !important;
+  }
+  
+  .seller-card:hover {
+    transform: scale(0.5) !important;
+  }
+  
+  .seller-card-title {
+    color: black !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .seller-card-text {
+    font-size: 1.25rem !important;
+    color: black;
+  }
+  
+  .seller-stat-card {
+    padding: 10px 30px 10px 0px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    width: 100%;
+    margin-right: 10px !important;
+  }
+  
+  .card-icon {
+    margin-right: 20px;
+  }
+  
+  .seller-chart-card {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    width: 0%;
+  }
+  
+  .seller-content {
+    padding: 0;
+    margin: 0;
+  }

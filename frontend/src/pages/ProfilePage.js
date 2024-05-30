@@ -198,17 +198,26 @@ function ProfilePage() {
                     <p className="py-2 text-muted">{profile.employeeId}</p>
                   </div>
                   <div className="d-flex align-items-center justify-content-between border-bottom">
-                    <p className="py-2">Email</p>
+                    <p className="py-2">Official Email</p>
                     <p className="py-2 text-muted">{profile.email}</p>
                   </div>
                   <div className="d-flex align-items-center justify-content-between border-bottom">
-                    <p className="py-2">Phone</p>
+                    <p className="py-2">Personal Email</p>
+                    <p className="py-2 text-muted">{profile.personalEmail}</p>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between border-bottom">
+                    <p className="py-2">Office</p>
                     <p className="py-2 text-muted">{profile.phone}</p>
                   </div>
-                  <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex align-items-center justify-content-between border-bottom">
+                    <p className="py-2">Mobile</p>
+                    <p className="py-2 text-muted">{profile.mobile}</p>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between border-bottom">
                     <p className="py-2">Address</p>
                     <p className="py-2 text-muted">{profile.address}</p>
                   </div>
+                  
                 </div>
               </div>
             </div>

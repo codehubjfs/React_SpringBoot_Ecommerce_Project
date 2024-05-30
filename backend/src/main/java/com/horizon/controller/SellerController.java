@@ -139,43 +139,61 @@ public class SellerController {
     @PostMapping("/sellers/login")
     public ResponseEntity<?> login(@RequestBody Seller loginDetails) {
         try {
-            Seller seller = null;
             if (loginDetails.getEmail() != null) {
-                seller = sellerService.getSellerByEmailAndPassword(loginDetails.getEmail(), loginDetails.getPassword());
-            } 
+                Seller seller = sellerService.getSellerByEmailAndPassword(loginDetails.getEmail(), loginDetails.getPassword());
 
-            if (seller != null) {
-                return ResponseEntity.ok(seller);
+                if (seller != null) {
+                    if ("Active".equalsIgnoreCase(seller.getStatus())) {
+                        return ResponseEntity.ok(seller);
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Seller is not active");
+                    }
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+                }
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
         }
     }
+
     @PostMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        Seller seller = sellerService.getSellerByEmail(email);
+        try {
+            String email = request.get("email");
+            Seller seller = sellerService.getSellerByEmail(email);
 
-        if (seller != null) {
-            return ResponseEntity.ok(seller);
-        } else {
-            return ResponseEntity.notFound().build();
+            return seller != null ?
+                ResponseEntity.ok(seller) :
+                ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during email verification");
         }
     }
 
     @PutMapping("/reset-password")
     public ResponseEntity<?> updatePassword(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        String newPassword = request.get("newPassword");
+        try {
+            String email = request.get("email");
+            String newPassword = request.get("newPassword");
 
-        Seller seller = sellerService.updateSellerPassword(email, newPassword);
+            Seller seller = sellerService.updateSellerPassword(email, newPassword);
 
-        if (seller != null) {
-            return ResponseEntity.ok(seller);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
+            return seller != null ?
+                ResponseEntity.ok(seller) :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email not found");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during password reset");
         }
+    }
+    
+    @GetMapping("/today-count")
+    public long getTodaySellerCount() {
+        return sellerService.getTodaySellerCount();
     }
 }

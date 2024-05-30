@@ -552,6 +552,7 @@ export const Electroniccards =[
         "title": "iPhone 15 Plus Red (5G)",
         "content": "Triple-lens rear camera system with 48MP main camera, 12MP wide camera, 12MP ultra-wide camera, and 12MP telephoto camera",
         "price": 77499,
+        description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
         "ratings": 4,
         "productName": "iPhone 15 Plus Red (5G)",
         "orders": 120,
@@ -606,6 +607,8 @@ export const Electroniccards =[
         "title": "iPhone 15 Plus 5G",
         "content": "Triple-lens rear camera system with 48MP main camera, 12MP wide camera, 12MP ultra-wide camera, and 12MP telephoto camera",
         "price": 77499,
+                description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
         "ratings": 4,
         "productName": "iPhone 15 Plus 5G",
         "orders": 120,
@@ -661,6 +664,8 @@ export const Electroniccards =[
     content: "Super Retina XDR display 15.54 cm / 6.1″ (diagonal) all‑screen OLED display 2556x1179-pixel resolution at 460 ppi",
     price: 134900,
     ratings: 3,
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     productName: "iPhone15 Pro Red (5G)",
     orders: 120,
     inStock: true,
@@ -716,6 +721,8 @@ export const Electroniccards =[
     content: "Super Retina XDR display 15.54 cm / 6.1″ (diagonal) all‑screen OLED display 2556x1179-pixel resolution at 460 ppi",
     price: 134900,
     ratings: 3,
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     productName: "iPhone15 Pro Blue (5G)",
     orders: 120,
     inStock: true,
@@ -771,6 +778,8 @@ export const Electroniccards =[
     content: "Super Retina XDR display 15.54 cm / 6.1″ (diagonal) all‑screen OLED display 2556x1179-pixel resolution at 460 ppi",
     price: 134900,
     ratings: 3,
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     productName: "iPhone15 Pro Red (5G)",
     orders: 120,
     inStock: true,
@@ -825,6 +834,8 @@ export const Electroniccards =[
     title: "iPhone 14",
     content: "Triple-lens rear camera system with 12MP wide camera, 12MP ultrawide camera, and 12MP telephoto camera",
     price: 87999,
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     ratings: 3,
     productName: "iPhone 14",
     orders: 120,
@@ -892,6 +903,8 @@ export const Electroniccards =[
     OperatingSystem: "iOS 15",
     Color: "Red",
     Warranty: "1 year",
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     Storage: "128GB",
     mainImage: 'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone15pro-digitalmat-gallery-3-202309?wid=728&hei=666&fmt=png-alpha&.v=1693081542150',
     alt: 'iPhone 15 pro max',
@@ -934,6 +947,8 @@ export const Electroniccards =[
     ratings: 3,
     productName: "iPhone 14",
     orders: 120,
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     inStock: true,
     originalPrice: 99999,
     Brand: "Apple",
@@ -984,8 +999,10 @@ export const Electroniccards =[
     productId: 7,
     imageSrc: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone15pro-digitalmat-gallery-1-202309_GEO_EMEA?wid=728&hei=666&fmt=png-alpha&.v=1693346851387",
     title: "iPhone 15 Pro Max",
-    content: "Super Retina XDR display 17.00 cm / 6.7″ (diagonal) all‑screen OLED display 2796x1290-pixel resolution at 460 ppi",
+    description: "Super Retina XDR display 17.00 cm / 6.7″ (diagonal) all‑screen OLED display 2796x1290-pixel resolution at 460 ppi",
     price: 159900,
+    description:"The iPhone features a Super Retina XDR display, advanced dual or triple camera systems, and the powerful A-series chip for high performance.",
+
     ratings: 3,
     productName: "iPhone 15 Pro Max",
     orders: 120,

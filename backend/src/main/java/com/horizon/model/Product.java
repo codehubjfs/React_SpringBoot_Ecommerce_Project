@@ -1,4 +1,5 @@
 package com.horizon.model;
+
 import java.util.Date;
 import jakarta.persistence.*;
 

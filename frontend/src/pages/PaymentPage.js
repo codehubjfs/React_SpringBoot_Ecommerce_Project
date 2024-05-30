@@ -101,7 +101,7 @@ function PaymentPage() {
                     Monitor and manage all payment transactions, view their details, and track their statuses. 
                     This page helps you to keep an eye on pending, completed, and cancelled payments.
                 </DescriptionCard>
-                <PaymentHistoryTable paymentData={paymentData} />
+                <PaymentHistoryTable />
             
             
         </div>

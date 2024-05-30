@@ -28,7 +28,7 @@ function SellerDetailsPage() {
                 if (result.type === 'sellerDetails/submitSellerDetails/fulfilled') {
                     console.log('Form data submitted:', formData);
                     dispatch(resetSellerDetails());
-                    navigate('/home');
+                    navigate('/signin');
                 } else {
                     console.error('Failed to submit form data:', error);
                 }

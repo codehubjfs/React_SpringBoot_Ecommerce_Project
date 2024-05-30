@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts, deleteProduct } from '../slices/productSlice';
 import ElectronicProductFormModal from './ElectronicProductFormModal';
 import FurnitureFormModal from './FurnitureFormModal';
 import BeautyProductFormModal from './BeautyproductModal';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
-import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
-import $ from 'jquery';
 import { useNavigate } from 'react-router-dom';
 
 const ProductTable = () => {
@@ -15,26 +12,17 @@ const ProductTable = () => {
     const status = useSelector((state) => state.products.status);
     const error = useSelector((state) => state.products.error);
     const navigate = useNavigate();
-    const tableRef = useRef(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isElectronicModal, setIsElectronicModal] = useState(false);
     const [isFurnitureModal, setIsFurnitureModal] = useState(false);
     const [isBeautyModal, setIsBeautyModal] = useState(false);
+    const [sortConfig, setSortConfig] = useState({ key: 'productId', direction: 'ascending' });
 
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchAllProducts());
         }
     }, [status, dispatch]);
-
-    useEffect(() => {
-        if (products.length > 0) {
-            if ($.fn.DataTable.isDataTable('#productTable')) {
-                $('#productTable').DataTable().destroy();
-            }
-            $(tableRef.current).DataTable();
-        }
-    }, [products]);
 
     const handleView = (product) => {
         setSelectedProduct(product);
@@ -61,6 +49,30 @@ const ProductTable = () => {
         }
     };
 
+    const sortProducts = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const sortedProducts = React.useMemo(() => {
+        let sortableProducts = [...products];
+        if (sortConfig !== null) {
+            sortableProducts.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableProducts;
+    }, [products, sortConfig]);
+
     if (status === 'loading') {
         return <div>Loading...</div>;
     }
@@ -71,26 +83,21 @@ const ProductTable = () => {
 
     return (
         <div>
-            <table
-                id="productTable"
-                className="table table-striped table-bordered"
-                style={{ width: '100%' }}
-                ref={tableRef}
-            >
+            <table className="table table-striped table-bordered">
                 <thead className="bg-dark text-white text-center bold-header">
                     <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Sub-Category</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Brand</th>
+                        <th onClick={() => sortProducts('productId')}>ID</th>
+                        <th onClick={() => sortProducts('productTitle')}>Title</th>
+                        <th onClick={() => sortProducts('category')}>Category</th>
+                        <th onClick={() => sortProducts('subCategory')}>Sub-Category</th>
+                        <th onClick={() => sortProducts('price')}>Price</th>
+                        <th onClick={() => sortProducts('stock')}>Stock</th>
+                        <th onClick={() => sortProducts('brand')}>Brand</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product, index) => (
+                    {sortedProducts.map((product, index) => (
                         <tr key={product.productId}>
                             <td>{index + 1}</td>
                             <td>{product.productTitle}</td>
@@ -99,21 +106,11 @@ const ProductTable = () => {
                             <td>{product.price}</td>
                             <td>{product.stock}</td>
                             <td>{product.brand}</td>
-                            <td>
-                                <button
-                                    type="button"
-                                    className="btn btn-view"
-                                    onClick={() => handleView(product)}
-                                >
-                                    <i className="bi bi-eye"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-delete"
-                                    onClick={() => handleDelete(product.productId)}
-                                >
-                                    <i className="bi bi-trash"></i>
-                                </button>
+                            <td style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-around' }}>
+                              
+                                    <i className="bi bi-eye" onClick={() => handleView(product)}></i>
+                                    <i className="bi bi-trash" onClick={() => handleDelete(product.productId)}></i>
+                               
                             </td>
                         </tr>
                     ))}

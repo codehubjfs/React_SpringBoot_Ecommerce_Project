@@ -23,7 +23,8 @@ import offerReducer from './slices/OfferSlice';
 import offerImageReducer from './slices/OfferImageSlice';
 import sliderImageReducer from './slices/SliderSlice';
 import notificationsReducer from './slices/NotificationSlice';
-// import orderReducer from './slices/OrderSlice';
+import orderReducer from './slices/OrderSlice';
+import paymentReducer from './slices/PaymentSlice';
 
 const store = configureStore({
   reducer: {
@@ -34,11 +35,12 @@ const store = configureStore({
     products: productReducer,
     subcategories: subcategoryReducer,
     categories: categoryReducer,
-    // orders: orderReducer,
+    orders: orderReducer,
     offers: offerReducer,
     offerImages: offerImageReducer,
     sliderImages: sliderImageReducer,
     notifications: notificationsReducer,
+    payments:paymentReducer,
   },
 });
 

@@ -22,7 +22,8 @@ function Breadcrumb() {
 function SubCategories(){
     return(
         <>
-    
+    <br />
+    <br />
         <Breadcrumb/>
         <h2 className="text-center">Sub Category</h2>
         <hr />
@@ -32,10 +33,7 @@ function SubCategories(){
         <SubCategoryModal/>
         <div id="Product-table">
             <div className="row container d-flex justify-content-center">
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button type="button" className="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#SubCategoryModal"  data-bs-whatever="@mdo" id="addbtn">Add Sub-Category</button>
-                </div>
+               
                 <div className="table-responsive">
                     <SubCategoryTable/>
                 </div>

@@ -31,7 +31,7 @@ public class Customer {
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
-	@Column(name = "phone", nullable = false, unique = true)
+	@Column(name = "phone", nullable = false)
 	private Long phone;
 
 	@Column(name = "password", nullable = false)
@@ -41,7 +41,7 @@ public class Customer {
 	private String Membership="Basic";
 	
 	@Column(name = "status", nullable = false)
-	private String status="Active";
+	private String Status="Active";
 	
 	@Column(name = "date_of_Register", nullable = false)
 	private String DateOfRegister;
@@ -57,7 +57,7 @@ public class Customer {
 		this.phone = phone;
 		this.password = password;
 		Membership = membership;
-		status = status;
+		Status = status;
 		DateOfRegister = dateOfRegister;
 		this.addresses = addresses;
 	}
@@ -65,6 +65,14 @@ public class Customer {
 	 @JsonManagedReference
 	private Set<Address> addresses = new HashSet<>();
 	
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	 @JsonManagedReference
+    private Set<Wishlist> wishlist = new HashSet<>();
+    
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	 @JsonManagedReference
+   private Set<Cart> cart = new HashSet<>();
 	public Customer() {
 		// Default constructor
 	}
@@ -94,11 +102,11 @@ public class Customer {
 	}
 
 	public String getStatus() {
-		return status;
+		return Status;
 	}
 
 	public void setStatus(String status) {
-		this.status = status;
+		Status = status;
 	}
 
 	public String getDateOfRegister() {

@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Badge } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchCustomerData } from "../slices/CustomerSlice";
+let badgeColor;
+let membershipStatus;
 
-function BadgePrime({ isPrimeMember }) {
+
+function BadgePrime() {
+  const dispatch = useDispatch();
+  const customer = useSelector((state) => state.customers.customer);
+
+  useEffect(() => {
+    dispatch(fetchCustomerData()); 
+  }, [dispatch]);
+  if (customer && customer.membership === "Basic") {
+    badgeColor = "danger";
+    membershipStatus = "Non-Prime Member";
+  } else {
+    badgeColor = "success";
+    membershipStatus = "Prime Member";
+  }
+
   return (
     <div className="container-fluid">
       <div
@@ -18,17 +37,22 @@ function BadgePrime({ isPrimeMember }) {
           style={{ width: "50px", height: "50px" }}
           alt="Avatar"
         />
+
         <div className="ms-2">
           <p>
-            {isPrimeMember
-              ? "You are a Prime member..Explore and Enjoy your exclusive deals!!"
-              : "You are not a Prime member...Get Prime Now!!"}
+            {customer && customer.membership === "Basic"
+              ? " "+" "+"You are not a Prime member...Get Prime Now!!"
+              : " "+" "+"Explore and Enjoy your exclusive deals!!"}
           </p>
-          <Badge bg={isPrimeMember ? "success" : "danger"}>
-            {isPrimeMember ? "Prime Member" : "Non-Prime Member"}
-          </Badge>
+
+
+
+
         </div>
+
       </div>
+      <Badge bg={badgeColor}>{membershipStatus}</Badge>
+
     </div>
   );
 }

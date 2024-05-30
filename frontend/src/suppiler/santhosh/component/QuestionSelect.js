@@ -97,11 +97,13 @@ const Questionnaire = ({ selectedCategory }) => {
                 {questions.map(question => (
                     <div key={question.id} className="qa-question-container">
                       <label id='qa-check'>
-                        <input
-                          type="checkbox" style={{marginLeft:'0px'}}
+                      <input
+                          type="checkbox"
                           checked={question.selected}
                           onChange={() => handleQuestionSelect(question.id)}
+                          style={{ width: '0',padding:'10px' }}
                         />
+
                         <span className="qa-question-text">{question.text}</span>
                       </label>
                     </div>
@@ -129,7 +131,7 @@ const Questionnaire = ({ selectedCategory }) => {
                 <button type="button" onClick={handleAddQuestion} className="btn btn-primary">Add Question</button>
               )}
               {selectedQuestions.length > 0 && (
-                <div>
+                <div style={{marginTop:'10px'}}>
                   <h4>Selected Questions:</h4>
                   <ul>
                     {selectedQuestions.map(question => (
@@ -140,8 +142,16 @@ const Questionnaire = ({ selectedCategory }) => {
               )}
               {newQuestionOpen && (
                 <div>
-                  <h4>Add New Question:</h4>
+                  <h4 style={{marginBottom:'10px'}}>Add New Question:</h4>
                   <form onSubmit={handleSubmitQuestion}>
+                  <label id='qa'>
+                      Product Id:
+                      <input
+                        type="text"
+                        value={newQuestion}
+                        onChange={(e) => setNewQuestion(e.target.value)}
+                      />
+                    </label>
                     <label id='qa'>
                       Question:
                       <input
@@ -150,7 +160,6 @@ const Questionnaire = ({ selectedCategory }) => {
                         onChange={(e) => setNewQuestion(e.target.value)}
                       />
                     </label>
-                    <br></br>
                     <label id='qa'>
                       Answer: 
                       <input style={{ marginRight: '55px' }}
@@ -162,7 +171,7 @@ const Questionnaire = ({ selectedCategory }) => {
 
                     <br></br>
                     <button className="btn btn-primary" type="submit" id="qa">Submit</button>
-                    <button className="btn btn-secondary" type="button" onClick={handleCancelAddQuestion} style={{ marginLeft: '10px' }}>Cancel</button>
+                    <button className="btn btn-secondary" type="button" onClick={handleCancelAddQuestion} style={{ marginLeft: '10px',  marginTop:'10px'}}>Cancel</button>
                   </form>
                 </div>
               )}
