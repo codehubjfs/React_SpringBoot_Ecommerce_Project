@@ -59,4 +59,7 @@ public class AdminService {
             return null; // Handle the case where the seller is not found
         }
     }
+    public Admin getAdminByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
 }
