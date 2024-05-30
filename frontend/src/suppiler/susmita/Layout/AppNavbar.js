@@ -20,7 +20,7 @@ function AppNavbar() {
           <Nav.Link as={NavLink} to="/gst">GstPage</Nav.Link>
         </Nav>
         <Nav className="ui-ml-auto"> {/* Add ml-auto class to move items to the right */}
-          <Button variant="dark" href="/signin">Login</Button>
+          <Button variant="dark" href="/sellerlogin">Login</Button>
           <Button variant="dark" href="/registration">Start Selling</Button>
         </Nav>
       </Navbar.Collapse>

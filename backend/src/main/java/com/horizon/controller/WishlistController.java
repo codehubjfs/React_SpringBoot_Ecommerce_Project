@@ -1,13 +1,13 @@
-package com.horizon.customer.controller;
+package com.horizon.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.horizon.customer.repository.CustomerRepository;
-import com.horizon.customer.repository.WishlistRepository;
-import com.horizon.customer.model.Customer;
-import com.horizon.customer.model.Wishlist;
+import com.horizon.repository.CustomerRepository;
+import com.horizon.repository.WishlistRepository;
+import com.horizon.model.Customer;
+import com.horizon.model.Wishlist;
 
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class WishlistController {
 
     @PostMapping("/{customerId}")
     public ResponseEntity<Wishlist> addItemToWishlist(@PathVariable int customerId, @RequestBody Wishlist wishlist) {
+    	System.out.println("entered the post method ");
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer not found"));
         wishlist.setCustomer(customer);
         Wishlist savedWishlist = wishlistRepository.save(wishlist);

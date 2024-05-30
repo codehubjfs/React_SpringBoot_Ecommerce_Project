@@ -1,4 +1,4 @@
-package com.horizon.customer.model;
+package com.horizon.model;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ public class Customer {
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
-	@Column(name = "phone", nullable = false, unique = true)
+	@Column(name = "phone", nullable = false)
 	private Long phone;
 
 	@Column(name = "password", nullable = false)
@@ -70,6 +70,9 @@ public class Customer {
 	 @JsonManagedReference
     private Set<Wishlist> wishlist = new HashSet<>();
     
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	 @JsonManagedReference
+   private Set<Cart> cart = new HashSet<>();
 	public Customer() {
 		// Default constructor
 	}

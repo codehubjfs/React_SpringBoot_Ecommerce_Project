@@ -1,9 +1,9 @@
-package com.horizon.customer.repository;
+package com.horizon.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.horizon.customer.model.Wishlist;
+import com.horizon.model.Wishlist;
 import java.util.List;
 
 @Repository

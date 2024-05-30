@@ -14,11 +14,14 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     // Retrieve the login state from sessionStorage
     const savedLoginState = sessionStorage.getItem("isLoggedIn");
+    console.log(sessionStorage.getItem("customerData")+"content in auth provider ")
     return savedLoginState ? JSON.parse(savedLoginState) : false;
   });
 
   useEffect(() => {
     // Save the login state to sessionStorage whenever it changes
+ 
+    console.log("entered here")
     sessionStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
   }, [isLoggedIn]);
 

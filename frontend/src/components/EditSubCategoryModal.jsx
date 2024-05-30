@@ -31,41 +31,15 @@ const EditSubCategoryModal = ({ subcategoryData, onClose }) => {
     };
 
     const validateField = (name, value) => {
-        const newErrors = { ...errors };
-        switch (name) {
-            case 'categoryId':
-                newErrors.categoryId = value.trim() ? null : "category is required";
-                break;
-            case 'subCategoryName':
-                newErrors.subCategoryName = /^[A-Za-z\s]+$/.test(value) ? null : "Invalid subcategory name";
-                break;
-            case 'subCategoryImage':
-                newErrors.subCategoryImage = value.trim() ? null : "category image url is required";
-                break;
-            default:
-                break;
-        }
-        setErrors(newErrors);
+        // Add validation logic if needed
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        e.preventDefault();
-        const emptyFields = Object.entries(subcategory).filter(([key, value]) => typeof value === 'string' && value.trim() === '');
+        // Add validation logic if needed
 
-        if (emptyFields.length > 0) {
-            const newErrors = { ...errors };
-            emptyFields.forEach(([fieldName]) => {
-                newErrors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
-            });
-            setErrors(newErrors);
-            return;
-        }
-
-        if (Object.values(errors).some(val => val !== null)) {
-            return;
-        }
+        // Dispatch action to edit subcategory
         dispatch(updateSubcategory(subcategory));
         handleClose();
     };

@@ -86,11 +86,11 @@ const ElectronicProductForm = ({ subcategory }) => {
                 newErrors.processor = value.trim() ? null : "Processor is required";
                 break;
             case 'frontCamera':
-                newErrors.frontCamera = value.trim() && !isNaN(value.trim()) && Number(value.trim()) > 0 && !value.includes('.') ? null : "Front Camera should be a numeric value greater than zero (non-decimal)";
-                break;
+                    newErrors.frontCamera = value.trim() === "null" || /^[0-9 mp+]+$/i.test(value.trim()) ? null : "Rear Camera should contain numeric characters, 'm', 'p', spaces, or '+'";
+                    break;
             case 'rearCamera':
-                newErrors.rearCamera = value.trim() && !isNaN(value.trim()) && Number(value.trim()) > 0 && !value.includes('.') ? null : "Rear Camera should be a numeric value greater than zero (non-decimal)";
-                break;
+                    newErrors.rearCamera = value.trim() === "null" || /^[0-9 mp+]+$/i.test(value.trim()) ? null : "Rear Camera should contain numeric characters, 'm', 'p', spaces, or '+'";
+                    break;
             case 'battery':
                 newErrors.battery = value.trim() && !isNaN(value.trim()) && !value.includes('.') ? null : "Battery should be a numeric value (non-decimal)";
                 break;

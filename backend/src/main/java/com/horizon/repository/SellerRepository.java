@@ -1,5 +1,7 @@
 package com.horizon.repository;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +18,8 @@ public interface SellerRepository extends JpaRepository<Seller, Integer> {
 	    
 	    // Check if a seller with the given email exists
 	    boolean existsByEmail(String email);
+	    
+	    int countByRegistrationDate(Date registrationDate);
 
 }
+

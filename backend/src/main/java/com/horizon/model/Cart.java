@@ -1,4 +1,5 @@
-package com.horizon.customer.model;
+package com.horizon.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
@@ -27,7 +28,7 @@ public class Cart {
     private String productImageUrl;
 
     @Column(name = "quantity", nullable = false)
-private int quantity=1;
+private int quantity;
     
     public int getQuantity() {
 		return quantity;
@@ -44,6 +45,7 @@ private int quantity=1;
 
 	@ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @JsonBackReference
     private Customer customer;
 
 	public int getId() {

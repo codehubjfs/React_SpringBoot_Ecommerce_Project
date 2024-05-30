@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { addProduct } from '../../slices/productSlice';
 
 const FurnitureForm = ({ subcategory }) => {
+    const sellerDetails = useSelector(state => state.sellerDetails);
+    const sellerId = sellerDetails ? sellerDetails.sellerId : null;
+
     const [formData, setFormData] = useState({
         productTitle: '',
         description: '',
         brand: '',
         model: '',
-        supplierId:null,
+        supplierId: sellerId,
         material: '',
         dimension: '',
         price: '',
@@ -31,9 +34,10 @@ const FurnitureForm = ({ subcategory }) => {
     useEffect(() => {
         setFormData((prevFormData) => ({
             ...prevFormData,
-            subCategory: subcategory
+            subCategory: subcategory,
+            supplierId: sellerId
         }));
-    }, [subcategory]);
+    }, [subcategory, sellerId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -66,7 +70,7 @@ const FurnitureForm = ({ subcategory }) => {
                 newErrors.dimension = value.trim() ? null : "Dimension is required";
                 break;
             case 'price':
-                newErrors.price = value.trim() ? (value.trim() <= 0 ? "Price must be a numeric value greater than zero" : null) : "Price is required";
+                newErrors.price = value.trim() ? (parseFloat(value.trim()) > 0 ? null : "Price must be a numeric value greater than zero") : "Price is required";
                 break;
             case 'stock':
                 newErrors.stock = /^[0-9]+$/.test(value) ? null : "Stock should contain only numeric characters";
@@ -156,16 +160,13 @@ const FurnitureForm = ({ subcategory }) => {
                     <div className="col-md-4">
                         <label htmlFor="stock" className="form-label">Stock Available<span style={{ color: 'red' }}>*</span></label>
                         <input type="number" className="form-control" id="stock" name="stock" value={formData.stock} onChange={handleChange} />
-                        <div className="titleError" style={{ color: 'red' }} data-field="stock">
-                        {errors.stock && <span>{errors.stock}</span>}
-                        </div>
+                        <div className="titleError" style={{ color: 'red' }} data-field="stock">{errors.stock}</div>
                     </div>
                     <div className="col-md-4">
                         <label htmlFor="color" className="form-label">Colors<span style={{ color: 'red' }}>*</span></label>
                         <input type="text" className="form-control" id="color" name="color" value={formData.color} onChange={handleChange} />
                         <div className="titleError" style={{ color: 'red' }} data-field="color">{errors.color}</div>
                     </div>
-                   
                 </div>
                 <div className="row mb-3">
                     <div className="col-md-4">

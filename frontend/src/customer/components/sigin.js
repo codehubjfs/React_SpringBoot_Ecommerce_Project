@@ -65,7 +65,7 @@ export function LoginForm() {
     if (!value.trim()) {
       setLoginPasswordError("Please enter your password");
     } else if (!isValidPassword(value.trim())) {
-      setLoginPasswordError("Please enter the password in correct format");
+      setLoginPasswordError("Please enter a valid password");
     } else {
       setLoginPasswordError("");
     }
@@ -186,7 +186,7 @@ export function LoginForm() {
       setLoginPasswordError("Please enter your password");
       isValid = false;
     } else if (!isValidPassword(loginPassword.trim())) {
-      setLoginPasswordError("Please enter password in correct format");
+      setLoginPasswordError("Please enter a valid password");
       isValid = false;
     } else {
       setLoginPasswordError("");

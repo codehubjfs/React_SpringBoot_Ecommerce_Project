@@ -3,33 +3,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSellerDetails, submitSellerDetails, updateSellerDetailsInDB, updateSellerDetails } from '../../slice/sellerDetailsSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-
+import SuccessModal from './SuccessModel';
 function UserProfileForm({ sellerId }) {
   const dispatch = useDispatch();
   const sellerDetails = useSelector((state) => state.sellerDetails);
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    if (sellerId) {
-      dispatch(fetchSellerDetails(sellerId));
+    // Retrieve seller details from Redux state
+    const storedDetails = JSON.parse(sessionStorage.getItem('sellerDetails'));
+    if (storedDetails) {
+      dispatch(updateSellerDetails(storedDetails)); // Update Redux state with stored details
+    } else if (sellerId) {
+      dispatch(fetchSellerDetails(sellerId)); // Fetch details from server if not in sessionStorage
     }
   }, [dispatch, sellerId]);
 
-  const handleEdit = (field) => {
-    if (field !== undefined) {
-      setIsEditing(true);
-    } else {
-      setIsEditing(!isEditing);
-    }
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const validateField = (name, value) => {
     let updatedValue = value;
     let error = '';
 
-    // Validation logic
     switch (name) {
       case 'fullName':
         updatedValue = value.replace(/[^A-Za-z\s]/g, ''); 
@@ -53,7 +47,7 @@ function UserProfileForm({ sellerId }) {
         break;
       case 'shopName':
         updatedValue = value.replace(/[^A-Za-z\s]/g, ''); // Allow only alphabets and spaces
-        if (!updatedValue.trim()) error = 'ShopName is required';
+        if (!updatedValue.trim()) error = 'Shop Name is required';
         break;
       case 'pincode':
         updatedValue = value.replace(/[^0-9]/g, ''); // Allow only numbers
@@ -69,7 +63,34 @@ function UserProfileForm({ sellerId }) {
       [name]: error
     }));
 
-    console.log({ [name]: updatedValue });
+    return { [name]: updatedValue, error };
+  };
+
+  const handleEdit = (field) => {
+    if (field !== undefined) {
+      setIsEditing(true);
+      const currentValue = sellerDetails[field];
+      const { error } = validateField(field, currentValue);
+      if (!error) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [field]: ''
+        }));
+      }
+    } else {
+      setIsEditing(!isEditing);
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    const { [name]: updatedValue, error } = validateField(name, value);
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error
+    }));
+
     dispatch(updateSellerDetails({ [name]: updatedValue }));
   };
 
@@ -80,11 +101,17 @@ function UserProfileForm({ sellerId }) {
     } else {
       dispatch(submitSellerDetails(sellerDetails));
     }
+    setShowModal(true);
+    setIsEditing(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} style={{ marginTop: '50px' }} className="container">
+      <form onSubmit={handleSubmit} className="formm">
         <div className="row">
           <div className="form-group col-md-6">
             <label htmlFor="fullname" className="label-hover">Name:</label>
@@ -103,14 +130,14 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('name')}
+                    onClick={() => handleEdit('fullName')}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
                 </div>
               )}
             </div>
-            <span className="text-danger">{errors.name}</span>
+            <span className="text-danger">{errors.fullName}</span>
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="email" className="label-hover">Email:</label>
@@ -149,7 +176,7 @@ function UserProfileForm({ sellerId }) {
                 type="text"
                 className="form-control"
                 id="mobileNumber"
-                name="mobile"
+                name="mobileNumber"
                 value={sellerDetails.mobileNumber}
                 onChange={handleChange}
                 disabled={!isEditing}
@@ -159,14 +186,14 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('mobile')}
+                    onClick={() => handleEdit('mobileNumber')}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
                 </div>
               )}
             </div>
-            <span className="text-danger">{errors.mobile}</span>
+            <span className="text-danger">{errors.mobileNumber}</span>
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="street" className="label-hover">Location:</label>
@@ -175,7 +202,7 @@ function UserProfileForm({ sellerId }) {
                 type="text"
                 className="form-control"
                 id="street"
-                name="location"
+                name="street"
                 value={sellerDetails.street}
                 onChange={handleChange}
                 disabled={!isEditing}
@@ -203,9 +230,9 @@ function UserProfileForm({ sellerId }) {
               <input
                 type="text"
                 className="form-control"
-                id="aadharNumber"
-                name="aadharNumber"
-                value={sellerDetails.account_number}
+                id="accountNumber"
+                name="accountNumber"
+                value={sellerDetails.accountNumber}
                 disabled
               />
             </div>
@@ -232,8 +259,8 @@ function UserProfileForm({ sellerId }) {
               <input
                 type="text"
                 className="form-control"
-                id="shopName"
-                name="shopName"
+                id="storeName"
+                name="storeName"
                 value={sellerDetails.storeName}
                 onChange={handleChange}
                 disabled={!isEditing}
@@ -295,6 +322,8 @@ function UserProfileForm({ sellerId }) {
         <h3>Note:</h3>
         <label style={{ fontSize: '20px' }}> "The GSTIN and Aadhar Number fields are not editable. If you require edits, please reach out to the administrator through E-mail (horizonadmin@gmail.com.)"</label>
       </div>
+      
+      <SuccessModal show={showModal} handleClose={handleCloseModal} />
     </div>
   );
 }

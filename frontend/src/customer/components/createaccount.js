@@ -296,7 +296,7 @@ function CreateAccount() {
       newErrors.newpassword = "Passwords don't match";
     }
 
-    if (!formData.area) {
+    if (!formData.area.trim()) {
       newErrors.area = "Address can't be empty";
     }
 
@@ -497,7 +497,7 @@ function CreateAccount() {
                     id="ad"
                     style={{ color: "red" }}
                   >
-                    {errors.address}
+                    {errors.area}
                   </Form.Text>
                 )}
               </Form.Group>

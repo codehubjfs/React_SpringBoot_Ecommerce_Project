@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubcategories, addSubcategory, deleteSubcategory} from '../slices/subCategorySlice';
-import AddSubCategoryModal from './AddSubCategoryModal'
-import EditSubCategoryModal from './EditSubCategoryModal'
+import { fetchSubcategories, addSubcategory, deleteSubcategory } from '../slices/subCategorySlice';
+import AddSubCategoryModal from './AddSubCategoryModal';
+import EditSubCategoryModal from './EditSubCategoryModal';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
@@ -12,18 +12,28 @@ function SubCategoryTable() {
     const dispatch = useDispatch();
     const subcategories = useSelector((state) => state.subcategories.subcategories);
     const subcategoriesStatus = useSelector((state) => state.subcategories.status);
-
     const tableRef = useRef(null);
+    const dataTableRef = useRef(null);
 
     useEffect(() => {
         if (subcategoriesStatus === 'idle') {
             dispatch(fetchSubcategories());
         }
-
-        if (tableRef.current && !$.fn.dataTable.isDataTable(tableRef.current)) {
-            $(tableRef.current).DataTable();
-        }
     }, [dispatch, subcategoriesStatus]);
+
+    useEffect(() => {
+        if (dataTableRef.current) {
+            $(tableRef.current).DataTable().destroy();
+        }
+
+        dataTableRef.current = $(tableRef.current).DataTable();
+
+        return () => {
+            if (dataTableRef.current) {
+                $(tableRef.current).DataTable().destroy();
+            }
+        };
+    }, [subcategories]);
 
     const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -47,6 +57,7 @@ function SubCategoryTable() {
         setIsAddModalOpen(false);
         setIsEditModalOpen(false);
     };
+
     const handleDelete = (subCategory) => {
         dispatch(deleteSubcategory(subCategory));
     };
@@ -77,25 +88,21 @@ function SubCategoryTable() {
                 <tbody>
                     {subcategories.map(subcategory => (
                         <tr key={subcategory.subCategoryId}>
-                            <td>{subcategory.subCategoryId}</td>
-                            <td>{subcategory.categoryId}</td>
+                            <td style={{ textAlign: 'center'}}>{subcategory.subCategoryId}</td>
+                            <td style={{ textAlign: 'center'}}>{subcategory.categoryId}</td>
                             <td>{subcategory.subCategoryName}</td>
                             <td><img src={subcategory.subCategoryImage} className='category-image' alt={subcategory.subCategoryName} /></td>
-                            <td>
-                                <button
-                                    type="button"
-                                    className="btn btn-edit"
-                                    onClick={() => handleEditModalOpen(subcategory)}
-                                >
-                                    <i className="bi bi-pencil-square"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-delete"
-                                    onClick={() => handleDelete(subcategory)}
-                                >
-                                    <i className="bi bi-trash"></i>
-                                </button>
+                            <td className='text-center'>
+                                 <i
+                                        className="bi bi-pencil-square"
+                                        onClick={() => handleEditModalOpen(subcategory)}
+                                        style={{ cursor: 'pointer', marginRight: '10px' }}
+                                    ></i>
+                                    <i
+                                        className="bi bi-trash"
+                                        onClick={() => handleDelete(subcategory)}
+                                        style={{ cursor: 'pointer' }}
+                                    ></i>
                             </td>
                         </tr>
                     ))}

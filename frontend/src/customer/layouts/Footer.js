@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../Navbar.css";
 import "../Footer.css";
-
+import { useAuth } from "../AuthContext";
 function Footer() {
+  const { isLoggedIn, login, logout } = useAuth();
+
   return (
     <footer id="main-footer" className="custom-footer" role="contentinfo">
       <div className="container-fluid custom-container-fluid">
@@ -45,9 +47,15 @@ function Footer() {
             </h5>
             <p>Register for our Prime Membership for exclusive benefits.</p>
             <p>
-              <Link to="/prime" style={{ color: "#fff4a3" }}>
-                <strong>JOIN PRIME</strong>
-              </Link>
+              {isLoggedIn ? (
+                <Link to="/prime" style={{ color: "#fff4a3" }}>
+                  <strong>JOIN PRIME</strong>
+                </Link>
+              ) : (
+                <Link to="/signin" style={{ color: "#fff4a3" }}>
+                  <strong>JOIN PRIME</strong>
+                </Link>
+              )}
             </p>
           </div>
           <div className="col-md-3 custom-col-md-3">

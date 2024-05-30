@@ -9,6 +9,7 @@ function ProductCard() {
     const totalProduct = useSelector((state) => state.products.totalProducts);
     const availableProduct = useSelector((state) => state.products.availableProducts);
     const outofStock = useSelector((state) => state.products.outofStockProducts);
+
     useEffect(() => {
         dispatch(getTotalProducts());
         dispatch(getAvailableProducts());
@@ -17,10 +18,11 @@ function ProductCard() {
 
     return (
         <div className="container-fluid">
-            <div className="col d-flex justify-content-between">
-                <OrderCard title="Total Products" value={String(totalProduct)} icon='las la-boxes' />
-                <OrderCard title="Available Products" value={String(availableProduct)} icon='las la-boxes' />
-                <OrderCard title="Out of Stock" value={String(outofStock)} icon='las la-boxes' />
+            <div className="row">
+                    <OrderCard title="Total Products" value={String(totalProduct)} icon='las la-boxes' />
+                    <OrderCard title="Available " value={String(availableProduct)} icon='las la-boxes' />
+                    <OrderCard title="Out of Stock" value={String(outofStock)} icon='las la-boxes' />
+
             </div>
         </div>
     );

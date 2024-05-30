@@ -6,8 +6,12 @@ import FeatureCard from "../components/primecard";
 import PrimeFeatures from "../components/primefeatures";
 import BadgePrime from "../components/badgeprime";
 import "../prime.css";
+import { useSelector } from "react-redux";
+
 
 function Prime() {
+  const customer = useSelector((state) => state.customers.customer);
+
   return (
     //       <PrimeHeroModule />
     //       <PrimeFeatures />
@@ -17,9 +21,10 @@ function Prime() {
     //       <PrimeOptions />
     //       <hr></hr>
     //       <FeatureCard />
+
     <Container id="content" style={{ marginTop: "80px" }}>
       <div>
-        <BadgePrime isPrimeMember={false} />
+        <BadgePrime customer={customer}  />
 
         <PrimeHeroModule />
         <hr></hr>

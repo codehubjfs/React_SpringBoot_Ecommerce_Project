@@ -237,7 +237,8 @@ export function LoginForm() {
                 variant="primary"
                 id="forgotpassword"
                 onClick={handleForgotPassword}
-                className="forgot-password-button"
+                className="forgot-password-button "
+                style={{marginLeft:'180px'}}
               >
                 Forgot password?
               </Button>

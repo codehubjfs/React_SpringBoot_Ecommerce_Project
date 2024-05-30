@@ -15,6 +15,8 @@ function OfferImagePage() {
   }, [dispatch]);
 
   return (
+    <><br></br>
+    <br></br>
     <div>
                 <br></br>
                 <br></br>
@@ -28,6 +30,7 @@ function OfferImagePage() {
       </div>
       <OfferImageTable offerImages={offerImages} />
     </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-package com.horizon.customer.service;
+package com.horizon.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +8,11 @@ import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.horizon.customer.model.Address;
-import com.horizon.customer.model.Customer;
-import com.horizon.customer.repository.CustomerRepository;
+import com.horizon.model.Address;
+import com.horizon.model.Customer;
+import com.horizon.repository.CustomerRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CustomerService {
@@ -81,16 +83,17 @@ public class CustomerService {
         }
         return false;
     }
-	public Customer updateCustomerPrimeStatus(int customerId, String prime) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
-        if (optionalCustomer.isPresent()) {
-            Customer customer = optionalCustomer.get();
-            customer.setMembership(prime);
+	@Transactional
+    public Customer updateMembershipStatusToPrime(int id) {
+        Optional<Customer> customerOpt = customerRepository.findById(id);
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            customer.setMembership("Prime");
             return customerRepository.save(customer);
+        } else {
+            throw new RuntimeException("Customer not found");
         }
-		return null;
-        
-}
+    }
 
 
 

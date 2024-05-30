@@ -1,63 +1,126 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
 import PieChart from './pieChart';
-import '../title.css';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import '../dashboard.css';
+import ordericon from '../photos/ordericon.jpg';
+import available from '../photos/available.jpg';
+import revenue from '../photos/revenue.png';
+import listed from '../photos/listed.jpg';
+import ProductCard from './ProductCard';
+import UsersOverview from './UserOverView';
+import PeakDays from './PeakDays';
 
-const SalesReport = ({ data }) => {
+function SalesReport() {
+  const dispatch = useDispatch();
+  const { orders, status, error } = useSelector(state => state.orders);
+  const sellerId = '1'; // Example sellerId; replace with actual logged-in seller ID
+
+  useEffect(() => {
+    const storedOrders = JSON.parse(sessionStorage.getItem('orders'));
+    if (storedOrders && storedOrders.sellerId === sellerId) {
+      dispatch(setOrdersFromSession(storedOrders));
+    } else {
+      dispatch(fetchOrders(sellerId));
+    }
+  }, [dispatch, sellerId]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
+  console.log(orders.totalPrice);
+  const productData = [
+    { label: 'Product Ordered', value: orders.length },
+    { label: 'Product Available', value: orders.filter(order => order.status === 'available').length },
+    { label: 'Total Revenue', value: orders.reduce((sum, order) => sum + order.totalPrice, 0) },
+    { label: 'Total Listing', value: orders.length }, // Adjust this based on actual data structure
+  ];
+
+  const stockDetails = orders.map((order, index) => ({
+    id: index + 1,
+    productName: order.productName,
+    inStock: order.inStock,
+    outOfStock: order.outOfStock,
+  }));
+
   return (
-    <div style={{ marginTop: '60px' }}>
-      <label style={{ marginBottom: '10px' }} id="sellernames"><strong>Products</strong></label>
-      <div className="row">
-        {data.product.map((item, index) => (
-          <div className="col" key={index}>
-            <div className="sellercard">
-              <div className="sellercard-body">
-                <h5 className="sellercard-title">{item.label}</h5>
-                <p className="sellercard-text">{item.value}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <Container fluid className="seller-dashboard">
+      <Row className="mb-4">
+        <Col>
+          <h2 className="seller-dashboard">Sales Report</h2>
+        </Col>
+      </Row>
 
-      <label style={{ marginBottom: '10px', marginTop:'15px'}} id="sellernames"><strong>Listing</strong></label>
-      <div className="row">
-        {data.listing.map((item, index) => (
-          <div className="col" key={index}>
-            <div className="sellercard">
-              <div className="sellercard-body">
-                <h5 className="sellercard-title">{item.label}</h5>
-                <p className="sellercard-text">{item.value}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-     
-      <div className="mt-5" style={{ marginTop: '0px' }}>
-        <hr style={{ borderTop: '2px solid black', marginTop: '30px' }} />
-        <label style={{ fontSize: '30px', marginTop: '0%', marginBottom : '30px ', textAlign:'center'}} id='sales'><strong>Sales Report</strong></label>
-        <div className="row">
-          <div className="col-md-6">
-            <PieChart /> {/* Assuming PieChart is a valid component */}
-          </div>
-          <div className="col-md-6" style={{ marginTop: '2%', marginLeft: '0px'}}>
-            <div className="row">
-              {data.sales.map((item, index) => (
-                <div className="col-md-6" key={index}>
-                  <div className="sellercard">
-                    <div className="sellercard-body">
-                      <h5 className="sellercard-title">{item.label}</h5>
-                      <p className="sellercard-text">{item.value}</p>
-                    </div>
-                  </div>
+      <Row>
+        {productData.map((item, index) => (
+          <Col lg={3} className="mb-4" key={index}>
+            <Card className="shadow-sm seller-stat-card card-bg-gray" id="cardhover">
+              <Card.Body className="d-flex align-items-center">
+                <img
+                  src={[ordericon, available, revenue, listed][index]}
+                  alt={item.label}
+                  className="rounded-circle mb-3 card-icon"
+                  style={{ height: '70px', width: '70px' }}
+                />
+                <div className="ml-3">
+                  <Card.Title className="seller-card-title">{item.label}</Card.Title>
+                  <Card.Text className="seller-card-text">{item.value}</Card.Text>
                 </div>
-              ))}
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      <Row className="mb-4">
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm seller-stat-card2 card-bg-gray">
+            <Card.Body>
+              <PieChart />
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm seller-stat-card2 card-bg-gray">
+            <div style={{ textAlign: 'center' }}>
+              <h2>Stock Details</h2>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            <div style={{ padding: '20px' }}>
+              <Row>
+                {stockDetails.map(detail => (
+                  <Col key={detail.id} md={12} className="mb-3">
+                    <ProductCard 
+                      productName={detail.productName} 
+                      inStock={detail.inStock} 
+                      outOfStock={detail.outOfStock}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+
+      <Row className="mb-4">
+        <Col lg={6} className="mb-4">
+          <UsersOverview />
+        </Col>
+        <Col lg={6} className="mb-4">
+          <Card className="shadow-sm seller-stat-card2 card-bg-gray">
+            <Card.Body>
+              <PeakDays />
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
-};
+}
 
 export default SalesReport;

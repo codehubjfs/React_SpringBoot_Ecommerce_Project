@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchAllPayments = createAsyncThunk(
-    'payment/fetchAllPayments',
+    'payments/fetchAllPayments',
     async (_, { rejectWithValue }) => {
       try {
         const response = await fetch("http://localhost:8086/payment", {
@@ -20,11 +20,26 @@ export const fetchAllPayments = createAsyncThunk(
       }
     }
   );
-
+  export const fetchTotalRevenue = createAsyncThunk(
+    'payments/fetchTotalRevenue',
+    async () => {
+      const response = await fetch("http://localhost:8086/payment/total-revenue", {
+        method: "GET",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch total revenue');
+      }
+      return response.json();
+    }
+  );
   const paymentSlice = createSlice({
     name: 'payments',
     initialState: {
       payments: [],
+      totalRevenue: 0,
       status: 'idle',
       error: null,
     },
@@ -42,7 +57,18 @@ export const fetchAllPayments = createAsyncThunk(
         .addCase(fetchAllPayments.rejected, (state, action) => {
           state.status = 'failed';
           state.error = action.payload;
-        });
+        })
+        .addCase(fetchTotalRevenue.pending, (state) => {
+            state.status = 'loading';
+          })
+          .addCase(fetchTotalRevenue.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.totalRevenue = action.payload;
+          })
+          .addCase(fetchTotalRevenue.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+          });
     },
   });
 

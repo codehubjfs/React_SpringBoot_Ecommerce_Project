@@ -42,6 +42,8 @@ function Offer() {
   };
 
   return (
+    <><br></br>
+  <br></br>
     <div className="offer-container">
           <br></br>
           <br></br>
@@ -60,6 +62,7 @@ function Offer() {
       {/* {error && <p className="error">{error}</p>} */}
       <OfferTable offers={offers} onEdit={handleEdit} onDelete={handleDelete} />
     </div>
+    </>
   );
 }
 

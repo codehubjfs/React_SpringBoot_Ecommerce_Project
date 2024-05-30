@@ -36,13 +36,13 @@ const AddSubCategoryModal = ({ onClose }) => {
         const newErrors = { ...errors };
         switch (name) {
             case 'categoryId':
-                newErrors.categoryId = value.trim() ? null : "category is required";
+                // Add validation logic for categoryId if needed
                 break;
             case 'subCategoryName':
-                newErrors.subCategoryName = /^[A-Za-z\s]+$/.test(value) ? null : "Invalid subcategory name";
+                // Add validation logic for subCategoryName if needed
                 break;
             case 'subCategoryImage':
-                newErrors.subCategoryImage = value.trim() ? null : "category image url is required";
+                // Add validation logic for subCategoryImage if needed
                 break;
             default:
                 break;
@@ -52,20 +52,10 @@ const AddSubCategoryModal = ({ onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const emptyFields = Object.entries(formData).filter(([key, value]) => typeof value === 'string' && value.trim() === '');
 
-        if (emptyFields.length > 0) {
-            const newErrors = { ...errors };
-            emptyFields.forEach(([fieldName]) => {
-                newErrors[fieldName] = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
-            });
-            setErrors(newErrors);
-            return;
-        }
+        // Add validation logic for all fields here if needed
 
-        if (Object.values(errors).some(val => val !== null)) {
-            return;
-        }
+        // Dispatch action to add subcategory
         console.log(formData);
         dispatch(addSubcategory(formData));
         handleClose();
@@ -86,17 +76,16 @@ const AddSubCategoryModal = ({ onClose }) => {
                                 <option key={category.categoryId} value={category.categoryId}>{category.categoryName}</option>
                             ))}
                         </select>
-                        <div className="titleError" style={{ color: 'red' }} data-field="categoryId">{errors.categoryId}</div>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="subCategoryName" className="form-label">SubCategory Name</label>
                         <input type="text" className="form-control" id="subCategoryName" name="subCategoryName" value={formData.subCategoryName} onChange={handleChange} />
-                        <div className="titleError" style={{ color: 'red' }} data-field="subCategoryName">{errors.subCategoryName}</div>
+                        {/* Display error message for subCategoryName if any */}
                     </div>
                     <div className="mb-3">
                         <label htmlFor="subCategoryImage" className="form-label">SubCategory Image URL</label>
                         <input type="text" className="form-control" id="subCategoryImage" name="subCategoryImage" value={formData.subCategoryImage} onChange={handleChange} />
-                        <div className="titleError" style={{ color: 'red' }} data-field="subCategoryImage">{errors.subCategoryImage}</div>
+                        {/* Display error message for subCategoryImage if any */}
                     </div>
                     <div className="d-flex justify-content-end">
                         <button type="button" className="btn btn-secondary" onClick={handleClose}>Cancel</button>&nbsp;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../customer/loginstyle.css";
 
 export function LoginFormAdmin() {
@@ -8,6 +8,8 @@ export function LoginFormAdmin() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+  const [forgotPasswordEmailError, setForgotPasswordEmailError] = useState("");
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
@@ -54,6 +56,16 @@ export function LoginFormAdmin() {
     }
   };
 
+  const handleForgotPasswordEmailChange = (e) => {
+    const { value } = e.target;
+    setForgotPasswordEmail(value);
+    if (!isValidEmail(value.trim())) {
+      setForgotPasswordEmailError("Please enter a valid email address");
+    } else {
+      setForgotPasswordEmailError("");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -78,12 +90,32 @@ export function LoginFormAdmin() {
     setShowForgotPasswordModal(true);
   };
 
-  const handleProceedForgotPassword = () => {
-    if (isValidEmail(email)) {
-      setShowForgotPasswordModal(false);
-      setShowResetPasswordModal(true);
+  const handleProceedForgotPassword = async () => {
+    if (isValidEmail(forgotPasswordEmail)) {
+      try {
+        const response = await fetch('http://localhost:8086/api/admins/verify-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: forgotPasswordEmail })
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+
+          if (responseData.email) {
+            setShowForgotPasswordModal(false);
+            setShowResetPasswordModal(true);
+          } else {
+            setForgotPasswordEmailError("Email not found");
+          }
+        } else {
+          setForgotPasswordEmailError("Email not found");
+        }
+      } catch (error) {
+        setForgotPasswordEmailError("An error occurred. Please try again.");
+      }
     } else {
-      setEmailError("Please enter a valid email address or phone number");
+      setForgotPasswordEmailError("Please enter a valid email address");
     }
   };
 
@@ -107,10 +139,34 @@ export function LoginFormAdmin() {
     }
   };
 
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
     if (isValidPassword(newPassword) && newPassword === confirmPassword) {
-      setShowResetPasswordModal(false);
-      navigate("/admin");
+      try {
+        const response = await fetch(
+          `http://localhost:8086/api/admins/reset-admin-password`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: forgotPasswordEmail, newPassword }),
+          }
+        );
+
+        if (response.ok) {
+          setShowResetPasswordModal(false);
+          navigate("/adminhome");
+        } else {
+          setConfirmPasswordError("Failed to reset password. Please try again.");
+        }
+      } catch (error) {
+        setConfirmPasswordError("An error occurred. Please try again.");
+      }
+    } else {
+      if (!isValidPassword(newPassword)) {
+        setNewPasswordError("Invalid Password");
+      }
+      if (newPassword !== confirmPassword) {
+        setConfirmPasswordError("Passwords do not match");
+      }
     }
   };
 
@@ -142,7 +198,7 @@ export function LoginFormAdmin() {
 
   const handleCloseModal = () => {
     setShowSuccessModal(false);
-    navigate("/dashboard"); // Redirect to admin dashboard
+    navigate("/dashboard");
   };
 
   return (
@@ -232,11 +288,11 @@ export function LoginFormAdmin() {
           <Form.Control
             type="text"
             placeholder="Enter your email"
-            value={email}
-            onChange={handleEmailChange}
+            value={forgotPasswordEmail}
+            onChange={handleForgotPasswordEmailChange}
           />
           <Form.Text className="error" style={{ color: "red" }}>
-            {emailError}
+            {forgotPasswordEmailError}
           </Form.Text>
         </Modal.Body>
         <Modal.Footer>
@@ -261,12 +317,9 @@ export function LoginFormAdmin() {
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="newPassword">
-            <Form.Label>
-              New Password<span style={{ color: "red" }}>*</span>
-            </Form.Label>
+            <Form.Label>New Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="New Password"
               value={newPassword}
               onChange={handleNewPasswordChange}
             />
@@ -275,12 +328,9 @@ export function LoginFormAdmin() {
             </Form.Text>
           </Form.Group>
           <Form.Group controlId="confirmPassword">
-            <Form.Label>
-              Confirm Password<span style={{ color: "red" }}>*</span>
-            </Form.Label>
+            <Form.Label>Confirm New Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Confirm Password"
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
             />
@@ -297,7 +347,7 @@ export function LoginFormAdmin() {
             Close
           </Button>
           <Button variant="primary" onClick={handleResetPassword}>
-            OK
+            Reset Password
           </Button>
         </Modal.Footer>
       </Modal>

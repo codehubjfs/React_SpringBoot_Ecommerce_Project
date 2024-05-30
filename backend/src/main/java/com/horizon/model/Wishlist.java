@@ -1,4 +1,4 @@
-package com.horizon.customer.model;
+package com.horizon.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -16,16 +16,16 @@ public class Wishlist {
     @Column(name = "product_id", nullable = false)
     private int productId;
 
-    @Column(name = "product_name", nullable = false)
+    @Column(name = "product_name", nullable = true)
     private String productName;
 
-    @Column(name = "product_description", nullable = false)
+    @Column(name = "product_description", nullable = true)
     private String productDescription;
 
-    @Column(name = "product_price", nullable = false)
+    @Column(name = "product_price", nullable = true)
     private String productPrice;
 
-    @Column(name = "product_image_url", nullable = false)
+    @Column(name = "product_image_url", nullable = true)
     private String productImageUrl;
 
     @ManyToOne

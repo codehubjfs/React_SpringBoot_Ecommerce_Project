@@ -1,57 +1,70 @@
 import React from 'react';
-import '../index.css';
-import '../title.css';
-import Nav from "react-bootstrap/Nav";
-import { Link } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
+import styles from './sidebar1.module.css'; // Import the CSS module
 
-const Sidebar = () => {
-    return (
-        <div className="container-fluid">
-            <div className="row">
-                <div className="col-12 col-md-3 sellersidebar">
-                    <ul className="" style={{ marginTop: '30px' }}>
-                        <li className="sellernav-item">
-                            <Nav.Link as={Link} to="/home">
-                                <span>🏠 Home</span>
-                            </Nav.Link>
-                        </li>
-                        <li className="sellernav-item">
-                            <Nav.Link as={Link} to="/Inventory">
-                                <span>📦 Inventory</span>
-                            </Nav.Link>
-                        </li>
-                        <li className="sellernav-item">
-                            <Nav.Link as={Link} to="/ProductRequest">
-                                <span>🛒 Product Request</span>
-                            </Nav.Link>
-                        </li>
-                        <li className="sellernav-item">
-                            <Nav.Link as={Link} to="/Product">
-                                <span>ℹ Product Q/A</span>
-                            </Nav.Link>
-                        </li>
-                        <li className="sellernav-item">
-                            <Nav.Link as={Link} to="/TableDetails">
-                                <span>📋 Report</span>
-                            </Nav.Link>
-                        </li>
-                        <li className="sellernav-item">
-                            <Nav.Link as={Link} to="/Support">
-                                <span>❤ Support/Help</span>
-                            </Nav.Link>
-                        </li>
-                    </ul>
-                    {/* <div className="sidebar-video embed-responsive embed-responsive-16by9">
-                        <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/rIJwIrGRYAk" frameBorder="0" allowFullScreen></iframe>
-                    </div> */}
-                </div>
-                <div className="col-12 col-md-9">
-                    {/* Your main content goes here */}
-                </div>
-            </div>
-        </div>
-    );
-}
+const SellerSidebar = ({ isSidebarVisible }) => {
+  return (
+    <div className={`${styles.SellerSidebar} ${isSidebarVisible ? styles.visible : styles.hidden}`} style={{ marginTop: '60px' }}>
+      
+      <div className={styles.SellerSidebarMenu}>
+        <ul>
+        
+          <li>
+<<<<<<< HEAD
+            <Link to="/home" className={styles.active}><span className="las la-chalkboard"></span>
+              <span className={styles.Span}><i class="fa-sharp fa-solid fa-house"></i> Dashboard</span></Link>
+          </li>
+          <li>
+            <Link to="/Inventory"><span className="las la-gifts"></span>
+              <span className={styles.Span}>📦 Inventory</span></Link>
+          </li>
+          <li>
+            <Link to="/ProductRequest"><span className="las la-truck"></span>
+              <span className={styles.Span}>🛒 Product Request</span></Link>
+          </li>
+          <li>
+            <Link to="/Product"><span className="lab la-hotjar"></span>
+              <span className={styles.Span}><img width="25" height="25" src="https://img.icons8.com/emoji/48/question-mark-emoji.png" alt="question-mark-emoji"/> Product Q/A</span></Link>
+          </li>
+          <li>
+            <Link to="/TableDetails"><span className="las la-user-circle"></span>
+              <span className={styles.Span}>📋 Report</span></Link>
+          </li>
+          <li>
+            <Link to="/Support"><span className="las la-user-circle"></span>
+=======
+            <Link to="/home" className={styles.active}><span ></span>
+              <span className={styles.Span}><i class="fa-sharp fa-solid fa-house"></i> Dashboard</span></Link>
+          </li>
+          <li>
+            <Link to="/Inventory"><span ></span>
+              <span className={styles.Span}>📦 Inventory</span></Link>
+          </li>
+          <li>
+            <Link to="/ProductRequest"><span></span>
+              <span className={styles.Span}>🛒 Product Request</span></Link>
+          </li>
+          <li>
+            <Link to="/Product"><span></span>
+              <span className={styles.Span}><img width="25" height="25" src="https://img.icons8.com/emoji/48/question-mark-emoji.png" alt="question-mark-emoji"/> Product Q/A</span></Link>
+          </li>
+          <li>
+            <Link to="/TableDetails"><span ></span>
+              <span className={styles.Span}>📋 Report</span></Link>
+          </li>
+          <li>
+            <Link to="/Support"><span></span>
+>>>>>>> dbb67c4e42ab8d22227bd13c41487e9b5832379a
+              <span className={styles.Span}>❤ Support/Help</span></Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+};
 
-export default Sidebar;
+<<<<<<< HEAD
+export default SellerSidebar;
+=======
+export default SellerSidebar;
+>>>>>>> dbb67c4e42ab8d22227bd13c41487e9b5832379a

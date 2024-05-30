@@ -84,8 +84,21 @@ const initialState = {
   sellerDetails: {},
   activeSellers: [],
   suspendedSellers: [],
+  sellerName: '',
+  companyName: '',
+  phone: '',
+  email: '',
+  password: '',
+  gstin: '',
+  building: '',
+  city: '',
+  state: '',
+  pincode: '',
+  country: 'India',
+  accountNumber: '',
+  ifscCode: '',
   status: 'idle',
-  error: null,
+  error: null
 };
 
 const sellerDetailsSlice = createSlice({
@@ -108,6 +121,7 @@ const sellerDetailsSlice = createSlice({
       .addCase(fetchSellerDetails.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.sellerDetails = action.payload;
+        sessionStorage.setItem('sellerDetails', JSON.stringify(action.payload));
       })
       .addCase(fetchSellerDetails.rejected, (state, action) => {
         state.status = 'failed';
@@ -161,7 +175,7 @@ const sellerDetailsSlice = createSlice({
       })
       .addCase(updateSellerDetailsInDB.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.sellerDetails = { ...state.sellerDetails, ...action.payload };
+        Object.assign(state, action.payload);
         console.log('Seller details updated successfully:', action.payload);
       })
       .addCase(updateSellerDetailsInDB.rejected, (state, action) => {

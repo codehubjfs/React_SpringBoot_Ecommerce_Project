@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts, deleteProduct } from '../slices/productSlice';
+import { fetchAllProducts, deleteProduct } from '../Slices/productSlice';
 import ElectronicProductFormModal from './ElectronicProductFormModal';
 import FurnitureFormModal from './FurnitureFormModal';
-import BeautyProductFormModal from './BeautyproductModal';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
-import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
-import $ from 'jquery';
+import BeautyProductFormModal from './BeautyProductModal';
 import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Table } from 'react-bootstrap';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import $ from 'jquery';
+import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
+import { Link } from 'react-router-dom';
 
 const ProductTable = () => {
     const dispatch = useDispatch();
@@ -15,7 +17,6 @@ const ProductTable = () => {
     const status = useSelector((state) => state.products.status);
     const error = useSelector((state) => state.products.error);
     const navigate = useNavigate();
-    const tableRef = useRef(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [isElectronicModal, setIsElectronicModal] = useState(false);
     const [isFurnitureModal, setIsFurnitureModal] = useState(false);
@@ -27,14 +28,21 @@ const ProductTable = () => {
         }
     }, [status, dispatch]);
 
+    
     useEffect(() => {
-        if (products.length > 0) {
-            if ($.fn.DataTable.isDataTable('#productTable')) {
-                $('#productTable').DataTable().destroy();
-            }
-            $(tableRef.current).DataTable();
+        if (status === 'succeeded') {
+            const table = $('#productTable').DataTable({
+                dom: '<"row justify-content-end"<"col-sm-12 col-md-6 text-right"l><"col-sm-12 col-md-6 text-right"f>>' +
+                     '<"row"<"col-sm-12"tr>>' +
+                     '<"row justify-content-end"<"col-sm-12 col-md-6 text-right"i><"col-sm-12 col-md-6 text-right"p>>',
+                destroy: true,
+            });
+
+            return () => {
+                table.destroy(true);
+            };
         }
-    }, [products]);
+    }, [products, status]);
 
     const handleView = (product) => {
         setSelectedProduct(product);
@@ -70,55 +78,48 @@ const ProductTable = () => {
     }
 
     return (
-        <div>
-            <table
-                id="productTable"
-                className="table table-striped table-bordered"
-                style={{ width: '100%' }}
-                ref={tableRef}
-            >
-                <thead className="bg-dark text-white text-center bold-header">
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Sub-Category</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Brand</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map((product, index) => (
-                        <tr key={product.productId}>
-                            <td>{index + 1}</td>
-                            <td>{product.productTitle}</td>
-                            <td>{product.category}</td>
-                            <td>{product.subCategory}</td>
-                            <td>{product.price}</td>
-                            <td>{product.stock}</td>
-                            <td>{product.brand}</td>
-                            <td>
-                                <button
-                                    type="button"
-                                    className="btn btn-view"
-                                    onClick={() => handleView(product)}
-                                >
-                                    <i className="bi bi-eye"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-delete"
-                                    onClick={() => handleDelete(product.productId)}
-                                >
-                                    <i className="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <Container>
+            <div className="col-12 d-flex justify-content-end mb-2">
+                <Link to="/dashboard/products/addproduct" className="active">
+                    <button type="button" className="btn btn-primary" id="addbtn">Add product</button>
+                </Link>
+            </div>
+            <Row>
+                <Col lg={12}>
+                    <Table id="productTable" striped bordered hover>
+                        <thead className="bg-dark text-white text-center bold-header">
+                            <tr>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>ID</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Title</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Category</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Sub-Category</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Price</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Stock</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Brand</th>
+                                <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((product) => (
+                                <tr key={product.productId}>
+                                    <td>{product.productId}</td>
+                                    <td>{product.productTitle}</td>
+                                    <td>{product.category}</td>
+                                    <td>{product.subCategory}</td>
+                                    <td>{product.price}</td>
+                                    <td>{product.stock}</td>
+                                    <td>{product.brand}</td>
+                                    <td style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-around' }}>
+                                        <i className="fas fa-eye" onClick={() => handleView(product)}></i>
+                                        <i className="fas fa-trash-alt" onClick={() => handleDelete(product.productId)}></i>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+
             {isElectronicModal && selectedProduct && (
                 <ElectronicProductFormModal
                     initialFormData={selectedProduct}
@@ -137,7 +138,7 @@ const ProductTable = () => {
                     closeModal={closeModal}
                 />
             )}
-        </div>
+        </Container>
     );
 };
 

@@ -22,9 +22,11 @@ import Electronics from "../pages/Electronics";
 import ProductDetailPage from "../pages/ProductDetailsPage";
 import ProductCheckoutPage from "../pages/Checkout";
 import { Layout } from "../layouts/Layout";
+import ScrollToTop from "./ScrolltoTop";
 export function AllRoutes() {
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

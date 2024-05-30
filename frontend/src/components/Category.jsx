@@ -20,6 +20,8 @@ function Breadcrumb() {
 function Category(){
     return(
         <>
+        <br />
+        <br />
         <Breadcrumb/>
         <h2 className="text-center">Category</h2>  
         <hr />   

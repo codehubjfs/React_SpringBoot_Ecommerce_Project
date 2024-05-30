@@ -1,133 +1,81 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
 import $ from 'jquery';
 import 'datatables.net-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 
-function Report({ data }) {
-  const [editMode, setEditMode] = useState(false);
-  const [editedData, setEditedData] = useState(null);
+function Report() {
+  const dispatch = useDispatch();
+  const sellerDetails = useSelector((state) => state.sellerDetails);
+  const orders = useSelector((state) => state.orders.orders);
+  const status = useSelector((state) => state.orders.status);
   const dataTableRef = useRef(null);
+  const tableInstance = useRef(null);
+  const sellerId = sellerDetails ? sellerDetails.sellerId : null;
 
   useEffect(() => {
-    if (dataTableRef.current) {
-      $(dataTableRef.current).DataTable();
+    if (sellerId) {
+      const storedOrders = JSON.parse(sessionStorage.getItem('orders'));
+      if (storedOrders && storedOrders.sellerId === sellerId) {
+        dispatch(setOrdersFromSession(storedOrders));
+      } else {
+        dispatch(fetchOrders(sellerId));
+      }
+    }
+  }, [sellerId, dispatch]);
+
+  useEffect(() => {
+    if (!tableInstance.current && orders.length > 0) {
+      tableInstance.current = $(dataTableRef.current).DataTable();
+    } else if (tableInstance.current) {
+      tableInstance.current.clear().rows.add(orders).draw();
     }
     return () => {
-      if ($.fn.dataTable.isDataTable(dataTableRef.current)) {
-        $(dataTableRef.current).DataTable().destroy();
+      if (tableInstance.current) {
+        tableInstance.current.destroy();
+        tableInstance.current = null;
       }
     };
-  }, [data]);
-
-  const handleEditClick = (item) => {
-    setEditedData(item);
-    setEditMode(true);
-  };
-
-  const handleSaveClick = () => {
-    // Handle saving the edited data here, for example, by calling an API
-    setEditMode(false);
-  };
-
-  const handleDeleteClick = (index) => {
-    // Update the data array by removing the item at the given index
-    const newData = data.filter((_, i) => i !== index);
-    // Update the state or handle data removal logic
-  };
-
-  const handleChange = (e, key) => {
-    const { value } = e.target;
-    setEditedData((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
-  };
+  }, [orders]);
 
   return (
-    <div className="report-table-container" style={{marginTop:'80px !important'}}>
-      <h2 className="mt-3" id="product" >Report</h2>
+    <div className="report-table-container" style={{ marginLeft: 0 }}>
+      <h2 className="mt-5" id="product">Report</h2>
       <table className="table table-striped table-bordered" ref={dataTableRef}>
         <thead>
           <tr>
             <th>S.No</th>
             <th>Order ID</th>
-            <th>Payment status</th>
-            <th style={{textAlign:'left'}}>Amount paid</th>
-            <th style={{textAlign:'left'}}>Date</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Delivery Date</th>
+            <th>Order Date</th>
+            <th>Product Name</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr
-              key={index}
-              style={{
-                backgroundColor: editMode && editedData && editedData.orderId === item.orderId ? '#db8d8d' : '',
-              }}
-            >
-              <td style={{textAlign:'center'}}>{index + 1}</td>
-              <td >
-                {editMode && editedData && editedData.orderId === item.orderId ? (
-                  <input
-                    type="text"
-                    className="report-table-input"
-                    value={editedData.orderId}
-                    // onChange={(e) => handleChange(e, 'orderId')}
-                  />
-                ) : (
-                  item.orderId
-                )}
-              </td>
+          {orders.length > 0 ? orders.map((item, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{item.orderid}</td>
+              <td>{item.price}</td>
+              <td>{item.status}</td>
+              <td>{new Date(item.deliveryDate).toLocaleDateString()}</td>
+              <td>{new Date(item.orderDate).toLocaleDateString()}</td>
+              <td>{item.productName}</td>
               <td>
-                {editMode && editedData && editedData.orderId === item.orderId ? (
-                  <input
-                    type="text"
-                    className="report-table-input"
-                    value={editedData.paymentStatus}
-                    // onChange={(e) => handleChange(e, 'paymentStatus')}
-                  />
-                ) : (
-                  item.paymentStatus
-                )}
+                <span className="report-table-delete-icon">
+                  &#128465;
+                </span>
               </td>
-              <td  style={{textAlign:'center'}}>
-                {editMode && editedData && editedData.orderId === item.orderId ? (
-                  <input
-                    type="text"
-                    className="report-table-input"
-                    value={editedData.orderIssue}
-                   
-                    // onChange={(e) => handleChange(e, 'orderIssue')}
-                  />
-                ) : (
-                  item.orderIssue
-                )}
-              </td>
-              <td style={{textAlign:'center'}}>
-                {editMode && editedData && editedData.orderId === item.orderId ? (
-                  <input
-                    type="text"
-                    className="report-table-input"
-                    // value={editedData.date}
-                   
-                  />
-                ) : (
-                  item.date
-                )}
-              </td>
-              <td>
-                  {editMode && editedData && editedData.orderId === item.orderId ? (
-                    <span className="report-table-save-icon" onClick={() => handleSaveClick(item.orderId)}>
-                      &#128190;
-                    </span>
-                  ) : (
-                    <span className="report-table-delete-icon" onClick={() => handleDeleteClick(index)}>
-                      &#128465;
-                    </span>
-                  )}
-                </td>
             </tr>
-          ))}
+          )) : (
+            <tr>
+              <td colSpan="8" style={{ textAlign: 'center' }}>No orders found</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

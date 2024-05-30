@@ -1,4 +1,4 @@
-package com.horizon.customer.service;
+package com.horizon.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.horizon.customer.model.Cart;
-import com.horizon.customer.repository.CartRepository;
-import com.horizon.customer.repository.CustomerRepository;
+import com.horizon.model.Cart;
+import com.horizon.repository.CartRepository;
+import com.horizon.repository.CustomerRepository;
 @Service
 public class CartService {
 	

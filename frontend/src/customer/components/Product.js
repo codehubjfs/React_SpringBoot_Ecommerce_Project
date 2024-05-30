@@ -2,89 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { GeneralProductCard } from "./Productdatas";
 import "../Producte.css";
-function Product() {
-  const products = [
-    {
-      imgSrc:
-        "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-storage-select-202209-6-1inch-purple?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=166069164708",
-      title: "I Phone 14",
-      description:
-        "6.7-inch Super Retina XDR display A15 Bionic chip 3,095mAh battery with MagSafe charging",
-      price: "₹87,999",
-      buyNowLink: "../baba/E-commerce/html/iphone 14.html",
-    },
-    {
-      imgSrc: "https://m.media-amazon.com/images/I/61o+TmqKoSL._SL1080_.jpg",
-      title: "UHUD CRAFTS",
-      description:
-        "A to Z Furniture Classic 4 Seater Footrest Chesterfield Sofa Best Comfortable sofa Affordable Price",
-      price: "₹30,999",
-      buyNowLink: "../baba/E-commerce/html/sofa1.html",
-    },
-    {
-      imgSrc: "https://m.media-amazon.com/images/I/71LZ9d0NQXL._SL1500_.jpg",
-      title: "Ergonomic Video Game Chair",
-      description:
-        "Gaming chair Most Comfortable Ultimate Gaming Chairs  Elevate Your Gaming Experience",
-      price: "₹30,999",
-      buyNowLink: "../baba/E-commerce/html/chair2.html",
-    },
-    {
-      imgSrc:
-        "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone15-digitalmat-gallery-1-202309_GEO_EMEA?wid=728&hei=666&fmt=png-alpha&.v=1693346853438",
-      title: "I phone 15 plus 5G",
-      description:
-        "Apple iPhone 15 5G 6.7-inch Super Retina XDR display Triple-lens rear camera system with 48MP main camera",
-      price: "₹69,999",
-      buyNowLink: "../baba/E-commerce/html/i phone 15 plus.html",
-    },
-    {
-      imgSrc: "https://m.media-amazon.com/images/I/51fOjAfVLYL._SX569_.jpg",
-      title: "Callas Table",
-      description:
-        "Computer Desk Home/Office Desk 29.52 Inch Height Writing Modern  Desk | Sturdy Small Desks for Small Spaces",
-      price: "₹3,000",
-      buyNowLink: "../baba/E-commerce/html/table1.html",
-    },
-    {
-      imgSrc: "https://m.media-amazon.com/images/I/71cekUgPFUL._SL1500_.jpg",
-      title: "I Phone 15 Pro",
-      description:
-        "Super Retina XDR display 15.54 cm / 6.1″ (diagonal) all-screen OLED display 2556x1179-pixel resolution at 460 ppi",
-      price: "₹1,34,900",
-      buyNowLink: "../baba/E-commerce/html/i phone 15 pro.html",
-    },
-    {
-      imgSrc: "https://m.media-amazon.com/images/I/513I7-J-HqL._SL1302_.jpg",
-      title: "UHUD CRAFTS",
-      description:
-        "Beautiful Antique Wooden Fold-able Side Table | Most Elegant Table In the  Segment  Affordable",
-      price: "₹1,999",
-      buyNowLink: "../baba/E-commerce/html/table2.html",
-    },
-    {
-      imgSrc:
-        "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone15-digitalmat-gallery-1-202309_GEO_EMEA?wid=728&hei=666&fmt=png-alpha&.v=1693346853438",
-      title: "I phone 15",
-      description:
-        "Apple iPhone 15 5G 6.7-inch Super Retina XDR display Triple-lens rear camera system with 48MP main camera",
-      price: "₹69,999",
-      buyNowLink: "../baba/E-commerce/html/i phone 15.html",
-    },
-    {
-      imgSrc: "https://m.media-amazon.com/images/I/61o+TmqKoSL._SL1080_.jpg",
-      title: "UHUD CRAFTS",
-      description:
-        "A to Z Furniture Classic 4 Seater Footrest Chesterfield Sofa Best Comfortable sofa Affordable Price",
-      price: "₹30,999",
-      buyNowLink: "../baba/E-commerce/html/sofa1.html",
-    },
-  ];
+import { useDispatch, useSelector } from "react-redux";
+import { useAuth } from "../AuthContext";
+import {
+  fetchWishlist,
+  addItemToWishlist,
+  removeItemFromWishlist,
+} from "../slices/WishlistSlice";
 
+function Product() {
   return (
     <div className="container mt-5">
       <h3 style={{ textAlign: "center", fontFamily: "sans-serif" }}>
-        PRODUCTS{" "}
+        PRODUCTS
       </h3>
       <br />
       <div className="row">
@@ -105,8 +35,51 @@ const ProductCard = ({
   price,
   ratings,
 }) => {
-  // Define your star rating logic here
+  const dispatch = useDispatch();
+  const items = useSelector((state) => state.wishlist.items);
+  const customer = useSelector((state) => state.customers.customers);
+  const { isLoggedIn, login, logout } = useAuth();
 
+  const handleLikeButtonClick = (
+    productId,
+    imageSrc,
+    title,
+    description,
+    price,
+    ratings
+  ) => {
+    console.log(items);
+    const isItemInWishlist = items.some(
+      (wishlistItem) => wishlistItem.id === productId
+    );
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
+
+    if (isItemInWishlist) {
+      dispatch(
+        removeItemFromWishlist({
+          id: productId,
+          customerId: parsedCustomer.id,
+        })
+      );
+    } else {
+      console.log(items);
+      dispatch(
+        addItemToWishlist({
+          ProductCard: {
+            productId,
+            imageSrc,
+            title,
+            description,
+            price,
+            ratings,
+          },
+          customerId: parsedCustomer.id,
+        })
+      );
+    }
+  };
+  const handleCartButtonClick = () => {};
   return (
     <div className="col-md-4 mb-4">
       <div className="card-p">
@@ -139,10 +112,44 @@ const ProductCard = ({
           </p>
         </div>
         <div className="buttons-container">
-          <button type="button" className="btn btn-custom-orange shadow-0">
+          <button
+            type="button"
+            className="btn btn-custom-orange shadow-0"
+            onClick={() => {
+              if (isLoggedIn) {
+                handleCartButtonClick(
+                  productId,
+                  imageSrc,
+                  title,
+                  description,
+                  price,
+                  ratings
+                );
+              } else {
+                window.location.href = "/signin";
+              }
+            }}
+          >
             <i className="fas fa-cart-plus"></i>
           </button>
-          <button type="button" className="like-btn">
+          <button
+            type="button"
+            className="like-btn"
+            onClick={() => {
+              if (isLoggedIn) {
+                handleLikeButtonClick(
+                  productId,
+                  imageSrc,
+                  title,
+                  description,
+                  price,
+                  ratings
+                );
+              } else {
+                window.location.href = "/signin";
+              }
+            }}
+          >
             <i className="fas fa-heart"></i>
           </button>
           <Link

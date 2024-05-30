@@ -132,7 +132,7 @@ const orderSlice = createSlice({
       });
   },
 });
-  
+
 export const { setSelectedOrder } = orderSlice.actions;
 
 export default orderSlice.reducer;
