@@ -80,4 +80,20 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during password reset");
         }
     }
+    @PostMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestBody Map<String, String> request) {
+        try {
+            String email = request.get("email");
+            System.out.println("Received email: " + email); // Debugging statement
+            Admin admin = adminService.getAdminByEmail(email);
+
+            return admin != null ?
+                ResponseEntity.ok(admin) :
+                ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during email verification");
+        }
+    }
+
 }
