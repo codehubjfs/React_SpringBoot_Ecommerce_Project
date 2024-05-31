@@ -36,8 +36,9 @@ const Order = () => {
   }, [orderStatus, totalOrders, revenue, pendingOrders]);
 
   return (
-    <div style={{ margin: '20px', textAlign: 'center' }}>
-      <h1 className='mt-2'>Orders</h1>
+    <div style={{ margin: '20px'}}>
+                <br></br>
+      <h1 className='mt-2 text-center'>Orders</h1>
       <hr />
       <DescriptionCard title="Welcome to the Orders Page">
         Here, you can manage all the orders placed by customers.

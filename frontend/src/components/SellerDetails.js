@@ -4,6 +4,9 @@ import { Button, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fetchActiveSellers, fetchSuspendedSellers, suspendSeller, deactivateSeller, setSelectedSeller, activateSeller } from '../slices/sellerSlices';
 import ViewSellerModal from './ViewSellerModal';
+import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+import $ from 'jquery';
+import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 
 function Breadcrumb() {
     return (
@@ -29,6 +32,13 @@ const SellerDetails = () => {
         dispatch(fetchActiveSellers());
         dispatch(fetchSuspendedSellers());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (status === 'succeeded') {
+            $('#activeSellersTable').DataTable();
+            $('#suspendedSellersTable').DataTable();
+        }
+    }, [status]);
 
     const handleView = (seller) => {
         dispatch(setSelectedSeller(seller));
@@ -66,7 +76,7 @@ const SellerDetails = () => {
                 {status === 'succeeded' && (
                     <>
                         <h5 className="fw-bold mb-3">Active Sellers</h5>
-                        <Table striped bordered hover>
+                        <Table id="activeSellersTable" striped bordered hover>
                             <thead className="bg-secondary text-white" style={{ backgroundColor: 'black' }}>
                                 <tr className="text-center">
                                     <th>#</th>
@@ -102,7 +112,7 @@ const SellerDetails = () => {
                         </Table>
 
                         <h5 className="fw-bold mt-5 mb-3">Suspended Sellers</h5>
-                        <Table striped bordered hover>
+                        <Table id="suspendedSellersTable" striped bordered hover>
                             <thead className="bg-secondary text-white">
                                 <tr className="text-center">
                                     <th>#</th>

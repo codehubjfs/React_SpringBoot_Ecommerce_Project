@@ -491,7 +491,7 @@ function CreateAccount() {
                   value={formData.area}
                   onChange={handleChange}
                 />
-                {errors.address && (
+                {errors.area && (
                   <Form.Text
                     className="error-message"
                     id="ad"

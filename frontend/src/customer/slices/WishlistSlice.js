@@ -36,15 +36,13 @@ export const addItemToWishlist = createAsyncThunk(
           body: JSON.stringify(ProductCard),
         }
       );
-      if (!response.ok) {
-        throw new Error(
-          "Failed to add item to wishlist: " + response.statusText
-        );
+      if (response.ok) {
+        console.log("entered the response ");
+        const data = await response.json();
+        return data;
       }
-      const data = await response.json();
-      return data;
     } catch (error) {
-      console.error("Error adding item to wishlist:", error);
+      console.error("Error adding item to wishlist: this is the error ", error);
       throw error;
     }
   }
