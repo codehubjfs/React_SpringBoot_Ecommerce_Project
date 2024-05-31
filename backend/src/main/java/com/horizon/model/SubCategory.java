@@ -1,72 +1,40 @@
 package com.horizon.model;
-
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "sub_category")
+@Table(name = "subcategories")
 public class SubCategory {
     @Id
-    @SequenceGenerator(name = "subcategory_seq", sequenceName = "subcategory_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subcategory_seq")
-    @Column(name = "sub_category_id")
-    private int subCategoryId;
-
-    @Column(name = "sub_category_name")
-    private String subCategoryName;
-
-    @Column(name = "category_id", insertable = false, updatable = false)
-    private int categoryId;
-
-    @Column(name = "sub_category_image")
-    private String subCategoryImage;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subcategory_generator")
+    @SequenceGenerator(name="subcategory_generator", sequenceName = "subcategory_seq", allocationSize=1)
+    private Long id;
+    private String name;
 
     @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-	public int getSubCategoryId() {
-		return subCategoryId;
-	}
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
 
-	public String getSubCategoryName() {
-		return subCategoryName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public int getCategoryId() {
-		return categoryId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSubCategoryImage() {
-		return subCategoryImage;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Category getCategory() {
-		return category;
-	}
+    public Category getCategory() {
+        return category;
+    }
 
-	public void setSubCategoryId(int subCategoryId) {
-		this.subCategoryId = subCategoryId;
-	}
-
-	public void setSubCategoryName(String subCategoryName) {
-		this.subCategoryName = subCategoryName;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public void setSubCategoryImage(String subCategoryImage) {
-		this.subCategoryImage = subCategoryImage;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }
