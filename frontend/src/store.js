@@ -24,7 +24,7 @@ import offerImageReducer from './slices/OfferImageSlice';
 import sliderImageReducer from './slices/SliderSlice';
 import notificationsReducer from './slices/NotificationSlice';
 import orderReducer from './slices/OrderSlice';
-import paymentReducer from './slices/PaymentSlice';
+import paymentReducer from './slices/paymentSlice';
 
 const store = configureStore({
   reducer: {

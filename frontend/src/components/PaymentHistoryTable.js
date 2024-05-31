@@ -3,7 +3,7 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllPayments } from '../slices/PaymentSlice';
+import { fetchAllPayments } from '../slices/paymentSlice';
 
 function PaymentHistoryTable({ paymentData }) {
     const [filteredData, setFilteredData] = useState(paymentData);
