@@ -6,6 +6,7 @@ import {
   increaseQuantity,
   removeItem,
   fetchCarts,
+  addItemToCart,
 } from "../slices/CartSlice";
 
 function Cart() {
@@ -13,17 +14,22 @@ function Cart() {
   const items = useSelector((state) => state.carts.items) ?? [];
   const status = useSelector((state) => state.carts.status);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
-
+  const customerData = useSelector((state) => state.customers.customer);
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchCarts());
+      dispatch(fetchCarts()); // Fetch cart items
     }
-  }, [status, dispatch]);
+  }, [status, dispatch]); // Update dependency array
+
+  const handleAddToCart = (product) => {
+    // Dispatch action to add item to cart
+    dispatch(addItemToCart({ product }));
+  };
 
   const calculateTotal = () => {
     return items
       .reduce((acc, item) => {
-        const price = parseFloat(item.productPrice);
+        const price = parseFloat(item.price);
         const quantity = parseFloat(item.quantity);
         const subtotal = price * quantity;
         return acc + subtotal;
@@ -75,7 +81,9 @@ function Cart() {
         },
         handler: async (response) => {
           // Handle success
-          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+          alert(
+            "Payment successful! Payment ID: " + response.razorpay_payment_id
+          );
           await completePayment();
         },
         modal: {
@@ -114,14 +122,14 @@ function Cart() {
           {items.map((item) => (
             <tr key={item.id}>
               <td>
-                <img src={item.productImageUrl} alt="Item" />
+              <img src={item.mainImage} alt="Item" style={{ width: "50px", height: "50px" }} />
               </td>
               <td>
                 <a href="#" className="text-decoration-none">
-                  {item.productName}
+                  {item.productTitle}
                 </a>
               </td>
-              <td>₹{parseFloat(item.productPrice).toFixed(2)}</td>
+              <td>₹{parseFloat(item.price).toFixed(2)}</td>
               <td>
                 <Button
                   variant="outline-primary"
@@ -141,9 +149,7 @@ function Cart() {
                   <i className="fas fa-plus"></i>
                 </Button>
               </td>
-              <td>
-                ₹{(parseFloat(item.productPrice) * item.quantity).toFixed(2)}
-              </td>
+              <td>₹{(parseFloat(item.price) * item.quantity).toFixed(2)}</td>
               <td>
                 <Button
                   variant="outline-danger"
