@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts, deleteProduct } from '../Slices/productSlice';
+import { fetchAllProducts, deleteProduct } from '../slices/productSlice';
 import ElectronicProductFormModal from './ElectronicProductFormModal';
 import FurnitureFormModal from './FurnitureFormModal';
-import BeautyProductFormModal from './BeautyProductModal';
+import BeautyProductFormModal from '../components/BeautyproductModal';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
