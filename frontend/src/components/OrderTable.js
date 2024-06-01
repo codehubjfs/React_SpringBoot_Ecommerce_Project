@@ -91,7 +91,9 @@ const OrderTable = ({ orders }) => {
                 <td className="text-center">{order.amount}</td>
                 <td className="text-center">{order.paymentMethod}</td>
                 <td className="text-center" style={{ cursor: 'pointer' }}>
-                  <i className="fas fa-eye text-primary" onClick={() => handleViewOrder(order.id)}></i>
+                  <button className='btn'>
+                  <i className="bi bi-eye" onClick={() => handleViewOrder(order.id)}></i>
+                    </button>
                 </td>
               </tr>
             ))}
