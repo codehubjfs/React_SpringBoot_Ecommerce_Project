@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import "../loginstyle.css";
 import { useDispatch, useSelector } from "react-redux";
-import { loginCustomer, verifyEmail, resetPassword } from "../slices/CustomerSlice";
+import {
+  loginCustomer,
+  verifyEmail,
+  resetPassword,
+} from "../slices/CustomerSlice";
 import { useAuth } from "../AuthContext";
+import SuccessModal from './Loginmodal'; // Import the SuccessModal component
+import "../loginstyle.css";
 
 export function LoginForm() {
   const [loginEmail, setLoginEmail] = useState("");
@@ -22,18 +27,18 @@ export function LoginForm() {
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
-  const [showVerificationCodeModal, setShowVerificationCodeModal] = useState(false);
+  const [showVerificationCodeModal, setShowVerificationCodeModal] =
+    useState(false);
   const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { login } = useAuth();
-  const customerState = useSelector(state => state.customer);
+  const customerState = useSelector((state) => state.customer);
 
   const isValidEmail = (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // const phoneRegex = /^\d{10}$/;
-    return emailRegex.test(value) ;
+    return emailRegex.test(value);
   };
 
   const isValidPassword = (value) => {
@@ -109,10 +114,10 @@ export function LoginForm() {
       dispatch(verifyEmail(modalEmail))
         .unwrap()
         .then((response) => {
-          if (response.status === 'verified') {
+          if (response.status === "verified") {
             setShowForgotPasswordModal(false);
-            setShowResetPasswordModal(true);        
-            } else {
+            setShowResetPasswordModal(true);
+          } else {
             setModalEmailError("Email not found");
           }
         })
@@ -154,7 +159,7 @@ export function LoginForm() {
       dispatch(resetPassword({ email: modalEmail, password: newPassword }))
         .unwrap()
         .then((response) => {
-          if (response.status === 'success') {
+          if (response.status === "success") {
             setShowResetPasswordModal(false);
             navigate("/signin");
           } else {
@@ -167,7 +172,6 @@ export function LoginForm() {
         });
     }
   };
-  
 
   const validateLoginForm = () => {
     let isValid = true;
@@ -202,6 +206,7 @@ export function LoginForm() {
 
   return (
     <Container>
+      
       <Row>
         <Col lg={10}>
           <div className="login-section">
@@ -265,19 +270,8 @@ export function LoginForm() {
           </div>
         </Col>
       </Row>
-      <Modal show={showSuccessModal} onHide={handleCloseModal}>
-        <Modal.Header>
-          <Modal.Title>Login Successful</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>You have successfully logged in!</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+
+      <SuccessModal show={showSuccessModal} handleClose={handleCloseModal} /> {/* Use SuccessModal component here */}
 
       <Modal
         show={showForgotPasswordModal}
@@ -338,10 +332,13 @@ export function LoginForm() {
           >
             Close
           </Button>
-          <Button variant="primary" onClick={() => {
-            setShowVerificationCodeModal(false);
-            setShowResetPasswordModal(true);
-          }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              setShowVerificationCodeModal(false);
+              setShowResetPasswordModal(true);
+            }}
+          >
             Verify
           </Button>
         </Modal.Footer>
@@ -396,6 +393,11 @@ export function LoginForm() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <SuccessModal
+        show={showSuccessModal}
+        handleClose={handleCloseModal}
+        message="Login Successful!"
+      />
     </Container>
   );
 }
