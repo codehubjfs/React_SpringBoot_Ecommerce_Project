@@ -100,7 +100,37 @@ public class OrderController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+	   @GetMapping("/all/{supplierId}")
+    public ResponseEntity<List<Order>> getAllOrdersBySupplierId(@PathVariable int supplierId) {
+        try {
+            List<Order> orders = orderService.getAllOrdersBySupplierId(supplierId);
+            if (orders.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/totalPrice/{supplierId}")
+    public ResponseEntity<Double> getTotalPriceBySupplierId(@PathVariable int supplierId) {
+        try {
+            Double totalPrice = orderService.getTotalPriceBySupplierId(supplierId);
+            if (totalPrice == null) {
+                return new ResponseEntity<>(0.0, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(totalPrice, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @GetMapping("/monthly-counts/{supplierId}")
+    public ResponseEntity<Map<Integer, Long>> getOrderCountsByMonth(@PathVariable int supplierId) {
+        Map<Integer, Long> orderCountsByMonth = orderService.getOrderCountsByMonth(supplierId);
+        return new ResponseEntity<>(orderCountsByMonth, HttpStatus.OK);
+    }
 	}
 
 
