@@ -1,42 +1,58 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import axios from 'axios';
 
 function PeakDays() {
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
 
     useEffect(() => {
-        if (chartRef.current && chartInstance.current) {
-           
-            chartInstance.current.data.datasets[0].data = [60, 50, 20, 60, 80, 40, 70];
-            chartInstance.current.update();
-        } else {
-            
-            const peakDaysData = {
-                labels: ['SUN', 'MON', 'TUES', 'WED', 'THURS', 'FRI', 'SAT'],
-                datasets: [{
-                    label: 'Number of Orders',
-                    data: [60, 50, 20, 60, 80, 40, 70],
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            };
+        const fetchMonthlyData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8086/orders/monthly-counts');
+                const data = response.data;
+                const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'];
+                const orderCounts = new Array(12).fill(0);
 
-            const peakDaysOptions = {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                Object.keys(data).forEach(month => {
+                    orderCounts[month - 1] = data[month];
+                });
+
+                if (chartRef.current && chartInstance.current) {
+                    chartInstance.current.data.datasets[0].data = orderCounts;
+                    chartInstance.current.update();
+                } else {
+                    const peakMonthsData = {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Number of Orders',
+                            data: orderCounts,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    };
+
+                    const peakDaysOptions = {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    };
+
+                    chartInstance.current = new Chart(chartRef.current, {
+                        type: 'line',
+                        data: peakMonthsData,
+                        options: peakDaysOptions
+                    });
                 }
-            };
+            } catch (error) {
+                console.error('Error fetching monthly data', error);
+            }
+        };
 
-            chartInstance.current = new Chart(chartRef.current, {
-                type: 'line',
-                data: peakDaysData,
-                options: peakDaysOptions
-            });
-        }
+        fetchMonthlyData();
     }, []);
 
     return <canvas ref={chartRef} id="peakDaysChart"></canvas>;
