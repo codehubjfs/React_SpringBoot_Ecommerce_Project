@@ -1,0 +1,39 @@
+.image-video-container {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+  }
+  
+  #enlargedImg {
+    width: 100%;
+    height: auto;
+  }
+  
+  
+  @media only screen and (min-width: 320px) {
+    .image-video-container {
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+  
+    #enlargedImg {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  
+  @media only screen and (min-width: 1024px) {
+    .image-video-container {
+      width: 100%;
+      max-width: 600px; 
+      margin: auto;
+    }
+  
+    #enlargedImg {
+      width: 100%;
+      height: auto;
+    }
+  }
