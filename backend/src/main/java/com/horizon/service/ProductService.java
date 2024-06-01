@@ -170,4 +170,12 @@ public class ProductService {
     public List<ProductSalesDTO> getProductSales() {
         return productRepo.countProductsByCategory();
     }
+
+ //Supplier
+    public List<Product> getPendingProductsBySupplierId(int supplierId) {
+        return productRepo.findBySupplierIdAndStatus(supplierId, "Pending");
+    }
+    public List<Product> getRejectedProductsBySupplierId(int supplierId) {
+        return productRepo.findProductsBySupplierIdAndStatus(supplierId, "rejected");
+    }
 }

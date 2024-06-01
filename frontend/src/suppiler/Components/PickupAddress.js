@@ -1,8 +1,32 @@
 import React, { useState, useContext } from 'react';
 import PageLayout from '../Layout/PageLayout';
 import RightContent from '../Layout/RightContent';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FormContext } from '../context/FormContext'; // Import FormContext
+
+function Breadcrumb() {
+    return (
+        <nav aria-label="breadcrumb"> 
+            <ol className="breadcrumb py-3 px-3" style={{ backgroundColor: '#e8e9ea', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                <li className="breadcrumb-item">
+                    <Link to="/homesupplier" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Seller</span>
+                    </Link>  
+                </li>
+                <li className="breadcrumb-item">
+                    <Link to="/registration" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Basic Details</span>
+                    </Link>               
+                 </li>
+                 <li className="breadcrumb-item">
+                    <Link to="/taxdetails" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>GSTIN or EnrollmentID</span>
+                    </Link>               
+                 </li>
+            </ol>
+        </nav>
+    );
+}
 
 function PickupAddress() {
     const { formData, updateFormData } = useContext(FormContext); // Use FormContext
@@ -152,29 +176,33 @@ function PickupAddress() {
     }
 
     return (
+        <>
+         <div style={{marginTop:'40px'}}>
+        <Breadcrumb />
+        </div>
         <PageLayout
             leftContent={
                 <form onSubmit={handleSubmit}>
                     <div className="registercontent">
                         <h2>Pick Address for Delivery</h2>
-                        <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <div className="form-group" >
                             <label htmlFor="building"><strong>Room/Floor/Building Number</strong><span style={{ color: 'red' }}>*</span></label>
                             <input type="text" id="building" name="building" className="form-control" placeholder="Enter Room/Floor/Building Number" value={formData.building} onChange={handleChange} style={{margin:'0'}}/>
                             <span className="error" style={{ color: 'red' }}>{errors.building}</span>
                         </div>
-                        <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <div className="form-group" style={{ marginTop: '10px' }}>
                             <label htmlFor="street"><strong>Street/Locality/Landmark</strong><span style={{ color: 'red' }}>*</span></label>
                             <input type="text" id="street" name="street" className="form-control" placeholder="Enter Street/Locality/Landmark" value={formData.street} onChange={handleChange} style={{margin:'0'}}/>
                             <span className="error" style={{ color: 'red' }}>{errors.street}</span>
                         </div>
-                        <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <div className="form-group" style={{ marginTop: '10px' }}>
                             <label htmlFor="pincode"><strong>Pincode</strong><span style={{ color: 'red' }}>*</span></label>
                             <input type="text" id="pincode" name="pincode" className="form-control" placeholder="Enter Pincode" value={formData.pincode} onChange={handleChange} style={{margin:'0'}}/>
                             <span className="error" style={{ color: 'red' }}>{errors.pincode}</span>
                         </div>
                        
                         
-                        <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <div className="form-group" style={{ marginTop: '10px' }}>
                         <label htmlFor="country"><strong>Country</strong><span style={{ color: 'red' }}>*</span></label>
                         <input 
                             type="text" 
@@ -190,7 +218,7 @@ function PickupAddress() {
                         <span className="error" style={{ color: 'red' }}>{errors.country}</span>
                         </div>
 
-                        <div className="form-group" style={{ marginBottom: '20px' }}>
+                        <div className="form-group" style={{ marginTop: '10px' }}>
                             <label htmlFor="state"><strong>State</strong><span style={{ color: 'red' }}>*</span></label>
                             <select id="state" name="state" className="form-control" value={formData.state} onChange={handleStateChange}>
                                 <option value="">Select State</option>
@@ -210,7 +238,7 @@ function PickupAddress() {
                             </select>
                             <span className="error" style={{ color: 'red' }}>{errors.city}</span>
                         </div>
-                        <button type="submit" className="btn btn-success continue-button">Continue</button>
+                        <button type="submit" id="sellercontinueButton" className="btn btn-primary">Continue</button>
                     </div>
                 </form>
             }
@@ -226,6 +254,7 @@ function PickupAddress() {
             } />}
             specialIconIndex={1} // Set the special icon index to 1 for Pickup Address
         />
+        </>
     );
 }
 

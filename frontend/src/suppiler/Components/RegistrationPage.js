@@ -122,7 +122,7 @@ function RegistrationPage() {
                                 <h2 className="head1">Welcome to Horizon</h2>
                                 <h3 className="head2">Create your account to start selling</h3>
                                 <form id="registrationForm" onSubmit={handleSubmit}>
-                                    <div className="form-group" style={{marginBottom:'10px'}}>
+                                    <div className="form-group" >
                                         <label htmlFor="sellerName"><strong>Mobile Number</strong><span style={{color:"red"}}>*</span></label>
                                         <input 
                                             type="text" 
@@ -136,7 +136,7 @@ function RegistrationPage() {
                                         <span id="numErr" className="error">{mobileNumberError}</span>
                                     </div>
                                     
-                                    <div className="form-group" style={{marginBottom:'10px'}}>
+                                    <div className="form-group" style={{marginTop:'10px'}}>
                                         <label htmlFor="email"><strong>Email</strong><span style={{color:"red"}}>*</span></label>
                                         <input 
                                             type="email" 
@@ -150,7 +150,7 @@ function RegistrationPage() {
                                         <span id="mailErr" className="error">{emailError}</span>
                                     </div>
                                     
-                                    <div className="form-group" style={{marginBottom:'20px'}}>
+                                    <div className="form-group" style={{marginTop:'10px'}}>
                                         <label htmlFor="password"><strong>Password</strong><span style={{color:"red"}}>*</span></label>
                                         <input 
                                             type="password" 
@@ -165,7 +165,7 @@ function RegistrationPage() {
                                         <br />
                                         <div style={{marginTop:"10px"}}>
                                             <small id="passwordHelpBlock" className="form-text text-muted">
-                                                <b style={{color:'black'}}>Password must contain:</b>
+                                                <b style={{color:'black', fontSize:'16px'}}>Password must contain:</b>
                                                 <ul>
                                                     <li><b style={{color:"black"}}>*</b> Minimum 8 characters (letters & numbers)</li>
                                                     <li><b style={{color:"black"}}>*</b> Minimum 1 special character (@ # $ % ! ^ & *)</li>

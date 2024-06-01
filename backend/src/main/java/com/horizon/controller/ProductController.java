@@ -267,4 +267,16 @@ public class ProductController {
     public List<ProductSalesDTO> getProductSales() {
         return productService.getProductSales();
     }
+
+ //Supplier
+    @GetMapping("/supplier/{supplierId}/Pending")
+    public ResponseEntity<List<Product>> getPendingProductsBySupplierId(@PathVariable int supplierId) {
+        List<Product> pendingProducts = productService.getPendingProductsBySupplierId(supplierId);
+        return new ResponseEntity<>(pendingProducts, HttpStatus.OK);
+    }
+    @GetMapping("/supplier/{supplierId}/Rejected")
+    public ResponseEntity<List<Product>> getRejectedProductsBySupplierId(@PathVariable int supplierId) {
+        List<Product> rejectedProducts = productService.getRejectedProductsBySupplierId(supplierId);
+        return new ResponseEntity<>(rejectedProducts, HttpStatus.OK);
+    }
 }

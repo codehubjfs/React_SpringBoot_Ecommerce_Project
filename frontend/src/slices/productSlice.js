@@ -240,6 +240,53 @@ export const fetchProductSales = createAsyncThunk(
   }
 );
 
+//Supplier
+// Async thunk for fetching products by supplierId with status 'Pending' 
+export const fetchPendingProductsBySupplier = createAsyncThunk(
+    'products/fetchPendingProductsBySupplier',
+    async ({ sellerId }, { rejectWithValue }) => {
+      try {
+        const response = await fetch(`http://localhost:8086/products/supplier/${sellerId}/Pending`, {
+          method: "GET",
+          mode: "cors",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" }
+        });
+        if (!response.ok) {
+          throw new Error("Something went wrong while fetching the products");
+        }
+        const pendingProducts = await response.json();
+        console.log(pendingProducts);
+        return pendingProducts;
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
+
+  export const fetchRejectedProductsBySupplier = createAsyncThunk(
+    'products/fetchRejectedProductsBySupplier',
+    async ({ supplierId }, { rejectWithValue }) => {
+      try {
+        const response = await fetch(`http://localhost:8086/products/supplier/${supplierId}/Rejected`, {
+          method: "GET",
+          mode: "cors",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" }
+        });
+        if (!response.ok) {
+          throw new Error("Something went wrong while fetching the rejected products");
+        }
+        const rejectedProducts = await response.json();
+        console.log(rejectedProducts);
+        return rejectedProducts;
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
+  
+
 // Product slice
 const productSlice = createSlice({
   name: 'products',
@@ -375,7 +422,31 @@ const productSlice = createSlice({
     .addCase(fetchProductSales.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
-    });
+    })
+     // Fetch pending products by supplierId
+    .addCase(fetchPendingProductsBySupplier.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchPendingProductsBySupplier.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.products = action.payload;
+      })
+      .addCase(fetchPendingProductsBySupplier.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(fetchRejectedProductsBySupplier.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchRejectedProductsBySupplier.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.rejectedProducts = action.payload;
+      })
+      .addCase(fetchRejectedProductsBySupplier.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
+
   },
 });
 

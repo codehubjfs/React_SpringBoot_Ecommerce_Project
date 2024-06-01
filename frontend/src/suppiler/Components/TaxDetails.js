@@ -1,8 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PageLayout from '../Layout/PageLayout';
 import RightContent from '../Layout/RightContent';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FormContext } from '../context/FormContext'; // Import FormContext
+
+function Breadcrumb() {
+    return (
+        <nav aria-label="breadcrumb"> 
+            <ol className="breadcrumb py-3 px-3" style={{ backgroundColor: '#e8e9ea', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                <li className="breadcrumb-item">
+                    <Link to="/homesupplier" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Seller</span>
+                    </Link>  
+                </li>
+                <li className="breadcrumb-item">
+                    <Link to="/registration" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Basic Details</span>
+                    </Link>               
+                 </li>
+            </ol>
+        </nav>
+    );
+}
+
 
 function TaxDetails() {
     const { formData, updateFormData } = useContext(FormContext); // Use FormContext
@@ -80,6 +100,10 @@ function TaxDetails() {
     }, [formSubmitted, navigate]);
 
     return (
+        <>
+        <div style={{marginTop:'40px'}}>
+        <Breadcrumb />
+        </div>
         <PageLayout
             leftContent={
                 <form id="step1" className="registration-form active" onSubmit={handleSubmit}>
@@ -162,7 +186,7 @@ function TaxDetails() {
                                                 type="button"
                                                 className="btn btn-primary"
                                                 id="enrollment_btns"
-                                                style={{ color: 'white', backgroundColor: 'rgb(78, 77, 77)', height:'45px' }}
+                                                style={{ color: 'white', height:'45px' }}
                                                 onClick={handleVerifyEnrollment}
                                             >
                                                 Verify
@@ -176,7 +200,7 @@ function TaxDetails() {
                             </div>
                         </div >
                         
-                        <button type="submit" id="continueButton" className="btn btn-success continue-button" disabled={!gstinVerified && !enrollmentVerified} >
+                        <button type="submit" id="sellercontinueButton" className="btn btn-primary" disabled={!gstinVerified && !enrollmentVerified} >
                             Continue
                         </button>
                     </div>
@@ -191,7 +215,10 @@ function TaxDetails() {
             } />}
             specialIconIndex={0}
         />
+
+</>
     );
+    
 }
 
 export default TaxDetails;
