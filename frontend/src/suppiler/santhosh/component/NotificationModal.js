@@ -21,8 +21,4 @@ const NotificationModal = ({ show, handleClose }) => {
   );
 };
 
-<<<<<<< HEAD
 export default NotificationModal;
-=======
-export default NotificationModal;
->>>>>>> dbb67c4e42ab8d22227bd13c41487e9b5832379a

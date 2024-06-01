@@ -5,6 +5,7 @@ import ElectronicProductFormModal from './ElectronicProductFormModal';
 import FurnitureFormModal from './FurnitureFormModal';
 import BeautyProductFormModal from './BeautyProductModal';
 import ClothFormModal from './ClothFormModal';
+
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';

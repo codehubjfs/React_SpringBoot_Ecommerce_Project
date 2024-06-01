@@ -218,7 +218,7 @@ import PeakDays from '../components/PeakDays';
 import { fetchCustomers } from '../slices/customerSlice';
 import { fetchAllProducts } from '../slices/productSlice';
 import { getOrdersFromDb } from '../slices/OrderSlice'; // Import getOrdersFromDb
-import { fetchAllPayments, fetchTotalRevenue } from '../slices/PaymentSlice'; // Import fetchAllPayments
+import { fetchAllPayments, fetchTotalRevenue } from '../slices/paymentSlice'; // Import fetchAllPayments
 import product from '../assets/product.jpeg';
 import order from '../assets/order.png';
 import revenue from '../assets/salary.png';
