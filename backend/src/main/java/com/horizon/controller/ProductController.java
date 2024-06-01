@@ -254,6 +254,7 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    //admin-prasanna
     @GetMapping("/today-count")
     public long getTodayProductCount() {
         return productService.getTodayProductCount();
@@ -266,5 +267,10 @@ public class ProductController {
     @GetMapping("/sales")
     public List<ProductSalesDTO> getProductSales() {
         return productService.getProductSales();
+    }
+    @GetMapping("/top-sellers")
+    public ResponseEntity<List<Object[]>> getTopSellers() {
+        List<Object[]> topSellers = productService.getTopSellers();
+        return new ResponseEntity<>(topSellers, HttpStatus.OK);
     }
 }

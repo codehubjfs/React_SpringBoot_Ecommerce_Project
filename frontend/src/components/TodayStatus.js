@@ -199,22 +199,26 @@ function TodayStatus() {
                 console.error('Error fetching today\'s product count:', error);
             }
         };
+        
 
+  
+        const fetchTodayIncome = async () => {
+            try {
+                const response = await fetch('http://localhost:8086/api/payment/today-income');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setIncomeCounter(data);
+            } catch (error) {
+                console.error('Error fetching today\'s income:', error);
+            }
+        };
         fetchTodayCustomerCount();
         fetchTodaySellerCount();
         fetchTodayProductCount();
+        fetchTodayIncome();
 
-        const incomeInterval = setInterval(() => {
-            setIncomeCounter(prevCount => {
-                const newCount = prevCount + 100;
-                return newCount < 10000 ? newCount : prevCount; // Stop at 10000
-            });
-        }, 50);
-
-        // Clear intervals when component unmounts
-        return () => {
-            clearInterval(incomeInterval);
-        };
     }, []);
 
     return (
