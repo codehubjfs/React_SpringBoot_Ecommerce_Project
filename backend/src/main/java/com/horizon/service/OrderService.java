@@ -43,4 +43,23 @@ public class OrderService {
 		return orderRepo.findByStatus(status);
 	}
 	
+	//seller
+    public List<Order> getAllOrdersBySupplierId(int supplierId) {
+        return orderRepo.findBySupplierId(supplierId);
+    }
+    // Get total price by supplier ID
+    public Double getTotalPriceBySupplierId(int supplierId) {
+        return orderRepo.findTotalPriceBySupplierId(supplierId);
+    }
+    public Map<Integer, Long> getOrderCountsByMonth(int supplierId) {
+        List<Object[]> results = orderRepo.findSellerOrderCountsByMonth(supplierId);
+        Map<Integer, Long> orderCountsByMonth = new HashMap<>();
+        for (Object[] result : results) {
+            Integer month = (Integer) result[0];
+            Long count = (Long) result[1];
+            orderCountsByMonth.put(month, count);
+        }
+        return orderCountsByMonth;
+    }
+
 }
