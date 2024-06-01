@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllProducts, deleteProduct } from '../Slices/productSlice';
+import { fetchAllProducts, deleteProduct } from '../slices/productSlice';
 import ElectronicProductFormModal from './ElectronicProductFormModal';
 import FurnitureFormModal from './FurnitureFormModal';
 import BeautyProductFormModal from './BeautyProductModal';
+import ClothFormModal from './ClothFormModal';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import $ from 'jquery';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import { Link } from 'react-router-dom';
+import './ProductTable.css';
 
 const ProductTable = () => {
     const dispatch = useDispatch();
@@ -21,6 +23,9 @@ const ProductTable = () => {
     const [isElectronicModal, setIsElectronicModal] = useState(false);
     const [isFurnitureModal, setIsFurnitureModal] = useState(false);
     const [isBeautyModal, setIsBeautyModal] = useState(false);
+    const [isClothModal, setIsClothModal] = useState(false);
+    const tableRef = useRef(null);
+    const dataTableRef = useRef(null);
 
     useEffect(() => {
         if (status === 'idle') {
@@ -28,21 +33,22 @@ const ProductTable = () => {
         }
     }, [status, dispatch]);
 
-    
     useEffect(() => {
-        if (status === 'succeeded') {
-            const table = $('#productTable').DataTable({
-                dom: '<"row justify-content-end"<"col-sm-12 col-md-6 text-right"l><"col-sm-12 col-md-6 text-right"f>>' +
-                     '<"row"<"col-sm-12"tr>>' +
-                     '<"row justify-content-end"<"col-sm-12 col-md-6 text-right"i><"col-sm-12 col-md-6 text-right"p>>',
-                destroy: true,
-            });
-
-            return () => {
-                table.destroy(true);
-            };
+        if (status === 'succeeded' && products.length > 0) {
+            if (dataTableRef.current) {
+                dataTableRef.current.destroy();
+            }
+            dataTableRef.current = $(tableRef.current).DataTable();
         }
-    }, [products, status]);
+    }, [status, products]);
+
+    useEffect(() => {
+        return () => {
+            if (dataTableRef.current) {
+                dataTableRef.current.destroy();
+            }
+        };
+    }, []);
 
     const handleView = (product) => {
         setSelectedProduct(product);
@@ -50,6 +56,8 @@ const ProductTable = () => {
             setIsFurnitureModal(true);
         } else if (product.category === 'Beauty') {
             setIsBeautyModal(true);
+        } else if (product.category === 'Cloth') {
+            setIsClothModal(true);
         } else {
             setIsElectronicModal(true);
         }
@@ -59,6 +67,7 @@ const ProductTable = () => {
         setIsElectronicModal(false);
         setIsFurnitureModal(false);
         setIsBeautyModal(false);
+        setIsClothModal(false);
     };
 
     const handleDelete = (productId) => {
@@ -80,13 +89,14 @@ const ProductTable = () => {
     return (
         <Container>
             <div className="col-12 d-flex justify-content-end mb-2">
+                <br />
                 <Link to="/dashboard/products/addproduct" className="active">
                     <button type="button" className="btn btn-primary" id="addbtn">Add product</button>
                 </Link>
             </div>
             <Row>
-                <Col lg={12}>
-                    <Table id="productTable" striped bordered hover>
+                <Col lg={16}>
+                    <Table ref={tableRef} id="productTable" striped bordered hover>
                         <thead className="bg-dark text-white text-center bold-header">
                             <tr>
                                 <th className="text-center" style={{ backgroundColor: '#343a40', color: '#fff' }}>ID</th>
@@ -134,6 +144,12 @@ const ProductTable = () => {
             )}
             {isBeautyModal && selectedProduct && (
                 <BeautyProductFormModal
+                    initialFormData={selectedProduct}
+                    closeModal={closeModal}
+                />
+            )}
+             {isClothModal && selectedProduct && (
+                <ClothFormModal
                     initialFormData={selectedProduct}
                     closeModal={closeModal}
                 />
