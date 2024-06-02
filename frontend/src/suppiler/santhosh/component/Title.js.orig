@@ -21,7 +21,7 @@ const SellerTitle = ({ toggleSidebar }) => {
   }, [dispatch, sellerDetails.sellerId]);
 
   const handleNotificationClick = () => {
-
+    console.log(sellerDetails.sellerId);
     if (sellerDetails.sellerId) {
       dispatch(fetchRejectedProductsBySupplier({ supplierId: sellerDetails.sellerId }));
       setShowNotificationModal(true);
@@ -67,7 +67,8 @@ const SellerTitle = ({ toggleSidebar }) => {
   );
 };
 
-
+<<<<<<< HEAD
 export default SellerTitle;
-
-
+=======
+export default Title;
+>>>>>>> 008ac07fca7f463a5b31561fbca4d450b4c4fe6e

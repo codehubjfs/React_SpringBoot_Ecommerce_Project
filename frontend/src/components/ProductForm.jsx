@@ -1,8 +1,11 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ElectronicProductForm from './ElectronicsForm';
 import FurnitureForm from './FurnitureForm';
 import BeautyProductForm from './BeautyProductForm';
+import ClothProductForm from './ClothProductForm';
 import { Link } from 'react-router-dom';
 import { fetchSubcategories } from '../slices/subCategorySlice';
 
@@ -68,6 +71,14 @@ function ProductForm() {
                             <BeautyProductForm subcategory={subcategory} />
                         </div>
                     );
+                case 'Cloth':
+                    return (
+                        <div>
+                            <h2 style={{ textAlign: "center" }}>Cloth Form</h2>
+                            <hr />
+                            <ClothProductForm subcategory={subcategory} />
+                        </div>
+                        );
                 default:
                     return null;
             }
@@ -84,6 +95,8 @@ function ProductForm() {
                 return 2;
             case 'Beauty':
                 return 3;
+            case 'Cloth':
+                return 4;
             default:
                 return null;
         }
@@ -91,7 +104,6 @@ function ProductForm() {
 
     return (
         <>
-        <br /><br />
             <div className="mb-3 d-flex justify-content-between align-items-start">
                 <div>
                     <Breadcrumb />
@@ -101,6 +113,7 @@ function ProductForm() {
                         <option value="Electronics">Electronics</option>
                         <option value="Furniture">Furniture</option>
                         <option value="Beauty">Beauty</option>
+                        <option value="Cloth">Cloth</option>
                     </select>
                 </div>
                 <div style={{ marginTop: '70px' }}>
@@ -121,3 +134,4 @@ function ProductForm() {
 }
 
 export default ProductForm;
+

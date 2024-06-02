@@ -170,7 +170,7 @@ public class ProductService {
     public List<ProductSalesDTO> getProductSales() {
         return productRepo.countProductsByCategory();
     }
-
+<<<<<<< HEAD
 
  //Supplier
     public List<Product> getPendingProductsBySupplierId(int supplierId) {
@@ -178,9 +178,9 @@ public class ProductService {
     }
     public List<Product> getRejectedProductsBySupplierId(int supplierId) {
         return productRepo.findProductsBySupplierIdAndStatus(supplierId, "rejected");
-
+=======
     public List<Object[]> getTopSellers() {
         return productRepo.countProductsBySupplier();
-
+>>>>>>> 008ac07fca7f463a5b31561fbca4d450b4c4fe6e
     }
 }

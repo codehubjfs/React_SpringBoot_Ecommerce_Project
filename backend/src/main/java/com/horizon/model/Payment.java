@@ -1,6 +1,6 @@
 package com.horizon.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,8 +14,8 @@ public class Payment {
 	private int orderId;
 	private String amount;
 	private String modeOfPayment;
-    @Temporal(TemporalType.DATE)
-    private Date dateOfAddition;
+    private LocalDate dateOfAddition;  // Changed to LocalDate
+
 	public int getPaymentId() {
 		return paymentId;
 	}
@@ -31,7 +31,7 @@ public class Payment {
 	public String getModeOfPayment() {
 		return modeOfPayment;
 	}
-	public Date getDateOfAddition() {
+	public LocalDate getDateOfAddition() {
 		return dateOfAddition;
 	}
 	public void setPaymentId(int paymentId) {
@@ -49,8 +49,7 @@ public class Payment {
 	public void setModeOfPayment(String modeOfPayment) {
 		this.modeOfPayment = modeOfPayment;
 	}
-	public void setDateOfAddition(Date dateOfAddition) {
+	public void setDateOfAddition(LocalDate dateOfAddition) {
 		this.dateOfAddition = dateOfAddition;
 	}
-    
 }

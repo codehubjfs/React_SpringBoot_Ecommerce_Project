@@ -130,6 +130,7 @@ import { Link } from 'react-router-dom';
 import { fetchPendingProducts, deleteProduct } from '../slices/productSlice';
 import SellerRequest from '../components/SellerRequest';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DescriptionCard from '../components/DescriptionCard ';
 
 // Breadcrumb Component
 function Breadcrumb() {
@@ -204,6 +205,9 @@ function SellerPage() {
                     <h2 className="text-center mb-4" style={{ paddingTop: "20px" }}>Seller Product Requests</h2>
                     <div className="container">
                         <div className="row justify-content-center">
+                        <DescriptionCard title="Welcome to Seller Product Management">
+                                Manage pending product requests from sellers. Approve or reject requests as needed
+                        </DescriptionCard>
                             {loading ? (
                                 <div>Loading...</div>
                             ) : error ? (
