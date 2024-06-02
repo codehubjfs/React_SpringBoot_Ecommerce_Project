@@ -6,7 +6,7 @@ import { FormContext } from '../context/FormContext'; // Import FormContext
 
 function Breadcrumb() {
     return (
-        <nav aria-label="breadcrumb"> 
+        <nav aria-label="breadcrumb"  className="breadcrumb-container"> 
             <ol className="breadcrumb py-3 px-3" style={{ backgroundColor: '#e8e9ea', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                 <li className="breadcrumb-item">
                     <Link to="/homesupplier" style={{ textDecoration: 'none', color: '#343a40' }}>

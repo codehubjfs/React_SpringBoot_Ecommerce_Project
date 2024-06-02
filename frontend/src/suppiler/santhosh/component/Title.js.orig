@@ -65,11 +65,11 @@ const SellerTitle = ({ toggleSidebar }) => {
   );
 };
 
-
+<<<<<<< HEAD
 
 export default SellerTitle;
 
 
-
-
-
+=======
+export default SellerTitle;
+>>>>>>> 073900aa4a902ef0038f5eb4b832a757a4828c10

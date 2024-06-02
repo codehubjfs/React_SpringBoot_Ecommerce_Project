@@ -254,7 +254,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    //admin-prasanna
     @GetMapping("/today-count")
     public long getTodayProductCount() {
         return productService.getTodayProductCount();
@@ -268,23 +267,21 @@ public class ProductController {
     public List<ProductSalesDTO> getProductSales() {
         return productService.getProductSales();
     }
-
-
  //Supplier
-    @GetMapping("/supplier/{supplierId}/Pending")
-    public ResponseEntity<List<Product>> getPendingProductsBySupplierId(@PathVariable int supplierId) {
-	    List<Product> pendingProducts = productService.getPendingProductsBySupplierId(supplierId);
-        return new ResponseEntity<>(pendingProducts, HttpStatus.OK);
-    }
-    @GetMapping("/supplier/{supplierId}/Rejected")
-    public ResponseEntity<List<Product>> getRejectedProductsBySupplierId(@PathVariable int supplierId) {
-        List<Product> rejectedProducts = productService.getRejectedProductsBySupplierId(supplierId);
-        return new ResponseEntity<>(rejectedProducts, HttpStatus.OK);
+      @GetMapping("/supplier/{supplierId}/Pending")
+      public ResponseEntity<List<Product>> getPendingProductsBySupplierId(@PathVariable int supplierId) {
+          List<Product> pendingProducts = productService.getPendingProductsBySupplierId(supplierId);
+          return new ResponseEntity<>(pendingProducts, HttpStatus.OK);
+      }
+      @GetMapping("/supplier/{supplierId}/Rejected")
+      public ResponseEntity<List<Product>> getRejectedProductsBySupplierId(@PathVariable int supplierId) {
+          List<Product> rejectedProducts = productService.getRejectedProductsBySupplierId(supplierId);
+          return new ResponseEntity<>(rejectedProducts, HttpStatus.OK);
+  =======
+      @GetMapping("/top-sellers")
+      public ResponseEntity<List<Object[]>> getTopSellers() {
+          List<Object[]> topSellers = productService.getTopSellers();
+          return new ResponseEntity<>(topSellers, HttpStatus.OK)
+  >>>>>>> 008ac07fca7f463a5b31561fbca4d450b4c4fe6e
+      }
 
-    @GetMapping("/top-sellers")
-    public ResponseEntity<List<Object[]>> getTopSellers() {
-        List<Object[]> topSellers = productService.getTopSellers();
-        return new ResponseEntity<>(topSellers, HttpStatus.OK);
-
-    }
-}
