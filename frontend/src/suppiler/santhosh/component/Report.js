@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchOrders, setOrdersFromSession } from '../../slice/';
+import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
 import $ from 'jquery';
 import 'datatables.net-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
@@ -46,30 +46,32 @@ function Report() {
         <thead>
           <tr>
             <th>S.No</th>
-            <th>Order ID</th>
+            {/* <th>Order ID</th> */}
+            <th>Product Name</th>
             <th>Price</th>
             <th>Status</th>
             <th>Delivery Date</th>
             <th>Order Date</th>
-            <th>Product Name</th>
-            <th>Action</th>
+         
+            {/* <th>Action</th> */}
           </tr>
         </thead>
         <tbody>
           {orders.length > 0 ? orders.map((item, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{item.orderid}</td>
+              <td>{item.productName}</td>
+              {/* <td>{item.orderid}</td> */}
               <td>{item.price}</td>
               <td>{item.status}</td>
               <td>{new Date(item.deliveryDate).toLocaleDateString()}</td>
               <td>{new Date(item.orderDate).toLocaleDateString()}</td>
-              <td>{item.productName}</td>
+{/*               
               <td>
                 <span className="report-table-delete-icon">
                   &#128465;
                 </span>
-              </td>
+              </td> */}
             </tr>
           )) : (
             <tr>

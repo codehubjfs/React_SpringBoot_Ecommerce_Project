@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubcategories, addSubcategory, deleteSubcategory } from '../slices/subCategorySlice';
-import AddSubCategoryModal from './AddSubCategoryModel';
-import EditSubCategoryModal from './EditSubCategory';
+import AddSubCategoryModal from '../components/AddSubCategoryModal';
+import EditSubCategoryModal from './EditSubCategoryModal';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';

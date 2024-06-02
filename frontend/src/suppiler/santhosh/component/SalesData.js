@@ -9,13 +9,13 @@ const salesData = {
     { label: "Products Returned", value: 0 }
   ],
   listing: [
-    { label: "Total Revenue", value: 0 },
+    { label: " Revenue", value: 0 },
     { label: "Out Of Stock", value: 0 },
     { label: "Low Stock", value: 0 }
   ],
   sales: [
     { label: "Views", value: "0" },
-    { label: "Today Orders", value: 0 },
+    { label: "TodayOrders", value: 0 },
     { label: "Total stock listed", value: 0 },
     { label: "Today Income", value: "₹ 0" }
   ]

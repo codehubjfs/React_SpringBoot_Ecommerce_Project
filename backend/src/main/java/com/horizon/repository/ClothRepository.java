@@ -1,9 +1,8 @@
-package com.product.service;
+package com.horizon.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.product.model.Cloth;
-
+import com.horizon.model.Cloth;
 
 	
 public interface ClothRepository extends JpaRepository<Cloth, Integer>{

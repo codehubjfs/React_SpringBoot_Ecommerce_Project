@@ -10,27 +10,27 @@ const SellerSidebar = ({ isSidebarVisible }) => {
         <ul>
         
           <li>
-            <Link to="/home" className={styles.active}><span ></span>
+            <Link to="/home" className={styles.active}><span className="las la-chalkboard"></span>
               <span className={styles.Span}><i class="fa-sharp fa-solid fa-house"></i> Dashboard</span></Link>
           </li>
           <li>
-            <Link to="/Inventory"><span ></span>
+            <Link to="/Inventory"><span className="las la-gifts"></span>
               <span className={styles.Span}>📦 Inventory</span></Link>
           </li>
           <li>
-            <Link to="/ProductRequest"><span></span>
+            <Link to="/ProductRequest"><span className="las la-truck"></span>
               <span className={styles.Span}>🛒 Product Request</span></Link>
           </li>
           <li>
-            <Link to="/Product"><span></span>
+            <Link to="/Product"><span className="lab la-hotjar"></span>
               <span className={styles.Span}><img width="25" height="25" src="https://img.icons8.com/emoji/48/question-mark-emoji.png" alt="question-mark-emoji"/> Product Q/A</span></Link>
           </li>
           <li>
-            <Link to="/TableDetails"><span ></span>
+            <Link to="/Report"><span className="las la-user-circle"></span>
               <span className={styles.Span}>📋 Report</span></Link>
           </li>
           <li>
-            <Link to="/Support"><span></span>
+            <Link to="/Support"><span className="las la-user-circle"></span>
               <span className={styles.Span}>❤ Support/Help</span></Link>
           </li>
         </ul>
@@ -40,4 +40,3 @@ const SellerSidebar = ({ isSidebarVisible }) => {
 };
 
 export default SellerSidebar;
-
