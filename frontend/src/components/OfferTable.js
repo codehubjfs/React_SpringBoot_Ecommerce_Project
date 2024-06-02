@@ -104,9 +104,13 @@ export function OfferTable() {
                 <td style={{ textAlign: 'center' }}>{offer.discount}</td>
                 <td style={{ textAlign: 'center' }}>{offer.startDate}</td>
                 <td style={{ textAlign: 'center' }}>{offer.endDate}</td>
-                <td style={{ textAlign: 'center' }}>
-                  <i className="fas fa-edit text-primary" onClick={() => handleEdit(index)}></i>
-                  <i className="fas fa-trash-alt ms-4 text-danger" onClick={() => handleDelete(index)}></i>
+                <td style={{ textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                  <button className='btn'>
+                  <i className="bi bi-pencil-square" onClick={() => handleEdit(index)}></i>
+                  </button>
+                  <button className='btn'>
+                  <i className="bi bi-trash" onClick={() => handleDelete(index)}></i>
+                  </button>               
                 </td>
               </tr>
             ))}

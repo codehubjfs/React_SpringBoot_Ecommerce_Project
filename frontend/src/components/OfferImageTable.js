@@ -67,7 +67,7 @@ function OfferImageTable({ offerImages }) {
                 <td style={{ textAlign: 'center' }}>{offer.offerImageName}</td>
                 <td style={{ textAlign: 'center' }}>
                   <button className="btn" onClick={() => openDeleteModal(offer.offerImageId, offer.offerImageName)}>
-                    <i className="bi bi-trash text-danger"></i>
+                    <i className="bi bi-trash"></i>
                   </button>
                 </td>
               </tr>

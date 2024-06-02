@@ -171,11 +171,16 @@ public class ProductService {
         return productRepo.countProductsByCategory();
     }
 
+
  //Supplier
     public List<Product> getPendingProductsBySupplierId(int supplierId) {
         return productRepo.findBySupplierIdAndStatus(supplierId, "Pending");
     }
     public List<Product> getRejectedProductsBySupplierId(int supplierId) {
         return productRepo.findProductsBySupplierIdAndStatus(supplierId, "rejected");
+
+    public List<Object[]> getTopSellers() {
+        return productRepo.countProductsBySupplier();
+
     }
 }

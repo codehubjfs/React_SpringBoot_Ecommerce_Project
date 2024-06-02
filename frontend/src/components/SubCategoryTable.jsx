@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubcategories, addSubcategory, deleteSubcategory } from '../slices/subCategorySlice';
-import AddSubCategoryModal from './AddSubCategoryModal';
+import AddSubCategoryModal from '../components/AddSubCategoryModal';
 import EditSubCategoryModal from './EditSubCategoryModal';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
@@ -22,18 +22,21 @@ function SubCategoryTable() {
     }, [dispatch, subcategoriesStatus]);
 
     useEffect(() => {
-        if (dataTableRef.current) {
-            $(tableRef.current).DataTable().destroy();
+        if (subcategoriesStatus === 'succeeded' && subcategories.length < 0) {
+            if (dataTableRef.current) {
+                dataTableRef.current.destroy();
+            }
+            dataTableRef.current = $(tableRef.current).DataTable();
         }
+    }, [subcategoriesStatus, subcategories]);
 
-        dataTableRef.current = $(tableRef.current).DataTable();
-
+    useEffect(() => {
         return () => {
             if (dataTableRef.current) {
-                $(tableRef.current).DataTable().destroy();
+                dataTableRef.current.destroy();
             }
         };
-    }, [subcategories]);
+    }, []);
 
     const [selectedSubcategory, setSelectedSubcategory] = useState(null);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -74,7 +77,7 @@ function SubCategoryTable() {
                     Add SubCategory
                 </button>
             </div>
-        
+
             <table id="subcategoryTable" ref={tableRef} className="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -92,17 +95,21 @@ function SubCategoryTable() {
                             <td style={{ textAlign: 'center'}}>{subcategory.categoryId}</td>
                             <td>{subcategory.subCategoryName}</td>
                             <td><img src={subcategory.subCategoryImage} className='category-image' alt={subcategory.subCategoryName} /></td>
-                            <td className='text-center'>
-                                 <i
-                                        className="bi bi-pencil-square"
-                                        onClick={() => handleEditModalOpen(subcategory)}
-                                        style={{ cursor: 'pointer', marginRight: '10px' }}
-                                    ></i>
-                                    <i
-                                        className="bi bi-trash"
-                                        onClick={() => handleDelete(subcategory)}
-                                        style={{ cursor: 'pointer' }}
-                                    ></i>
+                            <td>
+                                <button
+                                    type="button"
+                                    className="btn btn-edit"
+                                    onClick={() => handleEditModalOpen(subcategory)}
+                                >
+                                    <i className="bi bi-pencil-square"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-delete"
+                                    onClick={() => handleDelete(subcategory)}
+                                >
+                                    <i className="bi bi-trash"></i>
+                                </button>
                             </td>
                         </tr>
                     ))}

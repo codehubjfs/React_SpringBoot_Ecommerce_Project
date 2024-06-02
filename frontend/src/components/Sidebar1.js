@@ -5,12 +5,15 @@ import styles from './Sidebar1.module.css'; // Import the CSS module
 const Sidebar1 = ({ isSidebarVisible }) => {
   return (
     <div className={`${styles.AdminSidebar} ${isSidebarVisible ? styles.visible : styles.hidden}`} style={{marginTop:'60px'}}>
-      
+       <Link to="/">
+            <div className={styles.AdminSidebarBrand}>
+              <h4><span className="lab la-opencart" > Horizon</span></h4>
+            </div>
+      </Link>
       <div className={styles.AdminSidebarMenu}>
+     
         <ul>
-        <div className={styles.AdminSidebarBrand}>
-        <h4><span className="lab la-opencart" > Horizon</span></h4>
-      </div>
+        
           <li>
             <Link to="/dashboard" className={styles.active}><span className="las la-chalkboard"></span>
               <span className={styles.AdminSpan}>Dashboard</span></Link>

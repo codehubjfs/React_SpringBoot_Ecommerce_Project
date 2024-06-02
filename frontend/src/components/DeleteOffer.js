@@ -22,10 +22,10 @@ export function DeleteOffer({ show, handleClose, handleDelete, offer }) {
       </Modal.Header>
       <Modal.Body>Are you sure you want to delete this offer?</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button onClick={handleClose}>
           Cancel
         </Button>
-        <Button variant="danger" onClick={handleDelete}>
+        <Button onClick={handleDelete}>
           Delete
         </Button>
       </Modal.Footer>

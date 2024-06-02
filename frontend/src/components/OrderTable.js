@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Modal, Button, Table, Container, Spinner, Alert } from 'react-bootstrap';
+import { Modal, Button, Table, Container, Spinner, Alert, Form } from 'react-bootstrap';
 import { getOrderById, setSelectedOrder, updateOrderStatus } from '../slices/OrderSlice';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
@@ -9,26 +9,41 @@ import '../components/Order.css';
 
 const OrderTable = ({ orders }) => {
   const [showModal, setShowModal] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('');
   const dispatch = useDispatch();
   const selectedOrder = useSelector((state) => state.orders.selectedOrder);
   const loading = useSelector((state) => state.orders.loading);
   const error = useSelector((state) => state.orders.error);
-  // console.log(selectedOrder.productId,selectedOrder.quantity);
 
   useEffect(() => {
+    let table;
     if (orders.length > 0) {
-      const table = $('#OrderTable').DataTable({
-        responsive: true
+      table = $('#OrderTable').DataTable({
+        responsive: true,
+        destroy: true,
+        columnDefs: [
+          { targets: 3, type: 'string' } // Ensuring the Status column is treated as a string
+        ]
       });
-  
-      return () => {
-        if ($.fn.DataTable.isDataTable('#OrderTable')) {
-          table.destroy();
+
+      $.fn.dataTable.ext.search.push((settings, data, dataIndex) => {
+        const status = data[3].toLowerCase(); // Index of 'Status' column
+        if (!filterStatus || status === filterStatus.toLowerCase()) {
+          return true;
         }
-      };
+        return false;
+      });
+
+      table.draw(); // Redraw the table to apply the filter
     }
-  }, [orders]);
-  
+
+    return () => {
+      if (table) {
+        $.fn.dataTable.ext.search.pop(); // Remove custom search function
+        table.destroy();
+      }
+    };
+  }, [orders, filterStatus]);
 
   const handleViewOrder = (orderId) => {
     dispatch(getOrderById(orderId));
@@ -42,6 +57,11 @@ const OrderTable = ({ orders }) => {
 
   const handleStatusChange = (orderId, newStatus) => {
     dispatch(updateOrderStatus({ id: orderId, status: newStatus }));
+  };
+
+  const handleFilterChange = (e) => {
+    setFilterStatus(e.target.value);
+    $('#OrderTable').DataTable().draw(); // Redraw the table after changing the filter
   };
 
   if (loading === 'pending') {
@@ -58,6 +78,16 @@ const OrderTable = ({ orders }) => {
 
   return (
     <Container fluid className="mt-3">
+      <Form.Group controlId="statusFilter">
+        <Form.Label>Filter by Status</Form.Label>
+        <Form.Control as="select" value={filterStatus} onChange={handleFilterChange}>
+          <option value="">All</option>
+          <option value="pending">Pending</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </Form.Control>
+      </Form.Group>
       <div className="table-responsive">
         <Table id="OrderTable" className="table-striped table-bordered table-hover mt-5" responsive>
           <thead>
@@ -86,12 +116,15 @@ const OrderTable = ({ orders }) => {
                     <option value="pending">Pending</option>
                     <option value="shipped">Shipped</option>
                     <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
                   </select>
                 </td>
                 <td className="text-center">{order.amount}</td>
                 <td className="text-center">{order.paymentMethod}</td>
                 <td className="text-center" style={{ cursor: 'pointer' }}>
-                  <i className="fas fa-eye text-primary" onClick={() => handleViewOrder(order.id)}></i>
+                  <button className='btn' onClick={() => handleViewOrder(order.id)}>
+                    <i className="bi bi-eye"></i>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -126,24 +159,20 @@ const OrderTable = ({ orders }) => {
                 <div className="col-6">{selectedOrder.paymentMethod}</div>
               </div>
               <div className="row mb-2">
-              <div className="col-6 font-weight-bold">Delivery Date</div>
+                <div className="col-6 font-weight-bold">Delivery Date</div>
                 <div className="col-6">{selectedOrder.deliveryDate}</div>
               </div>
               <div className="row mb-2">
-              <div className="col-6 font-weight-bold">Order Date</div>
+                <div className="col-6 font-weight-bold">Order Date</div>
                 <div className="col-6">{selectedOrder.orderDate}</div>
               </div>
               <div className="row mb-2">
                 <div className="col-6 font-weight-bold">Product (ID)</div>
-                <div className="col-6">
-                      {selectedOrder.productId}
-                </div>
+                <div className="col-6">{selectedOrder.productId}</div>
               </div>
               <div className="row mb-2">
                 <div className="col-6 font-weight-bold">Quantity</div>
-                <div className="col-6">
-                {selectedOrder.quantity}
-                </div>
+                <div className="col-6">{selectedOrder.quantity}</div>
               </div>
             </Container>
           </Modal.Body>

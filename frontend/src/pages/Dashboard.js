@@ -224,6 +224,7 @@ import order from '../assets/order.png';
 import revenue from '../assets/salary.png';
 import customer from '../assets/customers.png';
 import './Dashboard.css';
+import TopSellersOverview from '../components/TopSellerOverview';
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -301,7 +302,7 @@ function Dashboard() {
                 <img src={revenue} alt="" className="rounded-circle mb-3 card-icon" style={{ height: '70px', width: '70px' }} />
                 <div className="ml-3">
                   <Card.Title id="dashboard-card">Revenue</Card.Title>
-                  <Card.Text className="card-text">${totalRevenue}</Card.Text> {/* Display total revenue */}
+                  <Card.Text className="card-text">₹{totalRevenue}</Card.Text> {/* Display total revenue */}
                 </div>
               </Card.Body>
             </Card>
@@ -326,13 +327,14 @@ function Dashboard() {
         <Row className="mb-4">
           <Col lg={6}>
             <div className="chart-card">
-              <UsersOverview />
+              <TopSellersOverview />
+              {/* <UsersOverview /> */}
             </div>
           </Col>
           <Col md={6} className="mb-3 d-flex align-items-stretch">
             <Card className="shadow-sm w-100 schedule-card card-bg-green">
               <Card.Body>
-                <h2>Peak Days</h2>
+                <h2>Peak Months</h2>
                 <PeakDays />
               </Card.Body>
             </Card>

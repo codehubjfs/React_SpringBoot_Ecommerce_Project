@@ -1,6 +1,8 @@
 package com.horizon.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +131,30 @@ public class OrderController {
     @GetMapping("/monthly-counts/{supplierId}")
     public ResponseEntity<Map<Integer, Long>> getOrderCountsByMonth(@PathVariable int supplierId) {
         Map<Integer, Long> orderCountsByMonth = orderService.getOrderCountsByMonth(supplierId);
+        return new ResponseEntity<>(orderCountsByMonth, HttpStatus.OK);
+    }
+	@GetMapping("/orders/total")
+    public ResponseEntity<Long> getTotalOrders() {
+        Long totalOrders = orderService.getTotalOrders();
+        return new ResponseEntity<>(totalOrders, HttpStatus.OK);
+    }
+
+    @GetMapping("/orders/revenue")
+    public ResponseEntity<BigDecimal> getRevenue() {
+        BigDecimal revenue = orderService.getRevenue();
+        return new ResponseEntity<>(revenue, HttpStatus.OK);
+    }
+
+    @GetMapping("/orders/pending")
+    public ResponseEntity<Long> getPendingOrders() {
+        Long pendingOrders = orderService.getPendingOrders();
+        return new ResponseEntity<>(pendingOrders, HttpStatus.OK);
+    }
+    
+    //admin
+    @GetMapping("/orders/monthly-counts")
+    public ResponseEntity<Map<Integer, Long>> getOrderCountsByMonth() {
+        Map<Integer, Long> orderCountsByMonth = orderService.getOrderCountsByMonth();
         return new ResponseEntity<>(orderCountsByMonth, HttpStatus.OK);
     }
 	}

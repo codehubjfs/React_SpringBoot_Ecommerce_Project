@@ -63,8 +63,15 @@ const SellerTitle = ({ toggleSidebar }) => {
           </div>
         </div>
       </div>
+
+      <NotificationModal show={showNotificationModal} handleClose={handleCloseNotificationModal} />
+
     </header>
   );
 };
 
+
 export default SellerTitle;
+
+export default Title;
+

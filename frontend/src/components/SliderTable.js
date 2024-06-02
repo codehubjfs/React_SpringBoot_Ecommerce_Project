@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { EditSliderModal } from './EditSlider';
-import { DeleteSliderModal } from './DeleteSlider';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import $ from 'jquery';
@@ -23,26 +20,10 @@ const SliderTable = ({ data, onEdit, onDelete }) => {
     };
   }, [data]);
 
-  // const handleEdit = (slider) => {
-  //   setSelectedSlider(slider);
-  //   setShowEditModal(true);
-  // };
-
-  // const handleDelete = (slider) => {
-  //   setSelectedSlider(slider);
-  //   setShowDeleteModal(true);
-  // };
-
   const handleEditModalClose = () => setShowEditModal(false);
-
   const handleDeleteModalClose = () => setShowDeleteModal(false);
-
-  const handleEditSubmit = (name, image) => {
-
-  };
-
-  const handleDeleteConfirm = () => {
-  };
+  const handleEditSubmit = (name, image) => {};
+  const handleDeleteConfirm = () => {};
 
   return (
     <div className="container-fluid mt-5">
@@ -67,9 +48,13 @@ const SliderTable = ({ data, onEdit, onDelete }) => {
                     <td className="text-center">{slider.sliderImageName}</td>
                     <td className="text-center">{slider.sliderImageUrl}</td>
                     <td className="text-center">
-                      <div>
-                        <i className="fas fa-edit text-primary" onClick={() => onEdit(slider)}></i>
-                        <i className="fas fa-trash-alt ms-4 text-danger" onClick={() => onDelete(slider)}></i>
+                      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                        <button className='btn' onClick={() => onEdit(slider)}>
+                          <i className="fas fa-edit"></i>
+                        </button>
+                        <button className='btn' onClick={() => onDelete(slider)}>
+                          <i className="fas fa-trash-alt"></i>
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -79,18 +64,6 @@ const SliderTable = ({ data, onEdit, onDelete }) => {
           </div>
         </div>
       </div>
-      {/* <EditSliderModal
-        show={showEditModal}
-        handleClose={handleEditModalClose}
-        handleSubmit={handleEditSubmit}
-        slider={selectedSlider}
-      /> */}
-      {/* <DeleteSliderModal
-        show={showDeleteModal}
-        handleClose={handleDeleteModalClose}
-        handleDelete={handleDeleteConfirm}
-        sliderId={selectedSlider ? selectedSlider.id : null}
-      /> */}
     </div>
   );
 };
