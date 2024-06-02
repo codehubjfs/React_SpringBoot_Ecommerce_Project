@@ -7,7 +7,7 @@ const SelectAddress = ({
   prevStep,
 }) => {
   return (
-    <div className="card mb-4">
+    <div className="wrapper mt-sm-7 bg-white">
       <div className="card-body">
         <h2 className="card-title">Select Shipping Address</h2>
         <div className="form-check mb-3">
@@ -51,9 +51,6 @@ const SelectAddress = ({
         <div className="d-flex justify-content-between">
           <button className="btn btn-secondary" onClick={prevStep}>
             Back
-          </button>
-          <button className="btn btn-primary" onClick={nextStep}>
-            Continue
           </button>
         </div>
       </div>

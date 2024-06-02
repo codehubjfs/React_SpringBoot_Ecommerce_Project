@@ -7,7 +7,7 @@ import {
   removeItemFromWishlist,
 } from "../slices/WishlistSlice";
 // import "./wishliststyle.css";
-import "../NewArrival.css";
+// import "../Producte.css";
 function WishProduct() {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.wishlist.items);
@@ -63,12 +63,12 @@ function WishProduct() {
                 <Card className="mb-4">
                   <Card.Img
                     variant="top"
-                    src={item.productImageUrl}
+                    src={item.mainImage}
                     alt={`Product ${index + 1}`}
                   />
                   <Card.Body>
-                    <Card.Title>{item.productName}</Card.Title>
-                    <Card.Text>{item.productDescription}</Card.Text>
+                    <Card.Title>{item.productTitle}</Card.Title>
+                    <Card.Text>{item.description}</Card.Text>
                     <div className="review-stars mb-2">
                       <span className="fa fa-star checked"></span>
                       <span className="fa fa-star checked"></span>
@@ -77,9 +77,7 @@ function WishProduct() {
                       <span className="fa fa-star"></span>
                     </div>
                     <Card.Text>
-                      <small className="text-muted">
-                        Price: {item.productPrice}
-                      </small>
+                      <small className="text-muted">Price: {item.price}</small>
                     </Card.Text>
                     <Button
                       className="like-btn"

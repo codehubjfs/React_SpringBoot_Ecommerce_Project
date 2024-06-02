@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../createaccountstyle.css";
 import { useDispatch } from "react-redux";
 import { registerCustomer } from "../slices/CustomerSlice";
+import SuccessModal from './Loginmodal'; // Import the SuccessModal component
 
 function CreateAccount() {
   const dispatch = useDispatch();
@@ -356,6 +357,11 @@ function CreateAccount() {
   return (
     <div className="box-container">
       <h1 className="text-center mb-4">CREATE ACCOUNT</h1>
+      <SuccessModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        message="Account Created Successfully!"
+      />
       <div className="container mt-5">
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
@@ -491,7 +497,7 @@ function CreateAccount() {
                   value={formData.area}
                   onChange={handleChange}
                 />
-                {errors.address && (
+                {errors.area && (
                   <Form.Text
                     className="error-message"
                     id="ad"
@@ -613,7 +619,7 @@ function CreateAccount() {
           </div>
         </Form>
       </div>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      {/* <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header>
           <Modal.Title>Account Created Successfully</Modal.Title>
         </Modal.Header>
@@ -623,7 +629,7 @@ function CreateAccount() {
             Close
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

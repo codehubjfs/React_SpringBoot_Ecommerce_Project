@@ -45,9 +45,20 @@ public class PaymentController {
         paymentService.deletePaymentById(paymentId);
         return ResponseEntity.noContent().build();
     }
+    //admin - prasanna
     @GetMapping("/total-revenue")
     public double calculateTotalRevenue() {
     	System.out.println("amount"+paymentService.calculateTotalRevenue());
         return paymentService.calculateTotalRevenue();
+    }
+    @GetMapping("/monthly-sales")
+    public ResponseEntity<Map<String, Map<String, Double>>> getMonthlySales() {
+        Map<String, Map<String, Double>> salesData = paymentService.getMonthlySales();
+        return new ResponseEntity<>(salesData, HttpStatus.OK);
+    }
+    @GetMapping("/today-income")
+    public ResponseEntity<Double> getTodayIncome() {
+        Double todayIncome = paymentService.getTodayIncome();
+        return ResponseEntity.ok(todayIncome);
     }
 }

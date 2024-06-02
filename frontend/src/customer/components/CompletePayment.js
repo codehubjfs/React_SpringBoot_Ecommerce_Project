@@ -18,7 +18,7 @@ const CompletePayment = ({
     } else {
       const options = {
         key: "rzp_test_s9a7uBWwg11rpX",
-        amount: product.price * 10,
+        amount: product.price * 1,
         currency: "INR",
         name: "Horizon",
         description: "Product Purchase",
@@ -62,7 +62,7 @@ const CompletePayment = ({
     orders.push(newOrder);
     localStorage.setItem("orders", JSON.stringify(orders));
 
-    window.location.href = "/your-orders";
+    //window.location.href = "/your-orders";
   };
 
   return (

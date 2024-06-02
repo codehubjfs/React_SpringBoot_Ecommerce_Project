@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
 import {
   decreaseQuantity,
   increaseQuantity,
   removeItem,
   fetchCarts,
+  addItemToCart,
+  setItemsFromSession,
 } from "../slices/CartSlice";
 
 function Cart() {
@@ -13,47 +15,82 @@ function Cart() {
   const items = useSelector((state) => state.carts.items) ?? [];
   const status = useSelector((state) => state.carts.status);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const customerData = useSelector((state) => state.customers.customer);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchCarts());
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    if (storedCustomerData) {
+      const parsedCustomer = JSON.parse(storedCustomerData);
+      if (parsedCustomer && parsedCustomer.id) {
+        console.log(
+          "Customer ID retrieved from session storage: ",
+          parsedCustomer.id
+        );
+        dispatch(fetchCarts(parsedCustomer.id));
+      }
     }
-  }, [status, dispatch]);
+  }, [dispatch]);
+
+  const handleAddToCart = (product) => {
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
+    dispatch(addItemToCart({ product, customerId: parsedCustomer.id }));
+  };
 
   const calculateTotal = () => {
     return items
       .reduce((acc, item) => {
-        const price = parseFloat(item.productPrice);
-        const quantity = parseFloat(item.quantity);
+        const price = parseInt(item.price);
+        const quantity = parseInt(item.quantity);
         const subtotal = price * quantity;
         return acc + subtotal;
-      }, 0)
-      .toFixed(2); // Ensure total is a string with 2 decimal places
+      }, 0);
   };
 
   const handleDecrease = (productId) => {
     console.log("Decreasing quantity for product ID:", productId);
-    dispatch(decreaseQuantity({ customerId: 1, productId }));
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
+
+    // Find the item with the given productId
+    const item = items.find((item) => item.productId === productId);
+
+    if (item.quantity > 1) { // Check if quantity is greater than 1
+      dispatch(decreaseQuantity({ customerId: parsedCustomer.id, productId }));
+    }
   };
 
   const handleIncrease = (productId) => {
     console.log("Increasing quantity for product ID:", productId);
-    dispatch(increaseQuantity({ customerId: 1, productId }));
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
+
+    // Find the item with the given productId
+    const item = items.find((item) => item.productId === productId);
+
+    if (item.quantity < 10) { // Check if quantity is less than 10
+      dispatch(increaseQuantity({ customerId: parsedCustomer.id, productId }));
+    }
   };
 
   const handleRemove = (productId) => {
     console.log("Removing product ID:", productId);
-    dispatch(removeItem({ customerId: 1, productId }));
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
+    dispatch(removeItem({ customerId: parsedCustomer.id, productId }));
   };
 
   const completePayment = async () => {
-    // Add your logic here for what happens after a successful payment
     console.log("Payment complete!");
-    // For example, you could dispatch an action to clear the cart, show a success message, etc.
+    dispatch(setItemsFromSession([])); // Assuming setItemsFromSession sets items to an empty array
+    setModalMessage("Payment successful!");
+    setShowModal(true);
   };
 
   const handlePayment = async () => {
-    const totalAmount = calculateTotal() * 100; // Convert to paise (1 INR = 100 paise)
+    const totalAmount = calculateTotal() * 100;
     try {
       setPaymentProcessing(true);
       const options = {
@@ -74,14 +111,12 @@ function Cart() {
           color: "#3399cc",
         },
         handler: async (response) => {
-          // Handle success
-          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
           await completePayment();
         },
         modal: {
           ondismiss: () => {
-            // Handle payment dismissal
-            alert("Payment dismissed!");
+            setModalMessage("Payment dismissed!");
+            setShowModal(true);
           },
         },
       };
@@ -90,7 +125,8 @@ function Cart() {
       razorpay.open();
     } catch (error) {
       console.error("Error processing payment:", error);
-      alert("Error processing payment. Please try again later.");
+      setModalMessage("Error processing payment. Please try again later.");
+      setShowModal(true);
     } finally {
       setPaymentProcessing(false);
     }
@@ -99,84 +135,78 @@ function Cart() {
   return (
     <Container>
       <h1 className="mb-4">Shopping Cart</h1>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody>
+      {items.length > 0 ? (
+        <Row>
           {items.map((item) => (
-            <tr key={item.id}>
-              <td>
-                <img src={item.productImageUrl} alt="Item" />
-              </td>
-              <td>
-                <a href="#" className="text-decoration-none">
-                  {item.productName}
-                </a>
-              </td>
-              <td>₹{parseFloat(item.productPrice).toFixed(2)}</td>
-              <td>
-                <Button
-                  variant="outline-primary"
-                  className="quantity-btn"
-                  style={{ marginRight: "10px" }}
-                  onClick={() => handleDecrease(item.productId)}
-                >
-                  <i className="fas fa-minus"></i>
-                </Button>
-                {item.quantity}
-                <Button
-                  variant="outline-primary"
-                  className="quantity-btn"
-                  style={{ marginLeft: "10px" }}
-                  onClick={() => handleIncrease(item.productId)}
-                >
-                  <i className="fas fa-plus"></i>
-                </Button>
-              </td>
-              <td>
-                ₹{(parseFloat(item.productPrice) * item.quantity).toFixed(2)}
-              </td>
-              <td>
-                <Button
-                  variant="outline-danger"
-                  onClick={() => handleRemove(item.productId)}
-                >
-                  Remove
-                </Button>
-              </td>
-            </tr>
+            <Col md={4} key={item.id} className="mb-4">
+              <Card className="h-100">
+              <Card.Img
+                  variant="top"
+                  src={item.mainImage}
+                  style={{ height: "250px", objectFit: "cover" }}
+                />
+                <Card.Body className="d-flex flex-column">
+                  <Card.Title>{item.productTitle}</Card.Title>
+                  <Card.Text>Price: ₹{parseInt(item.price)}</Card.Text>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => handleDecrease(item.productId)}
+                    >
+                      <i className="fas fa-minus"></i>
+                    </Button>
+                    <span>{item.quantity}</span>
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => handleIncrease(item.productId)}
+                    >
+                      <i className="fas fa-plus"></i>
+                    </Button>
+                  </div>
+                  <Card.Text className="mt-2">
+                    Total: ₹{(parseInt(item.price) * item.quantity)}
+                  </Card.Text>
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => handleRemove(item.productId)}
+                    className="mt-auto"
+                  >
+                    Remove
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
           ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan="4"></td>
-            <td>
-              <strong style={{ fontSize: "25px" }}>
-                Total: ₹{calculateTotal()}
-              </strong>
-            </td>
-            <td></td>
-          </tr>
-        </tfoot>
-      </Table>
-      <div style={{ marginLeft: "88%" }}>
-        <Button
-          variant="primary"
-          className="mt-4 place-order-btn"
-          onClick={handlePayment}
-          disabled={paymentProcessing}
-        >
-          Place Order
-        </Button>
-      </div>
+        </Row>
+      ) : (
+        <div className="text-center">
+          <p>No items in cart</p>
+        </div>
+      )}
+      {items.length > 0 && (
+        <div className="text-right mt-4">
+          <h3>Total: ₹{calculateTotal()}</h3>
+          <Button
+            variant="primary"
+            onClick={handlePayment}
+            disabled={paymentProcessing}
+          >
+            Place Order
+          </Button>
+        </div>
+      )}
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Payment Status</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }

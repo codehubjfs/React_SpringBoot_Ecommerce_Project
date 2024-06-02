@@ -170,4 +170,7 @@ public class ProductService {
     public List<ProductSalesDTO> getProductSales() {
         return productRepo.countProductsByCategory();
     }
+    public List<Object[]> getTopSellers() {
+        return productRepo.countProductsBySupplier();
+    }
 }

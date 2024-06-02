@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
-import { fetchProducts, setProductsFromSession } from '../../slice/productsSlice';
+// import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
+// import { fetchProducts, setProductsFromSession } from '../../slice/productsSlice';
 import PieChart from './pieChart';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../dashboard.css';
 import ordericon from '../photos/ordericon.jpg';
 import available from '../photos/available.jpg';
-import revenue from '../photos/revenue.png';
+// import revenue from '../photos/revenue.png';
 import listed from '../photos/listed.jpg';
 import ProductCard from './ProductCard';
 import UsersOverview from './UserOverView';

@@ -1,39 +1,40 @@
 import React from 'react';
-import { description } from './Productdatas';
+import { useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
+import DescriptionItem from './DescriptionItem';
 
-const Description = ({ categoryId, productId }) => {
-    // Filter the description data based on productId and categoryId
-    const product = description.products.find(
-        (product) => product.productId === parseInt(productId) && product.categoryId === parseInt(categoryId)
-    );
+const Description = ({ category, productId, thumbnail1, thumbnail2, thumbnail3, thumbnail4 }) => {
+  const product = useSelector((state) => state.products.product);
 
-    if (!product) {
-        return <div>Description not found for the provided product and category.</div>;
-    }
+  if (!product || !product.description) {
+    return <div>Description not found for the provided product and category.</div>;
+  }
 
-    return (
-        <section className="bg-light border-top py-4">
-            <Container fluid>
-                <h2 className="text-center mb-4">Product Description</h2>
-                <div className="description-grid">
-                    {product.descriptions.map((desc, index) => (
-                        <div key={index} className="description-item">
-                            <h3>{desc.title}</h3>
-                            <div className="image-wrapper">
-                                {index % 2 === 0 ? (
-                                    <img src={desc.image} alt={desc.alt} className="left-image" />
-                                ) : (
-                                    <img src={desc.image} alt={desc.alt} className="right-image" />
-                                )}
-                                <p>{desc.content}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </Container>
-        </section>
-    );
+  const descriptionParts = product.description.split('.').filter(part => part.trim() !== '');
+  const thumbnails = [thumbnail1, thumbnail2, thumbnail3, thumbnail4];
+
+  // Ensure we only take the first 4 description parts if there are more
+  const descriptions = descriptionParts.slice(0, 4);
+
+  return (
+    <section className="bg-light border-top py-4">
+      <Container fluid>
+        <div className="row description-grid">
+          <h2 className="text-center mb-4">Product Description</h2>
+          <div className="col-md-6">
+            {descriptions.slice(0, 2).map((part, index) => (
+              <DescriptionItem key={index} description={part.trim()} thumbnail={thumbnails[index]} />
+            ))}
+          </div>
+          <div className="col-md-6">
+            {descriptions.slice(2, 4).map((part, index) => (
+              <DescriptionItem key={index + 2} description={part.trim()} thumbnail={thumbnails[index + 2]} />
+            ))}
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
 };
 
 export default Description;
