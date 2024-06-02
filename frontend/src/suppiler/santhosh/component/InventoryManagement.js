@@ -43,7 +43,7 @@ function InventoryManagement() {
     };
 
     return (
-        <div className="faq-container" style={{marginTop:'150px !important'}}>
+        <div className="faq-container" style={{marginTop:'70px'}}>
             <div className="container">
                 <h2>Inventory Management</h2>
                 <br /><br />
