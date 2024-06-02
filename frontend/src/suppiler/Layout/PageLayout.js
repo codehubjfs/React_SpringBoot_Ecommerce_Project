@@ -16,7 +16,7 @@ function PageLayout({ leftContent, rightContent, specialIconIndex, showModal, to
 
     <div >
        {/* <Navbar /> */}
-      <div className="emoji-container" style={{ textAlign: 'center', marginTop: '100px' }}>
+      <div className="emoji-container" style={{ textAlign: 'center', marginTop: '20px' }}>
         {/* Mapping over the array of icons */}
         {icons.map((icon, index) => (
           <span key={index} className="emoji-span">

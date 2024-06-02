@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { fetchOrders, setOrdersFromSession } from '../../slice/ordersSlice';
-// import { fetchProducts, setProductsFromSession } from '../../slice/productsSlice';
+import { fetchOrders, setOrdersFromSession, fetchTotalPrice } from '../../slice/ordersSlice';
+import { fetchProductsBySeller, fetchAvailableProductsCount, fetchTotalProductsCount, setProductsFromSession } from '../../slice/productsSlice';
 import PieChart from './pieChart';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../dashboard.css';
 import ordericon from '../photos/ordericon.jpg';
 import available from '../photos/available.jpg';
-// import revenue from '../photos/revenue.png';
+import revenue from '../photos/revenue.png';
 import listed from '../photos/listed.jpg';
 import ProductCard from './ProductCard';
 import UsersOverview from './UserOverView';
 import PeakDays from './PeakDays';
 import SellerDetails from '../../../components/SellerDetails';
+import TestChart from './UserOverView';
 
 function SalesReport() {
   const dispatch = useDispatch();
-  const { orders, status: ordersStatus, error: ordersError } = useSelector(state => state.orders);
-  const { products, status: productsStatus, error: productsError } = useSelector(state => state.products);
+  const { orders, totalPrice, status: ordersStatus, error: ordersError } = useSelector(state => state.orders);
+  const { productsBySeller, availableProductsCountBySeller, totalProductsCountBySeller, status: productsStatus, error: productsError } = useSelector(state => state.products);
   const storedDetails = JSON.parse(sessionStorage.getItem('sellerDetails'));
-  const sellerId = storedDetails.sellerId;
+  const sellerId = storedDetails?.sellerId;
 
   useEffect(() => {
     const storedOrders = JSON.parse(sessionStorage.getItem('orders'));
@@ -33,11 +34,13 @@ function SalesReport() {
     if (storedProducts && storedProducts.sellerId === sellerId) {
       dispatch(setProductsFromSession(storedProducts));
     } else {
-      dispatch(fetchProducts(sellerId));
+      dispatch(fetchProductsBySeller(sellerId));
     }
-  }, [dispatch, sellerId]);
 
-  
+    dispatch(fetchAvailableProductsCount(sellerId));
+    dispatch(fetchTotalProductsCount(sellerId));
+    dispatch(fetchTotalPrice(sellerId));
+  }, [dispatch, sellerId]);
 
   if (ordersStatus === 'loading' || productsStatus === 'loading') {
     return <div>Loading...</div>;
@@ -47,19 +50,23 @@ function SalesReport() {
     return <div>Error: {ordersError || productsError}</div>;
   }
 
-  
+  const products = productsBySeller?.[sellerId] || [];
+  const availableCount = availableProductsCountBySeller?.[sellerId] || 0;
+  const totalProductsCount = totalProductsCountBySeller?.[sellerId] || 0;
+  const totalRevenue = totalPrice?.[sellerId] || 0;
+
   const productData = [
     { label: 'Product Ordered', value: orders.length },
-    { label: 'Product Available', value: products.filter(product => product.status === 'available' && product.supplierId === sellerId).length },
-    { label: 'Total Revenue', value: orders.reduce((sum, order) => sum + order.totalPrice, 0) },
-    { label: 'Total Listing', value: orders.length },
+    { label: 'Product Available', value: availableCount },
+    { label: 'Total Revenue', value: totalPrice},
+    { label: 'Total Listing', value: totalProductsCount },
   ];
 
   const stockDetails = orders.map((order, index) => ({
     id: index + 1,
     productName: order.productName,
-    inStock: order.inStock,
-    outOfStock: order.outOfStock,
+    inStock: order.quantity,
+   
   }));
 
   return (
@@ -95,7 +102,7 @@ function SalesReport() {
         <Col lg={6} className="mb-4">
           <Card className="shadow-sm seller-stat-card2 card-bg-gray">
             <Card.Body>
-              <PieChart />
+              <PieChart  sellerId={sellerId}/>
             </Card.Body>
           </Card>
         </Col>
@@ -111,7 +118,6 @@ function SalesReport() {
                     <ProductCard 
                       productName={detail.productName} 
                       inStock={detail.inStock} 
-                      outOfStock={detail.outOfStock}
                     />
                   </Col>
                 ))}
@@ -123,12 +129,14 @@ function SalesReport() {
 
       <Row className="mb-4">
         <Col lg={6} className="mb-4">
-          <UsersOverview />
+          <UsersOverview sellerId={sellerId}/>
+          {/* <TestChart /> */}
         </Col>
         <Col lg={6} className="mb-4">
           <Card className="shadow-sm seller-stat-card2 card-bg-gray">
             <Card.Body>
-              <PeakDays />
+              <PeakDays sellerId={sellerId}/>
+        
             </Card.Body>
           </Card>
         </Col>

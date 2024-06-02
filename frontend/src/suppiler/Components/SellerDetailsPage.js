@@ -1,10 +1,45 @@
 import React, { useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import PageLayout from '../Layout/PageLayout';
 import RightContent from '../Layout/RightContent';
 import { submitSellerDetails, resetSellerDetails } from '../slice/sellerDetailsSlice';
 import { FormContext } from '../context/FormContext'; // Import FormContext
+
+function Breadcrumb() {
+    return (
+        <nav aria-label="breadcrumb"> 
+            <ol className="breadcrumb py-3 px-3" style={{ backgroundColor: '#e8e9ea', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                <li className="breadcrumb-item">
+                    <Link to="/homesupplier" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Seller</span>
+                    </Link>  
+                </li>
+                <li className="breadcrumb-item">
+                    <Link to="/registration" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Basic Details</span>
+                    </Link>               
+                 </li>
+                 <li className="breadcrumb-item">
+                    <Link to="/taxdetails" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>GSTIN or EnrollmentID</span>
+                    </Link>               
+                 </li>
+                 <li className="breadcrumb-item">
+                    <Link to="/pickupaddress" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>PickupAddress</span>
+                    </Link>               
+                 </li>
+                 <li className="breadcrumb-item">
+                    <Link to="/bankdetails" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>BankDetails</span>
+                    </Link>               
+                 </li>
+            </ol>
+        </nav>
+    );
+}
+
 
 function SellerDetailsPage() {
     const navigate = useNavigate();
@@ -103,6 +138,10 @@ function SellerDetailsPage() {
     };
 
     return (
+        <>
+         <div style={{marginTop:'40px'}}>
+        <Breadcrumb />
+        </div>
         <PageLayout
             leftContent={
                 <div className="registercontent">
@@ -142,12 +181,12 @@ function SellerDetailsPage() {
                                 checked={formData.termsConditions}
                                 onChange={handleTermsConditionsChange}
                             />
-                            <label className="form-check-label" htmlFor="terms_conditions">
+                            <label className="form-check-label" htmlFor="terms_conditions" style={{marginTop:'40px'}}>
                                 I agree to the <a href="#" onClick={toggleModal} style={{ color: "blue", cursor: "pointer" }}>Terms and Conditions</a>
                             </label>
                             <p id="termsErrorMsg" className="error-msg">{errors.termsConditions}</p>
                         </div>
-                        <button type="submit" className="btn btn-success continue-button" style={{ backgroundColor: 'rgb(54, 99, 196)' }} disabled={status === 'loading'}>
+                        <button type="submit" id="sellercontinueButton" className="btn btn-primary"  disabled={status === 'loading'}>
                             {status === 'loading' ? 'Submitting...' : 'Submit All'}
                         </button>
                         {status === 'failed' && <p className="text-danger">Submission failed: {error}</p>}
@@ -159,6 +198,7 @@ function SellerDetailsPage() {
             showModal={showModal}
             toggleModal={toggleModal}
         />
+        </>
     );
 }
 

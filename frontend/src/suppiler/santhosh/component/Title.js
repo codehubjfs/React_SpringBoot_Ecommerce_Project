@@ -32,7 +32,7 @@ const SellerTitle = ({ toggleSidebar }) => {
         <button id="sidebar-toggle" style={{ background: 'none', border: 'none' }} onClick={toggleSidebar}>
           <span className="las la-bars" style={{ color: 'white' }}><i className="fa-sharp fa-regular fa-bars"></i></span>
         </button>
-       Horizon
+        Horizon
       </h3>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -41,18 +41,15 @@ const SellerTitle = ({ toggleSidebar }) => {
             <span>🔔</span>
           </Link>
         </div>
-        <div className="Admin-profile-dropdown" style={{ position: 'relative', marginLeft: '10px' }}>
-          <div className="Admin-dropdown">
-            {/* <button className="btn border-none dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false"> */}
-              <img src={profile} alt="Profile" style={{ borderRadius: '100%', height: '40px', width: '40px' }} />
-              <span className="ms-2" style={{ color: 'white', fontSize: 'medium', marginRight:'10px' }}>{sellerDetails.fullName}</span>
-            {/* </button> */}
-            <div className="Admin-dropdown-menu bg-white border-none" aria-labelledby="triggerId" style={{ zIndex: '1001' }}>
+        <div className="Seller-profile-dropdown" style={{ position: 'relative', marginLeft: '10px' }}>
+          <div className="Seller-dropdown">
+            <img src={profile} alt="Profile" style={{ borderRadius: '100%', height: '40px', width: '40px' }} />
+            <span className="ms-2" style={{ color: 'white', fontSize: 'medium', marginRight: '10px' }}>{sellerDetails.fullName}</span>
+            <div className="Seller-dropdown-menu bg-white border-none" aria-labelledby="triggerId" style={{ zIndex: '1001' }}>
               <Link to="/UserProfileForm" className="dropdown-item">Profile</Link>
               <Link to="/homesupplier" className="dropdown-item">Logout</Link>
             </div>
-          </div>
+          </div> 
         </div>
       </div>
       <NotificationModal show={showNotificationModal} handleClose={handleCloseNotificationModal} />
@@ -60,4 +57,4 @@ const SellerTitle = ({ toggleSidebar }) => {
   );
 };
 
-export default Title;
+export default SellerTitle;
