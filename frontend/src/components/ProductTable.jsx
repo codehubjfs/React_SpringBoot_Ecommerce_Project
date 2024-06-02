@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllProducts, deleteProduct } from '../slices/productSlice';
 import ElectronicProductFormModal from './ElectronicProductFormModal';
 import FurnitureFormModal from './FurnitureFormModal';
-import BeautyProductFormModal from './BeautyProductModal';
-import ClothFormModal from './ClothFormModal';
+import BeautyProductFormModal from './BeautyproductModal';
+import ClothFormModal from './ClothFprmModel';
 
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Table } from 'react-bootstrap';
@@ -12,7 +12,7 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
 import $ from 'jquery';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import { Link } from 'react-router-dom';
-import './ProductTable.css';
+// import './ProductTable.css';
 
 const ProductTable = () => {
     const dispatch = useDispatch();
