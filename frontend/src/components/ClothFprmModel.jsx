@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch} from 'react-redux';
-import { updateFurnitureProduct } from '../slices/furnitureProductSlice';
+// import { updateFurnitureProduct } from '../slices/furnitureProductSlice';
 
 const ClothFormModal = ({ initialFormData, closeModal }) => {
     const [formData, setFormData] = useState(initialFormData);
@@ -91,7 +91,7 @@ const ClothFormModal = ({ initialFormData, closeModal }) => {
             return;
         }
         // If no errors, proceed with submission
-         dispatch(updateFurnitureProduct(formData));
+        //  dispatch(updateFurnitureProduct(formData));
         // Close the modal after successful submission
         closeModal();
     };

@@ -1,6 +1,9 @@
 package com.horizon.service;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,20 +67,20 @@ public class OrderService {
 
     
 
-    public List<Order> getAllOrders() {
-        return orderRepo.findAll();
-    }
+//    public List<Order> getAllOrders() {
+//        return orderRepo.findAll();
+//    }
+//
+//    public Optional<Order> getOrderById(Long id) {
+//        return orderRepo.findById(id);
+//    }
 
-    public Optional<Order> getOrderById(Long id) {
-        return orderRepo.findById(id);
-    }
+//    public Order saveOrder(Order order) {
+//        return orderRepo.save(order);
+//    }
 
-    public Order saveOrder(Order order) {
-        return orderRepo.save(order);
-    }
-
-    public Optional<Order> updateOrderStatus(Long id, String status) {
-        Optional<Order> orderOptional = orderRepository.findById(id);
+    public Optional<Order> updateOrderStatus(int id, String status) {
+        Optional<Order> orderOptional = orderRepo.findById(id);
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();
             order.setStatus(status);
@@ -102,7 +105,7 @@ public class OrderService {
     
     //admin
     public Map<Integer, Long> getOrderCountsByMonth() {
-        List<Object[]> results = orderRepository.findOrderCountsByMonth();
+        List<Object[]> results = orderRepo.findOrderCountsByMonth();
         Map<Integer, Long> orderCountsByMonth = new HashMap<>();
         for (Object[] result : results) {
             Integer month = (Integer) result[0];
