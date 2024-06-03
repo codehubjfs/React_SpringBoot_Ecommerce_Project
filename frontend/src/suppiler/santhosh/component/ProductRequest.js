@@ -57,7 +57,11 @@ function ProductRequest({ sellerRequests, onApprove, onReject }) {
           </div>
         </div>
       ))}
-     
+      <ApproveModal
+        show={approveModalShow}
+        onHide={() => setApproveModalShow(false)}
+        onConfirm={handleApprovalConfirmation}
+      />
       <RejectModal
         show={rejectModalShow}
         onHide={() => setRejectModalShow(false)}
