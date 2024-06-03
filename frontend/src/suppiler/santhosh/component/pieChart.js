@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchOrders } from '../../slice/ordersSlice';
+import { fetchOrders } from '../../../slices/OrderSlice';
 import Chart from 'chart.js/auto';
 
 const PieChart = ({ sellerId }) => {
@@ -8,7 +8,7 @@ const PieChart = ({ sellerId }) => {
   const dispatch = useDispatch();
   const productQuantities = useSelector((state) => state.orders.productQuantities);
   const status = useSelector((state) => state.orders.status);
-
+console.log("sellerId" + sellerId);
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchOrders(sellerId));

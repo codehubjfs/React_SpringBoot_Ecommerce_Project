@@ -8,6 +8,7 @@ import SuccessModal from './SuccessModel';
 function UserProfileForm({ sellerId }) {
   const dispatch = useDispatch();
   const sellerDetails = useSelector((state) => state.sellerDetails);
+
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
@@ -86,12 +87,8 @@ function UserProfileForm({ sellerId }) {
     return { [name]: updatedValue, error };
   };
 
-  const handleEdit = (field) => {
+  const handleEdit = () => {
     setIsEditing(!isEditing);
-    if (field !== undefined) {
-      const currentValue = sellerDetails[field];
-      validateField(field, currentValue);
-    }
   };
 
   const handleChange = (event) => {
@@ -152,7 +149,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('fullName')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -178,7 +175,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('email')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -207,7 +204,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('mobileNumber')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -233,7 +230,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('street')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -273,7 +270,7 @@ function UserProfileForm({ sellerId }) {
           </div>
         </div>
         <div className="row">
-        <div className="form-group col-md-6">
+          <div className="form-group col-md-6">
             <label htmlFor="ifscCode" className="label-hover">IFSC Code:</label>
             <div className="input-group">
               <input
@@ -285,7 +282,6 @@ function UserProfileForm({ sellerId }) {
                 onChange={handleChange}
                 disabled
               />
-             
             </div>
             <span className="text-danger">{errors.ifscCode}</span>
           </div>
@@ -306,7 +302,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('password')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -315,7 +311,6 @@ function UserProfileForm({ sellerId }) {
             </div>
             <span className="text-danger">{errors.password}</span>
           </div>
-          
         </div>
         <div className="row">
           <div className="form-group col-md-6">
@@ -335,7 +330,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('storeName')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -361,7 +356,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('pincode')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -371,8 +366,6 @@ function UserProfileForm({ sellerId }) {
             <span className="text-danger">{errors.pincode}</span>
           </div>
         </div>
-
-      
 
         <div className="row justify-content-center" style={{ marginTop: '20px' }}>
           <div className="col-md-6 text-right">
@@ -389,7 +382,6 @@ function UserProfileForm({ sellerId }) {
         <h3>Note:</h3>
         <label style={{ fontSize: '20px' }}> "The GSTIN, IFSC-code and Aadhar Number fields are not editable. If you require edits, please reach out to the administrator through E-mail (horizonadmin@gmail.com.)"</label>
       </div>
-      
       <SuccessModal show={showModal} handleClose={handleCloseModal} />
     </div>
   );

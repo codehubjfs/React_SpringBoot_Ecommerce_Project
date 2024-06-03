@@ -35,15 +35,22 @@ function UsersOverview({ sellerId }) {
   }, [sellerId]);
 
   return (
-    <Card className="shadow-sm seller-stat-card2 card-bg-gray" style={{ width: '350px' }}>
-      <Card.Body>
+    <Card className="shadow-sm seller-stat-card2 card-bg-gray" style={{ width: '700px', height: '400px' }}>
+<Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         <Card.Title id="dashboard-card">Sales Overview</Card.Title>
-        {chartData && <Doughnut data={chartData} options={{
-          aspectRatio: 1, // Maintain aspect ratio
-          maintainAspectRatio: true // Enable maintaining aspect ratio
-        }} />}
+        {chartData && (
+          <div style={{ width: '50%', display: 'flex', justifyContent: 'center' }}>
+            <Doughnut
+              data={chartData}
+              options={{
+                aspectRatio: 1,
+                maintainAspectRatio: true,
+              }}
+            />
+          </div>
+        )}
       </Card.Body>
-    </Card>
+  </Card>
   );
 }
 
