@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateOffer from "../components/CreateOffer";
 import OfferTable from "../components/OfferTable";
-import "../../src/Offer.css";
+import "../../src/AdminOffer.css";
 import DescriptionCard from "../components/DescriptionCard ";
 import { getOffersFromJson, addOfferToJson, updateOfferInJson, deleteOfferInJson } from "../slices/OfferSlice";
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CreateSellerOffer from "../components/CreateSellerOffer";
 import SellerOfferTable from "../components/SellerOfferTable";
-import "../../src/Offer.css";
+import "../../src/AdminOffer.css";
 import DescriptionCard from '../components/DescriptionCard ';
 
 function SellerOffer() {

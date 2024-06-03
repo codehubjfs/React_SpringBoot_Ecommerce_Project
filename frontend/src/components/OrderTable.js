@@ -16,35 +16,19 @@ const OrderTable = ({ orders }) => {
   const error = useSelector((state) => state.orders.error);
 
   useEffect(() => {
-    let table;
     if (orders.length > 0) {
-      table = $('#OrderTable').DataTable({
-        responsive: true,
-        destroy: true,
-        columnDefs: [
-          { targets: 3, type: 'string' } // Ensuring the Status column is treated as a string
-        ]
+      const table = $('#OrderTable').DataTable({
+        responsive: true
       });
-
-      $.fn.dataTable.ext.search.push((settings, data, dataIndex) => {
-        const status = data[3].toLowerCase(); // Index of 'Status' column
-        if (!filterStatus || status === filterStatus.toLowerCase()) {
-          return true;
+  
+      return () => {
+        if ($.fn.DataTable.isDataTable('#OrderTable')) {
+          table.destroy();
         }
-        return false;
-      });
-
-      table.draw(); // Redraw the table to apply the filter
+      };
     }
-
-    return () => {
-      if (table) {
-        $.fn.dataTable.ext.search.pop(); // Remove custom search function
-        table.destroy();
-      }
-    };
-  }, [orders, filterStatus]);
-
+  }, [orders]);
+  
   const handleViewOrder = (orderId) => {
     dispatch(getOrderById(orderId));
     setShowModal(true);
@@ -61,8 +45,11 @@ const OrderTable = ({ orders }) => {
 
   const handleFilterChange = (e) => {
     setFilterStatus(e.target.value);
-    $('#OrderTable').DataTable().draw(); // Redraw the table after changing the filter
   };
+
+  const filteredOrders = filterStatus
+    ? orders.filter(order => order.status === filterStatus)
+    : orders;
 
   if (loading === 'pending') {
     return (
@@ -78,7 +65,7 @@ const OrderTable = ({ orders }) => {
 
   return (
     <Container fluid className="mt-3">
-      <Form.Group controlId="statusFilter">
+      {/* <Form.Group controlId="statusFilter">
         <Form.Label>Filter by Status</Form.Label>
         <Form.Control as="select" value={filterStatus} onChange={handleFilterChange}>
           <option value="">All</option>
@@ -87,7 +74,7 @@ const OrderTable = ({ orders }) => {
           <option value="delivered">Delivered</option>
           <option value="cancelled">Cancelled</option>
         </Form.Control>
-      </Form.Group>
+      </Form.Group> */}
       <div className="table-responsive">
         <Table id="OrderTable" className="table-striped table-bordered table-hover mt-5" responsive>
           <thead>
@@ -102,7 +89,7 @@ const OrderTable = ({ orders }) => {
             </tr>
           </thead>
           <tbody>
-            {orders && orders.map((order, index) => (
+            {filteredOrders && filteredOrders.map((order, index) => (
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
                 <td className="text-center">{order.id}</td>
@@ -113,7 +100,7 @@ const OrderTable = ({ orders }) => {
                     onChange={(e) => handleStatusChange(order.id, e.target.value)}
                     className="form-control"
                   >
-                    <option value="pending">Pending</option>
+                    <option value="Pending">Pending</option>
                     <option value="shipped">Shipped</option>
                     <option value="delivered">Delivered</option>
                     <option value="cancelled">Cancelled</option>
@@ -122,9 +109,9 @@ const OrderTable = ({ orders }) => {
                 <td className="text-center">{order.amount}</td>
                 <td className="text-center">{order.paymentMethod}</td>
                 <td className="text-center" style={{ cursor: 'pointer' }}>
-                  <button className='btn' onClick={() => handleViewOrder(order.id)}>
-                    <i className="bi bi-eye"></i>
-                  </button>
+                  <button className='btn'>
+                  <i className="bi bi-eye" onClick={() => handleViewOrder(order.id)}></i>
+                    </button>
                 </td>
               </tr>
             ))}
@@ -159,20 +146,24 @@ const OrderTable = ({ orders }) => {
                 <div className="col-6">{selectedOrder.paymentMethod}</div>
               </div>
               <div className="row mb-2">
-                <div className="col-6 font-weight-bold">Delivery Date</div>
+              <div className="col-6 font-weight-bold">Delivery Date</div>
                 <div className="col-6">{selectedOrder.deliveryDate}</div>
               </div>
               <div className="row mb-2">
-                <div className="col-6 font-weight-bold">Order Date</div>
+              <div className="col-6 font-weight-bold">Order Date</div>
                 <div className="col-6">{selectedOrder.orderDate}</div>
               </div>
               <div className="row mb-2">
                 <div className="col-6 font-weight-bold">Product (ID)</div>
-                <div className="col-6">{selectedOrder.productId}</div>
+                <div className="col-6">
+                      {selectedOrder.productId}
+                </div>
               </div>
               <div className="row mb-2">
                 <div className="col-6 font-weight-bold">Quantity</div>
-                <div className="col-6">{selectedOrder.quantity}</div>
+                <div className="col-6">
+                {selectedOrder.quantity}
+                </div>
               </div>
             </Container>
           </Modal.Body>
