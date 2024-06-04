@@ -23,6 +23,7 @@
     "datatables.net": "^2.0.3",
     "datatables.net-bs4": "^2.0.3",
     "datatables.net-buttons-bs4": "^3.0.1",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
     "jquery-validation": "^1.20.0",
     "jspdf": "^2.5.1",

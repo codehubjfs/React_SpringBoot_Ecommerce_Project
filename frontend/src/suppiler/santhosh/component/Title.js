@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { fetchSellerDetails } from '../../slice/sellerDetailsSlice';
@@ -33,11 +34,6 @@ const SellerTitle = ({ toggleSidebar }) => {
       setShowNotificationModal(true);
     }
   };
-
-  const handleCloseNotificationModal = () => {
-    setShowNotificationModal(false);
-  };
-
   return (
     <header id="header" className="Seller-main-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', backgroundColor: '#343a40', padding: '0px', marginLeft: '50px' }}>
       <h3 style={{ color: 'white', margin: '0' }}>

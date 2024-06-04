@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchOrders, setOrdersFromSession, fetchTotalPrice } from '../../../slices/OrderSlice';
@@ -38,19 +39,11 @@ function SalesReport() {
     } else {
       dispatch(fetchProductsBySeller(sellerId));
     }
-
     dispatch(fetchAvailableProductsCount(sellerId));
     dispatch(fetchTotalProductsCount(sellerId));
     dispatch(fetchTotalPrice(sellerId));
   }, [dispatch, sellerId]);
 
-  if (ordersStatus === 'loading' || productsStatus === 'loading') {
-    return <div>Loading...</div>;
-  }
-
-  if (ordersStatus === 'failed' || productsStatus === 'failed') {
-    return <div>Error: {ordersError || productsError}</div>;
-  }
 
   const products = productsBySeller?.[sellerId] || [];
   const availableCount = availableProductsCountBySeller?.[sellerId] || 0;
@@ -70,36 +63,6 @@ console.log("producttitle" + products.productproductTitle);
     inStock: order.quantity,
    
   }));
-
-  return (
-    <Container fluid className="seller-dashboard">
-      <Row className="mb-4">
-        <Col>
-          <h2 className="seller-dashboard">Sales Report</h2>
-        </Col>
-      </Row>
-
-      <Row>
-        {productData.map((item, index) => (
-          <Col lg={3} className="mb-4" key={index}>
-            <Card className="shadow-sm seller-stat-card card-bg-gray" id="cardhover">
-              <Card.Body className="d-flex align-items-center">
-                <img
-                  src={[ordericon, available, revenue, listed][index]}
-                  alt={item.label}
-                  className="rounded-circle mb-3 card-icon"
-                  style={{ height: '70px', width: '70px' }}
-                />
-                <div className="ml-3">
-                  <Card.Title className="seller-card-title">{item.label}</Card.Title>
-                  <Card.Text className="seller-card-text">{item.value}</Card.Text>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-
       <Row className="mb-4">
       <Col lg={6} className="mb-4">
         <Card className="shadow-sm seller-stat-card2 card-bg-gray card-fixed-height">
@@ -144,5 +107,3 @@ console.log("producttitle" + products.productproductTitle);
     </Container>
   );
 }
-
-export default SalesReport;

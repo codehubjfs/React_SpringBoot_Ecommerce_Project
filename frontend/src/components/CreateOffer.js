@@ -185,7 +185,7 @@ export default function CreateOffer({ onCreate }) {
   return (
     <>
       <div className="align-right">
-        <button variant="primary" onClick={openModal} className="custom-button mt-3">
+        <button variant="primary" onClick={openModal} className="btn mt-3">
           Add Offer
         </button>
       </div>
