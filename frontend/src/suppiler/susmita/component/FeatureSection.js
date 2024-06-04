@@ -6,8 +6,8 @@ import icon16 from '../assets/images/register.png'; // Import icon 16 image
 
 function FeatureSection() {
   return (
-    <div className="feature-section">
-      <h2 className="text-center mb-5">Key Features</h2>
+    <div className="feature-section" style={{backgroundColor:'#d6d6d6', borderRadius:'10px',margin:'10px',padding:'25px'}}>
+      <h2 className="text-center mb-5" >Key Features</h2>
       <div className="row">
         {/* First Card */}
         <FeatureCard

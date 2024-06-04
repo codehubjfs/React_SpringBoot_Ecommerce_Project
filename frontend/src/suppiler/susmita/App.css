@@ -4,12 +4,195 @@
   font-size: 40px;
 }
 
-/* maincontent */
-.ui-MainContent{
-  text-align:left;
-  margin-top:60px;
-  margin-left: 0;
+/* App.css */
 
+/* Styles for the image */
+.ui-image {
+  width: 100%;
+  height: auto; /* Ensures the image maintains its aspect ratio */
+}
+/* Ensure the navbar has a higher z-index and is fixed to the top */
+.ui-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 600; /* Ensure it is above other content */
+  background-color: black; /* Ensure the background color is set */
+}
+
+.ui-navbar-brand {
+  display: flex;
+  align-items: center;
+  color: white; /* Text color set to white */
+}
+
+
+
+.seller-custom-card {
+  background-color: #f8f9fa; /* Light background color for the card */
+  border: 1px solid #dee2e6; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin: 20px 0; /* Margin for spacing */
+}
+
+.seller-custom-card-body {
+  padding: 20px; /* Padding inside the card */
+}
+
+.seller-custom-card-title {
+  font-size: 1.5rem; /* Larger font size for the title */
+  font-weight: bold; /* Bold font for the title */
+  margin-bottom: 10px; /* Spacing below the title */
+}
+
+.seller-custom-card-subtitle {
+  font-size: 1.25rem; /* Slightly smaller font for the subtitle */
+  margin-bottom: 15px; /* Spacing below the subtitle */
+}
+
+.seller-custom-card-text {
+  font-size: 1rem; /* Standard font size for the text */
+  color: #495057; /* Darker color for the text */
+}
+
+.seller-ui-benefits-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between the cards */
+}
+
+.seller-ui-benefit {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%; /* Ensure the width is consistent */
+  box-sizing: border-box;
+}
+
+.seller-ui-benefit-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 20px; /* Space between the icon and text */
+}
+
+.seller-ui-benefit-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-ui-benefit-title {
+  font-size: 22px;
+  margin: 0 0 10px 0; /* Space below the title */
+}
+
+.seller-ui-benefit-description {
+  font-size: 16px;
+  margin: 0;
+}
+
+.seller-ui-button-box {
+  width: 200%; /* Ensure the width is consistent */
+}
+
+#seller-ui-button-container {
+  font-size: 1.5rem; /* Adjust the font size as needed */
+  /* margin-bottom: 10px; Space below the title */
+}
+
+#seller-ui-button-box {
+  font-size: 1rem; /* Adjust the font size as needed */
+  margin: 0; /* Reset default margin */
+  text-align: justify; /* Justify the text */
+}
+
+.ui-card {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 35px;
+  width: 300px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+}
+
+.seller-ui-benefit-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-ui-benefit-title {
+  font-size: 22px;
+  margin: 0 0 10px 0;
+}
+
+.seller-ui-benefit-description {
+  font-size: 16px;
+  margin: 0;
+}
+
+.ui-step-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-circle {
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin: 0;
+}
+
+
+
+
+.ui-navbar-brand img {
+  margin-right: 5px;
+  width: 30px;
+}
+
+.ui-navbar-nav-link {
+  color: white; /* Text color set to white */
+}
+
+.ui-ml-auto {
+  margin-left: auto;
+}
+
+/* Styles for the content */
+.ui-content {
+  padding: 100px;
+  background-color: #d6d6d6;
+  border-radius: 10px;
+  font-size: 28px; /* Example background color */
+}
+
+/* Example styles for h1 elements inside the content */
+.ui-content h1 {
+  color: #333; /* Example text color */
+  font-size: 24px; /* Example font size */
+}
+
+/* Example styles for p elements inside the content */
+.ui-content p {
+  color: #666; /* Example text color */
+  font-size: 16px; /* Example font size */
 }
 
 
@@ -32,6 +215,13 @@
   justify-content: center;
   align-items:right;
 }
+.ui-MainContent{
+  text-align:left;
+  margin-top:40px;
+  margin-left: 0;
+
+}
+
 
 .ui-image-containers{
   height: 100%; /* Adjust height as needed */
@@ -100,6 +290,7 @@
     0 -2px 2px rgba(0, 0, 0, 0.1), /* Bottom shadow */
     0 0 0 1px rgba(255, 255, 255, 0.4) inset, /* Bottom border */
     0 -2px 0 rgba(255, 255, 255, 0.4) inset; /* Bottom highlight */
+
 }
 
 .ui-form-control {
@@ -121,6 +312,8 @@
 }
 #ui-button-container{
    color: #030404;
+   font-size: 24px;
+
 }
 /* App.css */
 
@@ -129,6 +322,7 @@
   border-radius: 5px; /* Add border radius */
   padding: 20px; /* Add padding */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow */
+  font-size: 24px;
 }
 
 .ui-categories-container {
@@ -159,15 +353,17 @@
 }
 
 .ui-toggle-button{
-  margin-top: 10px; /* Adjust spacing between category list and button */
+
+  margin-top: 30px; 
+  padding: 10px;/* Adjust spacing between category list and button */
   width: 150px; /* Set button width */
   
 }
 #ui-howworks {
   text-align: center;
-  background-image: linear-gradient(to right, #ded2d2, #675c61); 
+  /* background-image: linear-gradient(to right, #ded2d2, #675c61);  */
   padding: 30px;
- 
+ font-size: 24px;
  
 }
 .ui-benefit-module-container {
@@ -180,10 +376,22 @@
 
 #ui-support{
   color: #0e0e0e;
+  font-size: 22px;
 }
 #ui-para1{
   color:#040404;
+  font-size: 22px;
 }
+/* App.css */
+.ui-p-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center; /* Optional: if you want the text to be centered */
+}
+
 
 .ui-circle {
   width: 40px;
@@ -332,17 +540,20 @@
 
 
 .ui-slogan-card {
-  background: linear-gradient(135deg, #4e4949, #eeedeb);
-  padding: 20px;
+  /* background: #d1d4d3;  */
+    padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  margin-left: 90px;
 }
 
 .ui-flex-container {
   display: flex;
 }
 .ui-register-paragraphs{
-  font-size:24px;
+  font-size:20px;
   text-align:center;
 
 
@@ -490,6 +701,7 @@
 
 .ui-header{
   text-align: center;
+  font-size: 22px;
 }
 
 .ui-prime-content {
@@ -680,9 +892,8 @@
   margin-bottom: 10px;
   color: #333;
   text-align: center;
-  font-size: 30px;
+  font-size: 22px;
   width:100%;
-  background-image: linear-gradient(to right, #ded2d2, #675c61); /* Apply linear gradient */
   
 }
 
@@ -741,7 +952,7 @@ h3 {
 }
 
 p {
-  color: #555;
+  /* color: #555; */
   font-size: 16px;
   line-height: 1.5;
 }

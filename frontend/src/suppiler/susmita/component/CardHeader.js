@@ -3,8 +3,9 @@ import React from 'react';
 function CardHeader() {
   return (
     <div>
-      <h5 style={{ fontSize: '36px', color: 'black', textAlign: 'center' }}>Why Suppliers Sell on Horizon?</h5>
-      <p style={{ fontSize: '24px', color: 'black', textAlign: 'center' }}>11L+ Sellers sell online products on Horizon.</p>
+      <h5 style={{ fontSize: '22px', color: 'black', textAlign: 'center', }}><b>Why Suppliers Sell on Horizon?</b></h5>
+      <br></br>
+
     </div>
   );
 }

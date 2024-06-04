@@ -1,23 +1,17 @@
 import React from 'react';
-import '../App.css';
-import deliveryOrdersImage from '../assets/images/deliveryorders.jpeg'; // Import the image
+import deliveryOrdersImage from '../assets/images/deliveryorders.jpeg';
 
-function Deliveryorders() {
-  return (
-    <div className="col-md-12">
-      <div className="ui-row">
-        <div className="col-md-12">
-          <h3 className="ui-register-header" style={{ fontSize: '24px', color: 'black' }}>Delivery & Payment</h3>
-          <div className="ui-image-container text-center">
-            {/* Centered images go here */}
-            <img src={deliveryOrdersImage} alt="Image 1" />
-          </div>
-          <p style={{ fontSize: '18px', color: 'black' }}>When you receive an order for your product, you are notified via email. You can also check the order update on the Horizon Supplier panel.</p>
-          <p style={{ fontSize: '18px', color: 'black' }}>Horizon charges you the lowest shipping cost for deliveries across India. Our logistics partner picks up the product from your location and delivers it straight to the customer.</p>
-        </div>
-      </div>
-    </div>
-  );
+function DeliveryOrders() {
+return (
+<div style={{ marginBottom: '40px', padding: '20px', background: '#fff', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+<h3 style={{ fontSize: '24px', marginBottom: '20px' }}>Delivery & Payment</h3>
+<div style={{ margin: '20px 0', textAlign: 'center' }}>
+<img src={deliveryOrdersImage} alt="Delivery Orders" />
+</div>
+<p style={{ fontSize: '16px' }}>When you receive an order for your product, you are notified via email. You can also check the order update on the Horizon Supplier panel.</p>
+<p style={{ fontSize: '16px' }}>Horizon charges you the lowest shipping cost for deliveries across India. Our logistics partner picks up the product from your location and delivers it straight to the customer.</p>
+</div>
+);
 }
 
-export default Deliveryorders;
+export default DeliveryOrders;

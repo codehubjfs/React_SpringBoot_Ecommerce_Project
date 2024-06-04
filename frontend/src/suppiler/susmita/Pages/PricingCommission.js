@@ -19,14 +19,15 @@ function PricingCommission() {
   return (
     <div>
   <PricingComponent />
+  <PricingSloganCard />
+
 
 <FeeCard />
-<ShippingDetails />
-<ReturnPolicy />
-<CancellationPolicy />
+<ShippingDetails /><br/>
+<ReturnPolicy /><br/>
+<CancellationPolicy /><br/>
 <ReturnComponent />
 <FeatureSection />
-<PricingSloganCard />
 <SupportComponent />
  {/* <Footer /> */}
     </div>

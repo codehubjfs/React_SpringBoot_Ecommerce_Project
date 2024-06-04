@@ -1,20 +1,30 @@
 import React from 'react';
-import MainContent from './MainContent'; // Make sure to import MainContent from its correct file path
-import homepage from '../assets/images/homepage.jpeg';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import homepage from '../assets/images/selleronline.jpg';
+import '../App.css'; // Import the CSS file for additional styling
 
-function DifferentComponent() {
-  const title = "Start Your Online Business Today";
-  const subtitle = "Join thousands of successful sellers";
-  const description = "Take the first step towards entrepreneurship. With our platform, you can reach millions of customers worldwide and build a thriving online business.";
+const DifferentComponent = () => {
+  const imageUrl = homepage;
 
   return (
-    <MainContent
-      title={title}
-      subtitle={subtitle}
-      description={description}
-      imageUrl={homepage}
-    />
+    <MainContent imageUrl={imageUrl} />
   );
-}
+};
+
+const MainContent = ({ imageUrl }) => {
+  return (
+    <Container fluid className="ui-MainContent mb-5">
+      <Row>
+        <Col xs={12} className="d-flex justify-content-center">
+          <Card className="seller-custom-card" style={{ width: '95%' }}>
+            <Card.Body className="seller-custom-card-body">
+              {imageUrl && <Card.Img variant="top" src={imageUrl} />}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default DifferentComponent;

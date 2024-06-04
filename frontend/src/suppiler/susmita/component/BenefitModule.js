@@ -5,8 +5,9 @@ import '../App.css';
 function BenefitModule() {
   return (
     <div className="ui-benefit-module-container mb-5">
-      <h1>Become a Horizon Seller in Simple Steps</h1>
-      <div className="ui-how-it-works mb-5" style={{ background: 'linear-gradient(to right, #ded2d2, #675c61)', padding: '20px', marginBottom: '20px' }}>
+      <br></br>
+      <h4 style={{ fontSize: '22px', fontWeight: 'bold' ,margin:'20px'}}>Become a Horizon Seller in Simple Steps</h4>
+      <div className="ui-how-it-works mb-5" style={{ background: '#d6d6d6', padding: '10px', marginBottom: '20px',borderRadius:'10px' }}>
         <h1 id="ui-howworks" style={{ textAlign: 'center', marginBottom: '20px' }}></h1>
         <div className="row justify-content-between">
           <div className="col-md-auto mb-4">

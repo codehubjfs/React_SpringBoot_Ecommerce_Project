@@ -1,0 +1,26 @@
+.offer-card {
+    background-color: #f0f0f0; /* Change this to your desired background color */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .offer-card h3 {
+    margin: 0;
+    font-size: 28px; /* Increased font size */
+    color: #333; /* Optional: Change text color if needed */
+  }
+  
+  .offer-card p {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #555; /* Optional: Change text color if needed */
+  }
+  
+  .offer-card .discount {
+    font-size: 22px; /* Increased font size */
+    font-weight: bold;
+    color: #e74c3c;
+  }
+  

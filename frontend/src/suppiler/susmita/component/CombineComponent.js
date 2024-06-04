@@ -6,8 +6,8 @@ import cancellation from '../assets/images/cancellationimage.png';
 
 function CombineComponent() {
   return (
-    <div>
-      <div className="ui-row mb-5" style={{ boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.1)'}}>
+    <div className="container">
+      <div className="row mb-5" style={{ boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.1)'}}>
         <RewardComponent />
         <StabilityComponent
           icon={notification}

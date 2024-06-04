@@ -16,14 +16,14 @@ function VideoContainer() {
         },
         {
             title: "Introduction to Supplier Panel ",
-            text: "Learn all about setting up your online business on Horizon on the Supplier Panel, from managing orders and inventory to shipping products and order tracking.",
+            text: "Learn all about setting up your online business on Horizon on the Supplier Panel, shipping products and order tracking.",
             buttonText: "Go somewhere else",
             image: require('../assets/images/seller5.png'),
             videoLink: "6r8J7cowYI8"
         },
         {
             title: "How to grow your online business",
-            text: "Our business has grown beyond our imagination, getting upto 10,000 orders consistently during sale days. We are now constantly bringing new products thanks to Horizon's insights.",
+            text: "Our business has grown beyond our imagination, getting upto 10,000 orders consistently during sale days.",
             buttonText: "Go somewhere different",
             image: require('../assets/images/seller6.jpg'), // Replace "image_url_3.jpg" with the actual image URL
             videoLink: "Sc_mTnZIeaA"
@@ -42,7 +42,7 @@ function VideoContainer() {
     return (
         <div className="row mb-5">
             <div className="col-12 text-center mb-3">
-                <h1>Learn How to Sell Your Products on Horizon</h1>
+                <h1 style={{ fontSize: '22px' }}>Learn How to Sell Your Products on Horizon</h1>
             </div>
             {/* Map through the video data array and render CustomVideo component */}
             {videos.map((video, index) => (
