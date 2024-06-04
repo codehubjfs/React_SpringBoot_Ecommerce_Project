@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOffersFromJson, deleteOfferInJson } from '../slices/OfferSlice';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
@@ -6,10 +6,15 @@ import $ from 'jquery';
 import 'datatables.net-bs4/js/dataTables.bootstrap4.min.js';
 import { EditOffer } from './EditOffer';
 import { DeleteOffer } from './DeleteOffer';
+import { Container, Table, Spinner, Alert, Button } from 'react-bootstrap';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export function OfferTable() {
   const dispatch = useDispatch();
-  const { offerList, loading } = useSelector((state) => state.offers);
+  const { offerList, loading, error } = useSelector((state) => state.offers);
+  const tableRef = useRef();
 
   useEffect(() => {
     dispatch(getOffersFromJson());
@@ -18,7 +23,8 @@ export function OfferTable() {
   useEffect(() => {
     if (offerList.length > 0) {
       const table = $('#OfferTable').DataTable({
-        responsive: true
+        responsive: true,
+        destroy: true
       });
       return () => {
         table.destroy();
@@ -29,29 +35,18 @@ export function OfferTable() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [editOfferData, setEditOfferData] = useState(null);
-  const [deleteOfferId, setDeleteOfferId] = useState(null); 
+  const [deleteOfferId, setDeleteOfferId] = useState(null);
 
   const handleEdit = (index) => {
     const offerData = offerList[index];
-    console.log(offerData);
     setEditOfferData(offerData);
     setShowEditModal(true);
   };
 
   const handleDelete = (index) => {
-    console.log(index);
-    if (offerList && offerList.length > index) {
-      const offerToDelete = offerList[index];
-      console.log(offerToDelete);
-      if (offerToDelete && offerToDelete.offerId) {
-        setDeleteOfferId(offerToDelete.offerId); 
-        setShowDeleteModal(true);
-      } else {
-        console.error("Offer or its ID is undefined.");
-      }
-    } else {
-      console.error("Invalid index or empty offerList.");
-    }
+    const offerToDelete = offerList[index];
+    setDeleteOfferId(offerToDelete.offerId);
+    setShowDeleteModal(true);
   };
 
   const handleEditClose = () => {
@@ -74,14 +69,61 @@ export function OfferTable() {
       });
   };
 
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(offerList);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Offers");
+    XLSX.writeFile(wb, 'OfferTable.xlsx');
+  };
+
+  const downloadPDF = () => {
+    const input = tableRef.current;
+    html2canvas(input, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgWidth = pdfWidth;
+      const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save('OfferTable.pdf');
+    });
+  };
+
   if (loading === 'pending') {
-    return <div>Loading...</div>;
+    return <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>;
+  }
+
+  if (error) {
+    return <Alert variant="danger">Error: {error}</Alert>;
   }
 
   return (
-    <div className="container-fluid">
+    <Container fluid>
+      <div className="d-flex justify-content-end mb-3">
+        <Button variant="primary" className="me-2" onClick={exportToExcel}>
+          Export as Excel
+        </Button>
+        <Button variant="danger" className='pdfbtn' onClick={downloadPDF}>
+          Download as PDF
+        </Button>
+      </div>
       <div className="table-responsive">
-        <table id="OfferTable" className="table table-striped table-bordered table-hover mt-5">
+        <Table id="OfferTable" className="table-striped table-bordered table-hover mt-5" responsive ref={tableRef}>
           <thead>
             <tr>
               <th style={{ textAlign: 'center', backgroundColor: 'black', color: 'white' }}>S.No</th>
@@ -97,32 +139,27 @@ export function OfferTable() {
           <tbody>
             {offerList.map((offer, index) => (
               <tr key={index}>
-                <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                <td style={{ textAlign: 'left' }}>{offer.offerId}</td>
-                <td style={{ textAlign: 'left' }}>{offer.offerName}</td>
-                <td style={{ textAlign: 'center' }}>{offer.productId}</td>
-                <td style={{ textAlign: 'center' }}>{offer.discount}</td>
-                <td style={{ textAlign: 'center' }}>{offer.startDate}</td>
-                <td style={{ textAlign: 'center' }}>{offer.endDate}</td>
-                <td style={{ textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '10px' }}>
-                  <button className='btn'>
+                <td className="text-center">{index + 1}</td>
+                <td className="text-center">{offer.offerId}</td>
+                <td className="text-left">{offer.offerName}</td>
+                <td className="text-center">{offer.productId}</td>
+                <td className="text-center">{offer.discount}</td>
+                <td className="text-center">{offer.startDate}</td>
+                <td className="text-center">{offer.endDate}</td>
+                <td className="text-center">
                   <i className="bi bi-pencil-square" onClick={() => handleEdit(index)}></i>
-                  </button>
-                  <button className='btn'>
-                  <i className="bi bi-trash" onClick={() => handleDelete(index)}></i>
-                  </button>               
+                  <i className="bi bi-trash ms-4" onClick={() => handleDelete(index)}></i>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       </div>
 
       <EditOffer show={showEditModal} handleClose={handleEditClose} editOfferData={editOfferData} />
       <DeleteOffer show={showDeleteModal} handleClose={handleDeleteClose} handleDelete={confirmDelete} />
-    </div>
+    </Container>
   );
 }
 
 export default OfferTable;
-

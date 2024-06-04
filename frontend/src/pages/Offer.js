@@ -45,8 +45,6 @@ function Offer() {
     <><br></br>
   <br></br>
     <div className="offer-container">
-          <br></br>
-          <br></br>
       <h1 className="mt-3 text-center">Sale Offers</h1>
       <hr />
       <DescriptionCard title="Welcome to the Offers Management Dashboard">
