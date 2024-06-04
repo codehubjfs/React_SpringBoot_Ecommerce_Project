@@ -40,4 +40,3 @@ const SellerSidebar = ({ isSidebarVisible }) => {
 };
 
 export default SellerSidebar;
-

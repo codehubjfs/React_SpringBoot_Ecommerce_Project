@@ -24,14 +24,14 @@
     padding: 30px;
   }
   
-  .seller-card {
+  /* .seller-card {
     border-radius: 15px !important;
     transition: transform 0.1s !important;
-  }
+  } */
   
-  .seller-card:hover {
+  /* .seller-card:hover {
     transform: scale(0.5) !important;
-  }
+  } */
   
   .seller-card-title {
     color: black !important;
@@ -51,6 +51,12 @@
     width: 100%;
     margin-right: 10px !important;
   }
+  
+  .card-fixed-height {
+    height: 350px; /* Set a fixed height for the cards */
+  }
+
+ 
   
   .card-icon {
     margin-right: 20px;

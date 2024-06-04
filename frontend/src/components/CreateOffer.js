@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, ModalFooter, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 
 export default function CreateOffer({ onCreate }) {
@@ -185,7 +185,7 @@ export default function CreateOffer({ onCreate }) {
   return (
     <>
       <div className="align-right">
-        <button variant="primary" onClick={openModal} className="custom-button mt-3">
+        <button variant="primary" onClick={openModal} className="btn mt-3">
           Add Offer
         </button>
       </div>
@@ -271,13 +271,14 @@ export default function CreateOffer({ onCreate }) {
               />
               <Form.Control.Feedback type="invalid">{formErrors.endDate}</Form.Control.Feedback>
             </Form.Group>
-
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+            <ModalFooter>
             <Button variant="secondary" onClick={closeModal} className="ms-2">
               Close
             </Button>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+            </ModalFooter>
           </Form>
         </Modal.Body>
       </Modal>

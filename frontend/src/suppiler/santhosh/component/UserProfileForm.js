@@ -4,19 +4,21 @@ import { fetchSellerDetails, submitSellerDetails, updateSellerDetailsInDB, updat
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import SuccessModal from './SuccessModel';
+
 function UserProfileForm({ sellerId }) {
   const dispatch = useDispatch();
   const sellerDetails = useSelector((state) => state.sellerDetails);
+
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
-    // Retrieve seller details from Redux state
     const storedDetails = JSON.parse(sessionStorage.getItem('sellerDetails'));
     if (storedDetails) {
-      dispatch(updateSellerDetails(storedDetails)); // Update Redux state with stored details
+      dispatch(updateSellerDetails(storedDetails));
     } else if (sellerId) {
-      dispatch(fetchSellerDetails(sellerId)); // Fetch details from server if not in sessionStorage
+      dispatch(fetchSellerDetails(sellerId));
     }
   }, [dispatch, sellerId]);
 
@@ -26,33 +28,52 @@ function UserProfileForm({ sellerId }) {
 
     switch (name) {
       case 'fullName':
-        updatedValue = value.replace(/[^A-Za-z\s]/g, ''); 
+        updatedValue = value.replace(/[^A-Za-z\s]/g, '');
         if (!updatedValue.trim()) error = 'Name is required';
         break;
       case 'email':
-        updatedValue = value.trim(); // Trim whitespace
+        updatedValue = value.trim();
         if (!updatedValue) {
           error = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(updatedValue)) {
           error = 'Invalid email format';
         }
         break;
-      case 'mobile':
-        updatedValue = value.replace(/[^0-9]/g, ''); // Allow only numbers
-        if (!/^[7-9]\d{9}$/.test(updatedValue)) error = 'Invalid mobile number';
+      case 'mobileNumber':
+        updatedValue = value.replace(/[^0-9]/g, '');
+        if (!updatedValue.trim()) error = 'Mobile is required';
+        else if (!/^[7-9]\d{9}$/.test(updatedValue)) error = 'Invalid mobile number';
         break;
-      case 'location':
-        updatedValue = value.replace(/[^A-Za-z\s]/g, ''); // Allow only alphabets and spaces
+      case 'street':
+        updatedValue = value.replace(/[^A-Za-z\s]/g, '');
         if (!updatedValue.trim()) error = 'Location is required';
         break;
-      case 'shopName':
-        updatedValue = value.replace(/[^A-Za-z\s]/g, ''); // Allow only alphabets and spaces
+      case 'storeName':
+        updatedValue = value.replace(/[^A-Za-z\s]/g, '');
         if (!updatedValue.trim()) error = 'Shop Name is required';
         break;
       case 'pincode':
-        updatedValue = value.replace(/[^0-9]/g, ''); // Allow only numbers
-        if (updatedValue.length > 6) error = 'Pincode must be 6 digits';
-        if (!/^[1-9]\d{5}$/.test(updatedValue)) error = 'Invalid pincode format';
+        updatedValue = value.replace(/[^0-9]/g, '');
+        if (!updatedValue.trim()) error = 'Pincode is required';
+        else if (updatedValue.length > 6) error = 'Pincode must be 6 digits';
+        else if (!/^[1-9]\d{5}$/.test(updatedValue)) error = 'Invalid pincode format';
+        break;
+      case 'password':
+        if (!value.trim()) {
+          error = 'Password is required';
+        } else if (value.length < 6) {
+          error = 'Password must be at least 6 characters';
+        } else if (!/[A-Za-z]/.test(value) || !/[0-9]/.test(value)) {
+          error = 'Password must contain letters and numbers';
+        }
+        break;
+      case 'ifscCode':
+        updatedValue = value.toUpperCase().trim();
+        if (!updatedValue) {
+          error = 'IFSC Code is required';
+        } else if (!/^[A-Z]{4}0[A-Z0-9]{6}$/.test(updatedValue)) {
+          error = 'Invalid IFSC Code format';
+        }
         break;
       default:
         break;
@@ -66,41 +87,39 @@ function UserProfileForm({ sellerId }) {
     return { [name]: updatedValue, error };
   };
 
-  const handleEdit = (field) => {
-    if (field !== undefined) {
-      setIsEditing(true);
-      const currentValue = sellerDetails[field];
-      const { error } = validateField(field, currentValue);
-      if (!error) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [field]: ''
-        }));
-      }
-    } else {
-      setIsEditing(!isEditing);
-    }
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     const { [name]: updatedValue, error } = validateField(name, value);
 
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: error
-    }));
-
     dispatch(updateSellerDetails({ [name]: updatedValue }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const fields = ['fullName', 'email', 'mobileNumber', 'street', 'storeName', 'pincode', 'password', 'ifscCode'];
+    let hasErrors = false;
+
+    fields.forEach((field) => {
+      const { error } = validateField(field, sellerDetails[field]);
+      if (error) {
+        hasErrors = true;
+      }
+    });
+
+    if (hasErrors) {
+      return;
+    }
+
     if (isEditing) {
       dispatch(updateSellerDetailsInDB(sellerDetails));
     } else {
       dispatch(submitSellerDetails(sellerDetails));
     }
+
     setShowModal(true);
     setIsEditing(false);
   };
@@ -130,7 +149,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('fullName')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -156,7 +175,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('email')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -167,7 +186,6 @@ function UserProfileForm({ sellerId }) {
           </div>
         </div>
 
-        {/* Additional fields */}
         <div className="row">
           <div className="form-group col-md-6">
             <label htmlFor="mobileNumber" className="label-hover">Mobile:</label>
@@ -186,7 +204,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('mobileNumber')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -212,20 +230,20 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('location')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
                 </div>
               )}
             </div>
-            <span className="text-danger">{errors.location}</span>
+            <span className="text-danger">{errors.street}</span>
           </div>
         </div>
 
         <div className="row">
           <div className="form-group col-md-6">
-            <label htmlFor="aadharNumber" className="label-hover">Account Number:</label>
+            <label htmlFor="accountNumber" className="label-hover">Account Number:</label>
             <div className="input-group">
               <input
                 type="text"
@@ -251,10 +269,52 @@ function UserProfileForm({ sellerId }) {
             </div>
           </div>
         </div>
-
         <div className="row">
           <div className="form-group col-md-6">
-            <label htmlFor="shopName" className="label-hover">Shop Name:</label>
+            <label htmlFor="ifscCode" className="label-hover">IFSC Code:</label>
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                id="ifscCode"
+                name="ifscCode"
+                value={sellerDetails.ifscCode}
+                onChange={handleChange}
+                disabled
+              />
+            </div>
+            <span className="text-danger">{errors.ifscCode}</span>
+          </div>
+          <div className="form-group col-md-6">
+            <label htmlFor="password" className="label-hover">Password:</label>
+            <div className="input-group">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                name="password"
+                value={sellerDetails.password}
+                onChange={handleChange}
+                disabled={!isEditing}
+              />
+              {isEditing && (
+                <div className="input-group-append">
+                  <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={() => handleEdit()}
+                  >
+                    <FontAwesomeIcon icon={faPencilAlt} />
+                  </button>
+                </div>
+              )}
+            </div>
+            <span className="text-danger">{errors.password}</span>
+          </div>
+        </div>
+        <div className="row">
+          <div className="form-group col-md-6">
+            <label htmlFor="storeName" className="label-hover">Shop Name:</label>
             <div className="input-group">
               <input
                 type="text"
@@ -270,14 +330,14 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('shopName')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
                 </div>
               )}
             </div>
-            <span className="text-danger">{errors.shopName}</span>
+            <span className="text-danger">{errors.storeName}</span>
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="pincode" className="label-hover">Pincode:</label>
@@ -296,7 +356,7 @@ function UserProfileForm({ sellerId }) {
                   <button
                     className="btn btn-outline-secondary"
                     type="button"
-                    onClick={() => handleEdit('pincode')}
+                    onClick={() => handleEdit()}
                   >
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </button>
@@ -320,9 +380,8 @@ function UserProfileForm({ sellerId }) {
       </form>
       <div style={{ marginTop: '50px' }}>
         <h3>Note:</h3>
-        <label style={{ fontSize: '20px' }}> "The GSTIN and Aadhar Number fields are not editable. If you require edits, please reach out to the administrator through E-mail (horizonadmin@gmail.com.)"</label>
+        <label style={{ fontSize: '20px' }}> "The GSTIN, IFSC-code and Aadhar Number fields are not editable. If you require edits, please reach out to the administrator through E-mail (horizonadmin@gmail.com.)"</label>
       </div>
-      
       <SuccessModal show={showModal} handleClose={handleCloseModal} />
     </div>
   );

@@ -53,6 +53,7 @@ function OfferImageTable({ offerImages }) {
             <tr>
               <th className="text-center bg-dark text-white">S.No</th>
               <th className="text-center bg-dark text-white">Offer Image Id</th>
+              <th className="text-center bg-dark text-white">Category Id</th>
               <th className="text-center bg-dark text-white">Offer Image Url</th>
               <th className="text-center bg-dark text-white">Offer Image Name</th>
               <th className="text-center bg-dark text-white">Actions</th>
@@ -62,6 +63,7 @@ function OfferImageTable({ offerImages }) {
             {offerImages.map((offer, index) => (
               <tr key={index}>
                 <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                <td style={{ textAlign: 'center' }}>{offer.categoryId}</td>
                 <td style={{ textAlign: 'center' }}>{offer.offerImageId}</td>
                 <td style={{ textAlign: 'center' }}>{offer.offerImageUrl}</td>
                 <td style={{ textAlign: 'center' }}>{offer.offerImageName}</td>

@@ -141,6 +141,14 @@ margin-top: 0px !important;
     }
   }
   
+  
+  @media (max-width: 767.98px) {
+    
+    .breadcrumb-container {
+        margin-top: 70px; /* Ensure there's enough top margin on mobile */
+        padding: 0 10px; /* Add some padding to the sides to prevent overflow */
+    }
+}
 
 #createAcc{
     width: 100%;

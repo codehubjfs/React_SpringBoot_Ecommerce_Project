@@ -5,6 +5,7 @@ import com.horizon.repository.ElectronicRepository;
 import com.horizon.repository.FurnitureRepository;
 import com.horizon.repository.NotificationRepository;
 import com.horizon.repository.ProductRepository;
+import com.horizon.repository.ClothRepository;
 import com.horizon.model.Beauty;
 import com.horizon.model.Electronic;
 import com.horizon.model.Furniture;
@@ -41,6 +42,9 @@ public class ProductService {
     @Autowired
     private FurnitureRepository furnitureRepo;
 
+    @Autowired
+    private ClothRepository clothRepo;
+
     // Create or update a product
     public Product saveProduct(Product product) {
         return productRepo.save(product);
@@ -61,6 +65,10 @@ public class ProductService {
         return furnitureRepo.save(furniture);
     }
     
+    public Cloth saveCloth(Cloth cloth) {
+        return clothRepo.save(cloth);
+    }
+
     public void createNotification(Product product) {
         String message = "Supplier Id "+product.getSupplierId()+" request to add the "+product.getProductTitle();
         Notification notification = new Notification(product.getSupplierId(), message, "pending");
@@ -83,6 +91,10 @@ public class ProductService {
         return furnitureRepo.findById(productId);
     }
 
+    public Optional<Cloth> getClothById(int productId) {
+        return clothRepo.findById(productId);
+    }
+
     // Get all products
     public List<Product> getAllProducts() {
         return productRepo.findAll();
@@ -98,6 +110,10 @@ public class ProductService {
 
     public List<Furniture> getAllFurniture() {
         return furnitureRepo.findAll();
+    }
+
+    public List<Cloth> getAllCloth() {
+        return clothRepo.findAll();
     }
 
     // Delete product by ID
@@ -116,6 +132,11 @@ public class ProductService {
     public void deleteFurniture(int productId) {
         furnitureRepo.deleteById(productId);
     }
+
+
+    public void deleteCloth(int productId) {
+        clothRepo.deleteById(productId);
+    } 
     public Product approveProduct(int id) {
         Product product = productRepo.findById(id).orElse(null);
         if (product != null) {
@@ -170,7 +191,17 @@ public class ProductService {
     public List<ProductSalesDTO> getProductSales() {
         return productRepo.countProductsByCategory();
     }
+
+
+ //Supplier
+    public List<Product> getPendingProductsBySupplierId(int supplierId) {
+        return productRepo.findBySupplierIdAndStatus(supplierId, "Pending");
+    }
+    public List<Product> getRejectedProductsBySupplierId(int supplierId) {
+        return productRepo.findProductsBySupplierIdAndStatus(supplierId, "rejected");
+    }
     public List<Object[]> getTopSellers() {
         return productRepo.countProductsBySupplier();
+
     }
 }

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +16,20 @@ export default function AddAddress({ show, onHide }) {
     state: ""
   });
 
+
+
+
   const [formErrors, setFormErrors] = useState({});
   const dispatch = useDispatch();
   const status = useSelector(state => state.addresses.status);
   const [customerId, setCustomerId] = useState(1);
 
   useEffect(() => {
+
     const storedCustomerData = sessionStorage.getItem("customerData");
+
+ 
+
     if (storedCustomerData) {
       const parsedCustomer = JSON.parse(storedCustomerData);
       if (parsedCustomer && parsedCustomer.id) {
@@ -45,6 +53,7 @@ export default function AddAddress({ show, onHide }) {
         state: ""
       });
       onHide();
+
     } else {
       setFormErrors(errors);
     }
@@ -58,12 +67,15 @@ export default function AddAddress({ show, onHide }) {
     }));
     setFormErrors(prevFormErrors => ({
       ...prevFormErrors,
+
       [name]: ""
+
     }));
   };
 
   const validateForm = () => {
     const errors = {};
+
     if (!formData.fullName.trim()) {
       errors.fullName = "Full name is required";
     }
@@ -86,8 +98,8 @@ export default function AddAddress({ show, onHide }) {
     if (!formData.state.trim()) {
       errors.state = "State is required";
     }
-    return errors;
-  };
+
+
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -186,6 +198,90 @@ export default function AddAddress({ show, onHide }) {
           </Button>
         </Form>
       </Modal.Body>
+
+        <Modal.Title>Add New Address</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form id="addressForm" onSubmit={handleSubmit}>
+          <Form.Group as={Row} controlId="formStreet" className="mb-2">
+            <Form.Label column sm="3">
+              Street
+            </Form.Label>
+            <Col sm="9">
+              <Form.Control
+                type="text"
+                value={formData.street}
+                name="street"
+                onChange={handleChange}
+                isInvalid={!!formErrors.street}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formErrors.street}
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="formCity" className="mb-2">
+            <Form.Label column sm="3">
+              City
+            </Form.Label>
+            <Col sm="9">
+              <Form.Control
+                type="text"
+                value={formData.city}
+                name="city"
+                onChange={handleChange}
+                isInvalid={!!formErrors.city}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formErrors.city}
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="formState" className="mb-2">
+            <Form.Label column sm="3">
+              State
+            </Form.Label>
+            <Col sm="9">
+              <Form.Control
+                type="text"
+                value={formData.state}
+                name="state"
+                onChange={handleChange}
+                isInvalid={!!formErrors.state}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formErrors.state}
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="formPincode" className="mb-2">
+            <Form.Label column sm="3">
+              Pincode
+            </Form.Label>
+            <Col sm="9">
+              <Form.Control
+                type="text"
+                value={formData.zipCode}
+                name="zipCode"
+                onChange={handleChange}
+                isInvalid={!!formErrors.zipCode}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formErrors.zipCode}
+              </Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={onHide}>
+          Close
+        </Button>
+        <Button variant="primary" type="submit" form="addressForm" disabled={status === 'loading'}>
+          {status === 'loading' ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </Modal.Footer>
+
     </Modal>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDefaultAddresses, getAddressesFromJson, removeAddressFromJson, setSelectedAddress, addAddressToJson } from '../slices/addressSlice';
 import { fetchCustomerData } from '../slices/CustomerSlice';
@@ -37,12 +38,31 @@ function AddressCard() {
  //   }
   }, [dispatch]);
 
-  // Load customer data from sessionStorage when the component mounts
+ 
+import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import EditAddress from './EditAddress';
+import DeleteAddress from './DeleteAddress';
+import AddAddress from './AddAddress';
+import { getAddressesFromJson, removeAddressFromJson, setSelectedAddress, addAddressToJson } from '../slices/addressSlice';
+import { fetchCustomerData } from '../slices/CustomerSlice';
+
+function AddressCard() {
+  const [modalShow1, setModalShow1] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteAddress, setDeleteAddress] = useState(null);
+  const dispatch = useDispatch();
+  const { addressList, error, selectedAddress } = useSelector((state) => state.addresses);
+  const customer = useSelector((state) => state.customers.customer);
+
+
   useEffect(() => {
     const storedCustomerData = sessionStorage.getItem('customerData');
     if (storedCustomerData) {
       const parsedCustomer = JSON.parse(storedCustomerData);
       if (parsedCustomer && parsedCustomer.id) {
+
         dispatch(fetchCustomerData(parsedCustomer.id));
       }
     }
@@ -86,10 +106,58 @@ function AddressCard() {
     console.log(addresses);
     dispatch(addAddressToJson({ customerId: customer.id, addresses })).then(() => {
       setShowModal(false);
+        console.log('Customer ID retrieved from session storage: ', parsedCustomer.id);
+        dispatch(fetchCustomerData(parsedCustomer.id));
+      }
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (customer && customer.id) {
+      dispatch(getAddressesFromJson(customer.id));
+    }
+  }, [customer, dispatch]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const handleEdit = (address) => {
+    dispatch(setSelectedAddress(address));
+    setShowEditModal(true);
+  };
+
+  const handleDelete = (address) => {
+    setDeleteAddress(address);
+    setShowDeleteModal(true);
+  };
+
+  const handleEditClose = () => {
+    setShowEditModal(false);
+  };
+
+  const handleDeleteClose = () => {
+    setShowDeleteModal(false);
+    setDeleteAddress(null);
+  };
+
+  const confirmDelete = () => {
+    if (deleteAddress) {
+      dispatch(removeAddressFromJson({ customerId: customer.id, addressId: deleteAddress.id })).then(() => {
+        handleDeleteClose();
+      });
+    }
+  };
+
+  const handleAddAddress = (address) => {
+    dispatch(addAddressToJson({ customerId: customer.id, address })).then(() => {
+      setModalShow1(false);
+
     });
   };
 
   return (
+
     <div className="container mt-5">
       <h1 style={{ marginTop: "100px" }}>User Address</h1>
       <div id="address-container" style={{ marginBottom: "20px", marginTop: "10px" }}>
@@ -133,17 +201,30 @@ function AddressCard() {
         </div>
       </div>
 
-      <AddAddress show={showModal} onHide={() => setShowModal(false)} onCreate={handleAddAddress} />
+      
+
+      <Button variant="primary" onClick={() => setModalShow1(true)}>Add Address</Button>
+      <AddAddress show={modalShow1} onHide={() => setModalShow1(false)} onCreate={handleAddAddress} />
       {showEditModal && (
-        <EditAddress show={showEditModal} onHide={() => setShowEditModal(false)} addressData={add} />
+        <EditAddress
+          show={showEditModal}
+          onHide={handleEditClose}
+          addressData={selectedAddress}
+        />
+
       )}
       {showDeleteModal && (
         <DeleteAddress
           show={showDeleteModal}
+
           onHide={() => setShowDeleteModal(false)}
           onConfirm={confirmDeleteAddress}
           addressData={add}
           itemName={deleteAddress ? deleteAddress.title : ''}
+
+          onHide={handleDeleteClose}
+          addressData={deleteAddress}  // Ensure addressData is passed here
+
         />
       )}
     </div>

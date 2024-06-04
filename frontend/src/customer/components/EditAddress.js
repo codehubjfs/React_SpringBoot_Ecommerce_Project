@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAddressInJson } from '../slices/addressSlice';
 
 export default function EditAddress({ show, onHide, addressData }) {
+
   //let add=useSelector((state)=>state.address.addresses);
   console.log("addressdata2",addressData);
   const [formData, setFormData] = useState({
@@ -21,6 +22,18 @@ mobileNumber:''
   const status = useSelector(state => state.addresses.status);
   const [customerId, setCustomerId] = useState(null); // Initialize to null
 
+  const [formData, setFormData] = useState({
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const dispatch = useDispatch();
+  const status = useSelector(state => state.addresses.status);
+  const [customerId, setCustomerId] = useState(1); // Initialize to null
+
+
   useEffect(() => {
     const storedCustomerData = sessionStorage.getItem('customerData');
     if (storedCustomerData) {
@@ -32,6 +45,7 @@ mobileNumber:''
   }, []);
 
   useEffect(() => {
+
     console.log("addressesdata1",addressData);
     if (addressData) {
       setFormData({
@@ -42,6 +56,13 @@ mobileNumber:''
         state: addressData.state,
         pincode: addressData.pincode,
         mobileNumber:addressData.mobileNumber
+
+    if (addressData) {
+      setFormData({
+        street: addressData.street || '',
+        city: addressData.city || '',
+        state: addressData.state || '',
+        zipCode: addressData.zipCode || '',
       });
     }
   }, [addressData]);
@@ -56,11 +77,16 @@ mobileNumber:''
     event.preventDefault();
     console.log('Form Data before submission:', formData);
     const errors = validateForm(formData);
+
     console.log("error",errors);
     if (Object.keys(errors).length === 0) {
       try {
         
         await dispatch(updateAddressInJson({ customerId,address: formData }));
+
+    if (Object.keys(errors).length === 0) {
+      try {
+        dispatch(updateAddressInJson({ customerId, addressId: addressData.id, updatedAddress: formData }));
       } catch (error) {
         console.error('Error updating address:', error.message);
       }
@@ -83,6 +109,7 @@ mobileNumber:''
 
   const validateForm = () => {
     const errors = {};
+
     if (!formData.fullName.trim()) errors.fullName= 'fullName is required';
 
     if (!formData.street.trim()) errors.street = 'Street is required';
@@ -90,6 +117,12 @@ mobileNumber:''
     if (!formData.state.trim()) errors.state = 'State is required';
     if (!/^\d{10}$/.test(formData.mobileNumber)) errors.mobileNumber = 'Mobile number  must be 10 digits';
     if (!/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Zip code must be 6 digits';
+
+    if (!formData.street.trim()) errors.street = 'Street is required';
+    if (!formData.city.trim()) errors.city = 'City is required';
+    if (!formData.state.trim()) errors.state = 'State is required';
+    if (!/^\d{6}$/.test(formData.zipCode)) errors.zipCode = 'Zip code must be 6 digits';
+
     return errors;
   };
 
@@ -116,6 +149,7 @@ mobileNumber:''
               <Form.Control.Feedback type="invalid">{formErrors.fullName}</Form.Control.Feedback>
             </Col>
           </Form.Group>
+
           <Form.Group as={Row} controlId="formStreet" className="mb-2">
             <Form.Label column sm="3">
               Street
@@ -161,6 +195,7 @@ mobileNumber:''
               <Form.Control.Feedback type="invalid">{formErrors.state}</Form.Control.Feedback>
             </Col>
           </Form.Group>
+
           <Form.Group controlId="pincodeInput">
             <Form.Label>
               Pincode <span style={{ color: "red" }}>*</span>
@@ -186,6 +221,22 @@ mobileNumber:''
               onChange={handleChange}
             />
             {formErrors.mobileNumber && <span className="text-danger">{formErrors.mobileNumber}</span>}
+
+          <Form.Group as={Row} controlId="formZipCode" className="mb-2">
+            <Form.Label column sm="3">
+              Zip Code
+            </Form.Label>
+            <Col sm="9">
+              <Form.Control
+                type="text"
+                value={formData.zipCode}
+                name="zipCode"
+                onChange={handleChange}
+                isInvalid={!!formErrors.zipCode}
+              />
+              <Form.Control.Feedback type="invalid">{formErrors.zipCode}</Form.Control.Feedback>
+            </Col>
+
           </Form.Group>
         </Form>
       </Modal.Body>

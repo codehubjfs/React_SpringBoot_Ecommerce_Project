@@ -1,8 +1,37 @@
 import React, { useState, useContext } from 'react';
 import PageLayout from '../Layout/PageLayout';
 import RightContent from '../Layout/RightContent';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { FormContext } from '../context/FormContext'; // Import FormContext
+
+function Breadcrumb() {
+    return (
+        <nav aria-label="breadcrumb"  className="breadcrumb-container"> 
+            <ol className="breadcrumb py-3 px-3" style={{ backgroundColor: '#e8e9ea', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                <li className="breadcrumb-item">
+                    <Link to="/homesupplier" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Seller</span>
+                    </Link>  
+                </li>
+                <li className="breadcrumb-item">
+                    <Link to="/registration" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>Basic Details</span>
+                    </Link>               
+                 </li>
+                 <li className="breadcrumb-item">
+                    <Link to="/taxdetails" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>GSTIN or EnrollmentID</span>
+                    </Link>               
+                 </li>
+                 <li className="breadcrumb-item">
+                    <Link to="/pickupaddress" style={{ textDecoration: 'none', color: '#343a40' }}>
+                        <span style={{ transition: 'color 0.3s' }}>PickupAddress</span>
+                    </Link>               
+                 </li>
+            </ol>
+        </nav>
+    );
+}
 
 function BankDetails() {
     const { formData, updateFormData } = useContext(FormContext); // Use FormContext
@@ -68,13 +97,17 @@ function BankDetails() {
     ];
 
     return (
+        <>
+         <div style={{marginTop:'40px'}}>
+        <Breadcrumb />
+        </div>
         <PageLayout
             leftContent={
                 <form onSubmit={handleSubmit}>
                     <div className="registercontent">
                         <h2>Bank Details for Horizon Seller Account</h2>
                         {formFields.map(field => (
-                            <div className="form-group" key={field.name} style={{ marginBottom: '20px' }}>
+                            <div className="form-group" key={field.name} style={{ marginTop: '10px' }}>
                                 <label htmlFor={field.name}><strong>{field.label}</strong><span style={{ color: 'red' }}>*</span></label>
                                 <input
                                     type="text"
@@ -89,13 +122,14 @@ function BankDetails() {
                                 <span className="error" style={{ color: 'red' }}>{errors[field.name]}</span>
                             </div>
                         ))}
-                        <button type="submit" className="btn btn-success continue-button">Continue</button>
+                        <button type="submit" id="sellercontinueButton" className="btn btn-primary" style={{marginTop:'25px'}}>Continue</button>
                     </div>
                 </form>
             }
             rightContent={<RightContent title="Importance of Bank Details in Horizon Seller Account" content="Providing accurate bank details is crucial for a Horizon seller account. It ensures timely payouts for your orders and helps in seamless transactions. Make sure to double-check your bank information to avoid any payment delays." />}
             specialIconIndex={2} // Set the special icon index to 2 for Bank Details
         />
+        </>
     );
 }
 

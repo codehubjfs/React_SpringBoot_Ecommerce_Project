@@ -1,6 +1,7 @@
+
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchOrders, setOrdersFromSession } from '../../slice/';
+import { fetchOrders, setOrdersFromSession } from '../../../slices/OrderSlice';
 import $ from 'jquery';
 import 'datatables.net-bs4';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
@@ -82,4 +83,4 @@ function Report() {
   );
 }
 
-export default Report;
+export default Report

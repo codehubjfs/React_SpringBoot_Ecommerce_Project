@@ -1,10 +1,5 @@
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, ModalFooter } from 'react-bootstrap';
 import { updateOfferInJson } from '../slices/OfferSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -214,19 +209,15 @@ export function EditOffer({ show, handleClose, editOfferData }) {
             />
             <Form.Control.Feedback type="invalid">{formErrors.discount}</Form.Control.Feedback>
           </Form.Group>
-
           <Form.Group controlId="startDate">
             <Form.Label>Start Date</Form.Label>
             <Form.Control
-              type="date"
+              type="text"
               name="startDate"
               value={startDate}
-              onChange={handleInputChange}
-              isInvalid={!!formErrors.startDate}
+              readOnly
             />
-            <Form.Control.Feedback type="invalid">{formErrors.startDate}</Form.Control.Feedback>
           </Form.Group>
-
           <Form.Group controlId="endDate">
             <Form.Label>End Date</Form.Label>
             <Form.Control
@@ -238,10 +229,11 @@ export function EditOffer({ show, handleClose, editOfferData }) {
             />
             <Form.Control.Feedback type="invalid">{formErrors.endDate}</Form.Control.Feedback>
           </Form.Group>
-
-          <Button variant="primary" type="submit">
+          <ModalFooter>
+            <Button variant="primary" type="submit">
             Save Changes
           </Button>
+          </ModalFooter>
         </Form>
       </Modal.Body>
     </Modal>

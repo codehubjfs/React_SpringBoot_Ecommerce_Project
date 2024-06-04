@@ -3,11 +3,11 @@ import { FaCheck } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button, Spinner, Alert } from 'react-bootstrap';
 import { fetchNotifications, markNotificationAsRead, markAllNotificationsAsRead } from '../slices/NotificationSlice';
+import '../AdminOffer.css';
 
 export const NotificationModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const { notificationsList, status, error } = useSelector((state) => state.notifications);
-  console.log(notificationsList,"hiii");
 
   useEffect(() => {
     if (isOpen) {
@@ -32,11 +32,10 @@ export const NotificationModal = ({ isOpen, onClose }) => {
   };
 
   const pendingNotifications = notificationsList.filter(notification => notification.prodStatus === 'pending');
-  console.log(pendingNotifications,"helooo");
 
   return (
-    <div style={{ display: isOpen ? 'block' : 'none', position: 'fixed', top: '10px', right: '10px', zIndex: '1050' }}>
-      <Modal show={isOpen} onHide={handleCancel} centered={false} dialogClassName="modal-90w">
+    <div>
+      <Modal show={isOpen} onHide={handleCancel} dialogClassName="custom-modal" backdropClassName="custom-backdrop">
         <Modal.Header closeButton>
           <Modal.Title>Seller Product Requests</Modal.Title>
         </Modal.Header>
@@ -50,12 +49,14 @@ export const NotificationModal = ({ isOpen, onClose }) => {
           ) : pendingNotifications.length === 0 ? (
             <p>No pending messages.</p>
           ) : (
-            pendingNotifications.map((message) => (
-              <div key={message.id} className="d-flex justify-content-between align-items-center">
-                <p style={{ marginBottom: '0' }}>{message.message}</p>
-                <FaCheck style={{ cursor: 'pointer' }} onClick={() => handleMarkAsRead(message.id)} />
-              </div>
-            ))
+            <div className="modal-body-content">
+              {pendingNotifications.map((message) => (
+                <div key={message.id} className="d-flex justify-content-between align-items-center mb-2">
+                  <p style={{ marginBottom: '0' }}>{message.message}</p>
+                  <FaCheck style={{ cursor: 'pointer' }} onClick={() => handleMarkAsRead(message.id)} />
+                </div>
+              ))}
+            </div>
           )}
           {pendingNotifications.length > 0 && (
             <div className="mt-3 text-end">
