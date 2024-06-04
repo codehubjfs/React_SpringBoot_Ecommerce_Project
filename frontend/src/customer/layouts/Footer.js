@@ -9,10 +9,10 @@ function Footer() {
   return (
     <footer id="main-footer" className="custom-footer" role="contentinfo">
       <div className="container-fluid custom-container-fluid">
-        <div className="row custom-row">
+        <div className="row custom-row" style={{color:"white"}}>
           <div className="col-md-3 custom-col-md-3">
             <h5>
-              <strong>Company</strong>
+              <strong style={{color:"white"}}>Company</strong>
             </h5>
             <ul>
               <li>
@@ -43,9 +43,9 @@ function Footer() {
           </div>
           <div className="col-md-3 custom-col-md-3">
             <h5>
-              <strong>Prime Membership</strong>
+              <strong style={{color:"white"}}>Prime Membership</strong>
             </h5>
-            <p>Register for our Prime Membership for exclusive benefits.</p>
+            <p style={{color:"white"}}>Register for our Prime Membership for exclusive benefits.</p>
             <p>
               {isLoggedIn ? (
                 <Link to="/prime" style={{ color: "#fff4a3" }}>
@@ -60,7 +60,7 @@ function Footer() {
           </div>
           <div className="col-md-3 custom-col-md-3">
             <h5>
-              <strong>Social</strong>
+              <strong style={{color:"white"}}>Social</strong>
             </h5>
             <div
               className="footer-icons custom-footer-icons"
@@ -82,17 +82,17 @@ function Footer() {
           </div>
           <div className="col-md-3 custom-col-md-3">
             <h5>
-              <strong>Address</strong>
+              <strong style={{color:"white"}}>Address</strong>
             </h5>
-            <p>123 Street, Salem, Tamil nadu</p>
-            <p>Email: Info@horizon.com</p>
+            <p style={{color:"white"}}>123 Street, Salem, Tamil nadu</p>
+            <p style={{color:"white"}}>Email: Info@horizon.com</p>
           </div>
         </div>
       </div>
       <div className="container mt-4 custom-container">
         <div>
           <hr />
-          <p style={{ textAlign: "center" }}>
+          <p style={{ textAlign: "center",color:"white" }}>
             &copy; 2024 Horizon. All rights reserved.
           </p>
         </div>

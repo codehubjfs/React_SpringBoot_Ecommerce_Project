@@ -1,78 +1,100 @@
-// /*
-// import React from 'react';
-// import './productbuttons.css';
-// import {Link} from "react-router-dom";
-
-// const ProductButtons = () => {
-//     return (
-//         <div className="row mt-3">
-//             <div className="col-12">
-//                 <div className="btn-group" role="group" aria-label="ProductLayout Buttons">
-//                     <Link to="/product">
-//                     <a href=".#" className="btn btn-custom-orange shadow-0">Buy now</a>
-//                     </Link>
-//                     <a href="#" className="btn btn-custom-yellow shadow-0"><i className="me-1 fas fa-shopping-basket"></i>Add to cart</a>
-//                     <a href="#" className="btn btn-outline-secondary py-2 icon-hover px-3"><i
-//                         className="me-1 fas fa-heart fa-lg"></i>Save</a>
-//                 </div>
-
-
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ProductButtons;
-// */
-// import React from 'react';
-// import { Link } from "react-router-dom";
-// import './productbuttons.css';
-// import { useAuth } from '../AuthContext';
-
-// const ProductButtons = ({ categoryId,productId ,selectedColor,selectedStorage,selectedSize,selectedContent }) => {
-//     const { isLoggedIn, login, logout } = useAuth();
-
-//     return (
-//         <div className="row mt-3">
-//             <div className="col-12">
-//                 {isLoggedIn?(
-//                 <div className="btn-group" role="group" aria-label="ProductLayout Buttons">
-//                     <Link to={`/checkout/${categoryId}/${productId}?color=${encodeURIComponent(selectedColor)}&storage=${encodeURIComponent(selectedStorage)}&size=${encodeURIComponent(selectedSize)}&Content=${encodeURIComponent(selectedContent)}`}>
-
-//                     <button className="btn btn-custom-orange shadow-0">Buy now</button>
-//                     </Link>
-//                     <a href="#" className="btn btn-custom-yellow shadow-0"><i className="me-1 fas fa-shopping-basket"></i>Add to cart</a>
-//                     <a href="#" className="btn btn-outline-secondary py-2 icon-hover px-3"><i
-//                         className="me-1 fas fa-heart fa-lg"></i>Save</a>
-//                 </div>
-//                 ):(
-//                 <div className="btn-group" role="group" aria-label="ProductLayout Buttons">
-//                 <Link to={"/signin"}>
-
-//                 <button className="btn btn-custom-orange shadow-0">Buy now</button>
-//                 </Link>
-//                 <Link to={"/signin"}>
-//                 <a href="#" className="btn btn-custom-yellow shadow-0"><i className="me-1 fas fa-shopping-basket"></i>Add to cart</a>
-//                 <a href="#" className="btn btn-outline-secondary py-2 icon-hover px-3"><i
-//                     className="me-1 fas fa-heart fa-lg"></i>Save</a></Link>
-//             </div>
-//             )}
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ProductButtons;
-
-
-
-
 import React from 'react';
 import { Link } from "react-router-dom";
 import './productbuttons.css';
-
-const ProductButtons = ({ category,id ,selectedColor,selectedStorage,selectedSize,selectedContent }) => {
-    return (
+import {
+    fetchWishlist,
+    addItemToWishlist,
+    removeItemFromWishlist,
+  } from "../slices/WishlistSlice";
+  import { addItemToCart } from "../slices/CartSlice";
+  import { toast, ToastContainer } from "react-toastify";
+  import "react-toastify/dist/ReactToastify.css";
+  import { useSelector,useDispatch } from 'react-redux';
+  import { useAuth } from '../AuthContext';
+const ProductButtons = ({ id ,selectedColor,selectedStorage,selectedSize,selectedContent, productId,
+    category,
+    mainImage,
+    model,
+    productTitle,
+    price,
+    rating,}) => {
+    const dispatch = useDispatch();
+    const items = useSelector((state) => state.wishlist.items);
+    const { isLoggedIn } = useAuth();
+    console.log(items)
+    const handleLikeButtonClick = (
+      productId,
+      mainImage,
+      productmodel,
+      productTitle,
+      price,
+      rating
+    ) => {
+      console.log(items);
+      const isItemInWishlist = items.some(
+        (wishlistItem) => wishlistItem.id === productId
+      );
+      const storedCustomerData = sessionStorage.getItem("customerData");
+      const parsedCustomer = JSON.parse(storedCustomerData);
+  
+      if (isItemInWishlist) {
+        dispatch(
+          removeItemFromWishlist({
+            id: productId,
+            customerId: parsedCustomer.id,
+          })
+        );
+      } else {
+        console.log(items);
+        dispatch(
+          addItemToWishlist({
+            ProductCard: {
+              productId,
+              mainImage,
+              productmodel,
+              productTitle,
+              price,
+              rating,category
+            },
+            customerId: parsedCustomer.id,
+          })
+        );
+      }
+    };
+  
+    const handleCartButtonClick = (
+      productId,
+      mainImage,
+      productmodel,
+      productTitle,
+      price,
+      rating,category
+    ) => {
+      const storedCustomerData = sessionStorage.getItem("customerData");
+      const parsedCustomer = JSON.parse(storedCustomerData);
+      const quantity = 1;
+  
+      dispatch(
+        addItemToCart({
+          productCard: {
+            productId,
+            mainImage,
+            productmodel,
+            productTitle,
+            price,
+            quantity,category
+          },
+          customerId: parsedCustomer.id,
+        })
+      );
+  
+      // Show toast message when item is added to cart
+      // Inside handleCartButtonClick function
+  toast.success("Product added to cart!", {
+    position: "bottom-right", 
+  });
+  
+    }; return (
         <div className="row mt-3">
             <div className="col-12">
                 <div className="btn-group" role="group" aria-label="ProductLayout Buttons">
@@ -80,9 +102,45 @@ const ProductButtons = ({ category,id ,selectedColor,selectedStorage,selectedSiz
 
                     <button className="btn btn-custom-orange shadow-0">Buy now</button>
                     </Link>
-                    <a href="#" className="btn btn-custom-yellow shadow-0"><i className="me-1 fas fa-shopping-basket"></i>Add to cart</a>
-                    <a href="#" className="btn btn-outline-secondary py-2 icon-hover px-3"><i
-                        className="me-1 fas fa-heart fa-lg"></i>Save</a>
+                    <button  className="btn btn-custom-yellow shadow-0"  onClick={() => {
+              if (isLoggedIn) {
+                handleCartButtonClick(
+                  productId,
+                  mainImage,
+                  model,
+                  productTitle,
+                  price,
+                  rating,
+                  category
+                );
+                console.log(
+                  productId,
+                  mainImage,
+                  model,
+                  productTitle,
+                  price,
+                  rating,category
+                );
+                console.log("cart clicked");
+              } else {
+                window.location.href = "/signin";
+              }
+            }}><i className="me-1 fas fa-shopping-basket"></i>Add to cart</button>
+                    <button  className="btn btn-outline-secondary py-2 icon-hover px-3"  onClick={() => {
+              if (isLoggedIn) {
+                handleLikeButtonClick(
+                  productId,
+                  mainImage,
+                  model,
+                  productTitle,
+                  price,
+                  rating,category
+                );
+              } else {
+                window.location.href = "/signin";
+              }
+            }}><i
+                        className="me-1 fas fa-heart fa-lg"></i>Save</button>
                 </div>
             </div>
         </div>
