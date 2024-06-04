@@ -61,18 +61,6 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @PostMapping("/cloth")
-    public ResponseEntity<?> createClothProduct(@RequestBody Cloth product) {
-        product.setCategory("Cloth");
-        product.setDateOfAddition(new Date());
-        product.setDecession("pending");
-        product.setStatus("active");
-        productService.saveProduct(product);
-        productService.saveCloth(product);
-        return new ResponseEntity<>(product, HttpStatus.OK);
-    }
-
-
     @PutMapping("/beauty/{id}")
     public ResponseEntity<?> updateBeautyProduct(@PathVariable int id, @RequestBody Beauty product) {
         Optional<Beauty> existingProductOpt = productService.getBeautyById(id);
@@ -124,33 +112,6 @@ public class ProductController {
         existingProduct.setVideo(product.getVideo());
         productService.saveProduct(existingProduct);
         productService.saveFurniture(existingProduct);
-        return new ResponseEntity<>(existingProduct, HttpStatus.OK);
-    }
-
-    @PutMapping("/cloth/{id}")
-    public ResponseEntity<?> updateClothProduct(@PathVariable int id, @RequestBody Cloth product) {
-        Optional<Cloth> existingProductOpt = productService.getClothById(id);
-        if (!existingProductOpt.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Cloth existingProduct = existingProductOpt.get();
-        existingProduct.setBrand(product.getBrand());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setMainImage(product.getMainImage());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setProductTitle(product.getProductTitle());
-        existingProduct.setStock(product.getStock());
-        existingProduct.setColor(product.getColor());
-        existingProduct.setSizes(product.getSizes());
-        existingProduct.setMaterial(product.getMaterial());
-        existingProduct.setModel(product.getModel());
-        existingProduct.setThumbnail1(product.getThumbnail1());
-        existingProduct.setThumbnail2(product.getThumbnail2());
-        existingProduct.setThumbnail3(product.getThumbnail3());
-        existingProduct.setThumbnail4(product.getThumbnail4());
-        existingProduct.setVideo(product.getVideo());
-        productService.saveProduct(existingProduct);
-        productService.saveCloth(existingProduct);
         return new ResponseEntity<>(existingProduct, HttpStatus.OK);
     }
 
@@ -217,9 +178,6 @@ public class ProductController {
             case "furniture":
                 List<Furniture> furnitures = productService.getAllFurniture();
                 return ResponseEntity.ok(furnitures);
-            case "cloth":
-                List<Cloth> cloth = productService.getAllCloth();
-                return ResponseEntity.ok(cloth);
             default:
                 return ResponseEntity.badRequest().body("Invalid category");
         }
@@ -231,22 +189,9 @@ public class ProductController {
         products.addAll(productService.getAllElectronics());
         products.addAll(productService.getAllBeauty());
         products.addAll(productService.getAllFurniture());
-        products.addAll(productService.getAllCloth());
         products.removeIf(product -> product.getStatus().equalsIgnoreCase("inactive"));
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getAllProducts(@PathVariable int id) {
-        List<Product> products = new ArrayList<>();
-        products.addAll(productService.getAllElectronics());
-        products.addAll(productService.getAllBeauty());
-        products.addAll(productService.getAllFurniture());
-        products.addAll(productService.getAllCloth());
-        products.removeIf(product -> product.getStatus().equalsIgnoreCase("inactive"));
-        products.removeIf(product -> product.getSupplierId()!=id);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-    
     
     @GetMapping("/totalproducts")
     public ResponseEntity<?> getTotalProdcuts() {
@@ -254,7 +199,6 @@ public class ProductController {
         products.addAll(productService.getAllElectronics());
         products.addAll(productService.getAllBeauty());
         products.addAll(productService.getAllFurniture());
-        products.addAll(productService.getAllCloth());
         products.removeIf(product -> product.getStatus().equalsIgnoreCase("inactive"));
         return new ResponseEntity<>(products.size(), HttpStatus.OK);
     }
@@ -265,7 +209,6 @@ public class ProductController {
         products.addAll(productService.getAllElectronics());
         products.addAll(productService.getAllBeauty());
         products.addAll(productService.getAllFurniture());
-        products.addAll(productService.getAllCloth());
         products.removeIf(product -> product.getStatus().equalsIgnoreCase("inactive"));
         products.removeIf(product -> product.getStock()==0);
         return new ResponseEntity<>(products.size(), HttpStatus.OK);
@@ -277,7 +220,6 @@ public class ProductController {
         products.addAll(productService.getAllElectronics());
         products.addAll(productService.getAllBeauty());
         products.addAll(productService.getAllFurniture());
-        products.addAll(productService.getAllCloth());
         products.removeIf(product -> product.getStatus().equalsIgnoreCase("inactive"));
         products.removeIf(product -> product.getStock()!=0);
         return new ResponseEntity<>(products.size(), HttpStatus.OK);
@@ -312,7 +254,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    //admin-prasanna
     @GetMapping("/today-count")
     public long getTodayProductCount() {
         return productService.getTodayProductCount();
@@ -326,35 +267,21 @@ public class ProductController {
     public List<ProductSalesDTO> getProductSales() {
         return productService.getProductSales();
     }
-
-
  //Supplier
-    @GetMapping("/supplier/{supplierId}/Pending")
-    public ResponseEntity<List<Product>> getPendingProductsBySupplierId(@PathVariable int supplierId) {
-	    List<Product> pendingProducts = productService.getPendingProductsBySupplierId(supplierId);
-        return new ResponseEntity<>(pendingProducts, HttpStatus.OK);
-    }
-    @GetMapping("/supplier/{supplierId}/Rejected")
-    public ResponseEntity<List<Product>> getRejectedProductsBySupplierId(@PathVariable int supplierId) {
-        List<Product> rejectedProducts = productService.getRejectedProductsBySupplierId(supplierId);
-        return new ResponseEntity<>(rejectedProducts, HttpStatus.OK);
+      @GetMapping("/supplier/{supplierId}/Pending")
+      public ResponseEntity<List<Product>> getPendingProductsBySupplierId(@PathVariable int supplierId) {
+          List<Product> pendingProducts = productService.getPendingProductsBySupplierId(supplierId);
+          return new ResponseEntity<>(pendingProducts, HttpStatus.OK);
+      }
+      @GetMapping("/supplier/{supplierId}/Rejected")
+      public ResponseEntity<List<Product>> getRejectedProductsBySupplierId(@PathVariable int supplierId) {
+          List<Product> rejectedProducts = productService.getRejectedProductsBySupplierId(supplierId);
+          return new ResponseEntity<>(rejectedProducts, HttpStatus.OK);
+  =======
+      @GetMapping("/top-sellers")
+      public ResponseEntity<List<Object[]>> getTopSellers() {
+          List<Object[]> topSellers = productService.getTopSellers();
+          return new ResponseEntity<>(topSellers, HttpStatus.OK)
+  >>>>>>> 008ac07fca7f463a5b31561fbca4d450b4c4fe6e
+      }
 
-    @GetMapping("/top-sellers")
-    public ResponseEntity<List<Object[]>> getTopSellers() {
-        List<Object[]> topSellers = productService.getTopSellers();
-        return new ResponseEntity<>(topSellers, HttpStatus.OK);
-    }
-    @GetMapping("/gendralproducts")
-    public ResponseEntity<?> getGendralProdcuts() {
-        List<Product> products = new ArrayList<>();
-        
-        products.addAll(productService.getAllElectronics().stream().limit(4).collect(Collectors.toList()));
-        products.addAll(productService.getAllBeauty().stream().limit(4).collect(Collectors.toList()));
-        products.addAll(productService.getAllFurniture().stream().limit(4).collect(Collectors.toList()));
-        products.addAll(productService.getAllCloth().stream().limit(4).collect(Collectors.toList()));
-        products.removeIf(product -> product.getStatus().equalsIgnoreCase("inactive"));
-        products.removeIf(product -> product.getDecession().equalsIgnoreCase("pending"));
-        products.removeIf(product -> product.getDecession().equalsIgnoreCase("denied"));
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
-}

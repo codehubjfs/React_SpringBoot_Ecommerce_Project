@@ -7,6 +7,8 @@ import addressimage from "./images/address.png";
 import customer from "./images/customer1.jpg";
 import business from "./images/business.jpg";
 import { Link } from "react-router-dom";
+import { Breadcrumb } from "react-bootstrap";
+
 import "../Account.css";
 
 function Account() {
@@ -16,7 +18,7 @@ function Account() {
       description:
         "Track, return, cancel an order, download invoice or buy again",
       imageSrc: orderimage,
-      link: "",
+      link: "/your-orders",
     },
     {
       title: "Login & Security",
@@ -54,6 +56,12 @@ function Account() {
 
   return (
     <Container id="content">
+      <Breadcrumb>
+        <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
+          Home
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>Profile</Breadcrumb.Item>
+      </Breadcrumb>
       <Row>
         {cardsData.map((card, index) => (
           <Col md={4} key={index}>

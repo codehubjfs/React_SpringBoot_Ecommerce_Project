@@ -9,16 +9,29 @@ import {
   addItemToWishlist,
   removeItemFromWishlist,
 } from "../slices/WishlistSlice";
-
+import { addItemToCart } from "../slices/CartSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { generalProducts } from "../slices/ProductSlice";
+import { useEffect } from "react";
 function Product() {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.items);
+
+  useEffect(() => {
+    dispatch(generalProducts());
+    console.log(products);
+  }, [dispatch]);
+
   return (
     <div className="container mt-5">
+      <ToastContainer position="bottom-right" />
       <h3 style={{ textAlign: "center", fontFamily: "sans-serif" }}>
         PRODUCTS
       </h3>
       <br />
       <div className="row">
-        {GeneralProductCard.map((product, index) => (
+        {products.map((product, index) => (
           <ProductCard key={index} {...product} />
         ))}
       </div>
@@ -28,25 +41,25 @@ function Product() {
 
 const ProductCard = ({
   productId,
-  categoryId,
-  imageSrc,
-  title,
-  description,
+  category,
+  mainImage,
+  model,
+  productTitle,
   price,
-  ratings,
+  rating,
 }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state.wishlist.items);
-  const customer = useSelector((state) => state.customers.customers);
-  const { isLoggedIn, login, logout } = useAuth();
+  const { isLoggedIn } = useAuth();
+  console.log(items);
 
   const handleLikeButtonClick = (
     productId,
-    imageSrc,
-    title,
-    description,
+    mainImage,
+    productmodel,
+    productTitle,
     price,
-    ratings
+    rating
   ) => {
     console.log(items);
     const isItemInWishlist = items.some(
@@ -62,48 +75,88 @@ const ProductCard = ({
           customerId: parsedCustomer.id,
         })
       );
+      toast.success("Product removed from wishlist!", {
+        position: "bottom-right",
+      });
     } else {
       console.log(items);
       dispatch(
         addItemToWishlist({
           ProductCard: {
             productId,
-            imageSrc,
-            title,
-            description,
+            mainImage,
+            productmodel,
+            productTitle,
             price,
-            ratings,
+            rating,
+            category,
           },
           customerId: parsedCustomer.id,
         })
       );
+      toast.success("Product added to wishlist!", {
+        position: "bottom-right",
+      });
     }
   };
-  const handleCartButtonClick = () => {};
+
+  const handleCartButtonClick = (
+    productId,
+    mainImage,
+    productmodel,
+    productTitle,
+    price,
+    rating,
+    category
+  ) => {
+    const storedCustomerData = sessionStorage.getItem("customerData");
+    const parsedCustomer = JSON.parse(storedCustomerData);
+    const quantity = 1;
+
+    dispatch(
+      addItemToCart({
+        productCard: {
+          productId,
+          mainImage,
+          productmodel,
+          productTitle,
+          price,
+          quantity,
+          category,
+        },
+        customerId: parsedCustomer.id,
+      })
+    );
+
+    toast.success("Product added to cart!", {
+      position: "bottom-right",
+    });
+  };
+
   return (
     <div className="col-md-4 mb-4">
       <div className="card-p">
         <Link
-          to={`/product/${categoryId}/${productId}`}
+          to={`/product/${category}/${productId}`}
           style={{ textDecoration: "none", color: "black" }}
           className="product-link"
         >
-          <img src={imageSrc} className="card-img-top" alt="Product Image" />
+          <img src={mainImage} className="card-img-top" alt="Product Image" />
         </Link>
         <div className="card-body">
           <Link
-            to={`/product/${categoryId}/${productId}`}
+            to={`/product/${category}/${productId}`}
             style={{ textDecoration: "none", color: "black" }}
             className="product-link"
           >
-            <h5 className="card-p-title">{title}</h5>
+            <h5 className="card-p-title">{model}</h5>
           </Link>
-          <p className="card-p-text">{description}</p>
+          <p className="card-p-text">{productTitle}</p>
           <div className="review-stars">
             {[...Array(5)].map((_, index) => (
               <span
                 key={index}
-                className={index < ratings ? "fas fa-star" : "far fa-star"}
+                className={index < rating ? "fas fa-star" : "far fa-star"}
               ></span>
             ))}
           </div>
@@ -111,6 +164,7 @@ const ProductCard = ({
             <span className="text-muted">Price: ₹{price}</span>
           </p>
         </div>
+
         <div className="buttons-container">
           <button
             type="button"
@@ -119,12 +173,23 @@ const ProductCard = ({
               if (isLoggedIn) {
                 handleCartButtonClick(
                   productId,
-                  imageSrc,
-                  title,
-                  description,
+                  mainImage,
+                  model,
+                  productTitle,
                   price,
-                  ratings
+                  rating,
+                  category
                 );
+                console.log(
+                  productId,
+                  mainImage,
+                  model,
+                  productTitle,
+                  price,
+                  rating,
+                  category
+                );
+                console.log("cart clicked");
               } else {
                 window.location.href = "/signin";
               }
@@ -139,11 +204,12 @@ const ProductCard = ({
               if (isLoggedIn) {
                 handleLikeButtonClick(
                   productId,
-                  imageSrc,
-                  title,
-                  description,
+                  mainImage,
+                  model,
+                  productTitle,
                   price,
-                  ratings
+                  rating,
+                  category
                 );
               } else {
                 window.location.href = "/signin";
@@ -153,15 +219,15 @@ const ProductCard = ({
             <i className="fas fa-heart"></i>
           </button>
           <Link
-            to={`/product/${categoryId}/${productId}`}
+            to={`/product/${category}/${productId}`}
             style={{ textDecoration: "none" }}
           >
-            <a
+            <button
               className="btn btn-custom-yellow shadow-0"
               style={{ marginLeft: "6px" }}
             >
               Buy Now
-            </a>
+            </button>
           </Link>
         </div>
       </div>

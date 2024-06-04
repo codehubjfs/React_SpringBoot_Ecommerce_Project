@@ -18,12 +18,9 @@ const SellerLayout = ({ children }) => {
   // const closeNotificationModal = () => {
   //   setNotificationModalOpen(false);
   // };
-
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 992) {
-        setSidebarVisible(false);
-      }
+      setSidebarVisible(window.innerWidth > 900);
     };
 
     window.addEventListener("resize", handleResize);
@@ -32,6 +29,20 @@ const SellerLayout = ({ children }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth > 992) {
+  //       setSidebarVisible(false);
+  //     }
+  //   };
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   return (
     <div className="main-content">
@@ -45,7 +56,7 @@ const SellerLayout = ({ children }) => {
           transition: "margin 0.3s ease",
         }}
       >
-        <main className="Admin-main">{children}</main>
+        <main className="seller-main">{children}</main>
       </div>
 
       {/* <NotificationModal isOpen={isNotificationModalOpen} onClose={closeNotificationModal} /> */}

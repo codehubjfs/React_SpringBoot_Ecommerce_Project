@@ -1,36 +1,56 @@
-import React from 'react';
-import { Card, Form } from 'react-bootstrap';
-import { Line } from 'react-chartjs-2';
+import React, { useEffect, useState } from 'react';
+import { Card } from 'react-bootstrap';
+import { Doughnut } from 'react-chartjs-2';
+import axios from 'axios';
 
-function UsersOverview() {
-  const data = {
-    labels: ['1', '7', '14', '21', '28'],
-    datasets: [
-      {
-        label: 'Current Month',
-        data: [500, 1000, 1500, 2000, 2500],
-        borderColor: '#007bff',
-        backgroundColor: 'rgba(0,123,255,0.2)',
-        fill: true,
-      },
-      {
-        label: 'Past Month',
-        data: [300, 600, 900, 1200, 1500],
-        borderColor: '#dc3545',
-        backgroundColor: 'rgba(220,53,69,0.2)',
-        fill: true,
-      },
-    ],
-  };
+function UsersOverview({ sellerId }) {
+  const [chartData, setChartData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`http://localhost:8086/orders/order/yearly-counts/${sellerId}`);
+        const counts = response.data;
+
+        const currentYear = new Date().getFullYear();
+        const previousYear = currentYear - 1;
+
+        const data = {
+          labels: [`Previous Year (${previousYear})`, `Current Year (${currentYear})`],
+          datasets: [
+            {
+              data: [counts[previousYear] || 0, counts[currentYear] || 0],
+              backgroundColor: ['#ff6b6b', '#48dbfb'], // Red and blue colors
+              hoverBackgroundColor: ['#ee5253', '#0abde3'], // Lighter shades for hover
+            },
+          ],
+        };
+
+        setChartData(data);
+      } catch (error) {
+        console.error('Error fetching order counts by year:', error);
+      }
+    }
+    fetchData();
+  }, [sellerId]);
 
   return (
-    <Card className="shadow-sm">
-      <Card.Body>
+    <Card className="shadow-sm seller-stat-card2 card-bg-gray" style={{ width: '700px', height: '400px' }}>
+<Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
         <Card.Title id="dashboard-card">Sales Overview</Card.Title>
-     
-        <Line data={data} />
+        {chartData && (
+          <div style={{ width: '50%', display: 'flex', justifyContent: 'center' }}>
+            <Doughnut
+              data={chartData}
+              options={{
+                aspectRatio: 1,
+                maintainAspectRatio: true,
+              }}
+            />
+          </div>
+        )}
       </Card.Body>
-    </Card>
+  </Card>
   );
 }
 
