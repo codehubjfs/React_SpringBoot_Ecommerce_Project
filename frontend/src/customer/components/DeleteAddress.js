@@ -3,8 +3,12 @@ import { Button, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAddressFromJson } from '../slices/addressSlice';
 
+export default function DeleteAddress({ show, onHide, addressData }) {
+  const [customerId, setCustomerId] = useState(1);
+
 function DeleteAddress({ show, onHide, addressData }) {
   const [customerId, setCustomerId] = useState(null);
+
   const dispatch = useDispatch();
   const status = useSelector(state => state.addresses.status);
   const error = useSelector(state => state.addresses.error);
@@ -20,6 +24,9 @@ function DeleteAddress({ show, onHide, addressData }) {
   }, []);
 
   const handleConfirm = async () => {
+
+    console.log("customerId",customerId,addressData);
+
     if (customerId && addressData && addressData.id) {
       console.log('Dispatching removeAddressFromJson with:', { customerId, addressId: addressData.id });
       dispatch(removeAddressFromJson({ customerId, addressId: addressData.id }));
@@ -60,3 +67,4 @@ function DeleteAddress({ show, onHide, addressData }) {
 }
 
 export default DeleteAddress;
+

@@ -4,6 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateAddressInJson } from '../slices/addressSlice';
 
 export default function EditAddress({ show, onHide, addressData }) {
+
+  //let add=useSelector((state)=>state.address.addresses);
+  console.log("addressdata2",addressData);
+  const [formData, setFormData] = useState({
+    id:'',
+    fullName:'',
+    street: '',
+    city: '',
+    state: '',
+    pincode:'',
+mobileNumber:''
+  });
+ 
+  const [formErrors, setFormErrors] = useState({});
+  const dispatch = useDispatch();
+  const status = useSelector(state => state.addresses.status);
+  const [customerId, setCustomerId] = useState(null); // Initialize to null
+
   const [formData, setFormData] = useState({
     street: '',
     city: '',
@@ -14,6 +32,7 @@ export default function EditAddress({ show, onHide, addressData }) {
   const dispatch = useDispatch();
   const status = useSelector(state => state.addresses.status);
   const [customerId, setCustomerId] = useState(1); // Initialize to null
+
 
   useEffect(() => {
     const storedCustomerData = sessionStorage.getItem('customerData');
@@ -26,6 +45,18 @@ export default function EditAddress({ show, onHide, addressData }) {
   }, []);
 
   useEffect(() => {
+
+    console.log("addressesdata1",addressData);
+    if (addressData) {
+      setFormData({
+        id:addressData.id,
+        fullName:addressData.fullName,
+        street: addressData.street ,
+        city: addressData.city ,
+        state: addressData.state,
+        pincode: addressData.pincode,
+        mobileNumber:addressData.mobileNumber
+
     if (addressData) {
       setFormData({
         street: addressData.street || '',
@@ -46,6 +77,13 @@ export default function EditAddress({ show, onHide, addressData }) {
     event.preventDefault();
     console.log('Form Data before submission:', formData);
     const errors = validateForm(formData);
+
+    console.log("error",errors);
+    if (Object.keys(errors).length === 0) {
+      try {
+        
+        await dispatch(updateAddressInJson({ customerId,address: formData }));
+
     if (Object.keys(errors).length === 0) {
       try {
         dispatch(updateAddressInJson({ customerId, addressId: addressData.id, updatedAddress: formData }));
@@ -71,10 +109,20 @@ export default function EditAddress({ show, onHide, addressData }) {
 
   const validateForm = () => {
     const errors = {};
+
+    if (!formData.fullName.trim()) errors.fullName= 'fullName is required';
+
+    if (!formData.street.trim()) errors.street = 'Street is required';
+    if (!formData.city.trim()) errors.city = 'City is required';
+    if (!formData.state.trim()) errors.state = 'State is required';
+    if (!/^\d{10}$/.test(formData.mobileNumber)) errors.mobileNumber = 'Mobile number  must be 10 digits';
+    if (!/^\d{6}$/.test(formData.pincode)) errors.pincode = 'Zip code must be 6 digits';
+
     if (!formData.street.trim()) errors.street = 'Street is required';
     if (!formData.city.trim()) errors.city = 'City is required';
     if (!formData.state.trim()) errors.state = 'State is required';
     if (!/^\d{6}$/.test(formData.zipCode)) errors.zipCode = 'Zip code must be 6 digits';
+
     return errors;
   };
 
@@ -85,6 +133,23 @@ export default function EditAddress({ show, onHide, addressData }) {
       </Modal.Header>
       <Modal.Body>
         <Form id="addressForm" onSubmit={handleSubmit}>
+        <Form.Group as={Row} controlId="formStreet" className="mb-2">
+            <Form.Label column sm="3">
+              fullName
+            </Form.Label>
+            <Col sm="9">
+              <Form.Control
+                type="text"
+                value={formData.fullName}
+                name="street"
+                onChange={handleChange}
+                isInvalid={!!formErrors.fullName
+                }
+              />
+              <Form.Control.Feedback type="invalid">{formErrors.fullName}</Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
           <Form.Group as={Row} controlId="formStreet" className="mb-2">
             <Form.Label column sm="3">
               Street
@@ -130,6 +195,33 @@ export default function EditAddress({ show, onHide, addressData }) {
               <Form.Control.Feedback type="invalid">{formErrors.state}</Form.Control.Feedback>
             </Col>
           </Form.Group>
+
+          <Form.Group controlId="pincodeInput">
+            <Form.Label>
+              Pincode <span style={{ color: "red" }}>*</span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              className={formErrors.pincode && "is-invalid"}
+              name="pincode"
+              value={formData.pincode}
+              onChange={handleChange}
+            />
+            {formErrors.pincode && <span className="text-danger">{formErrors.pincode}</span>}
+          </Form.Group>
+          <Form.Group controlId="mobileInput">
+            <Form.Label>
+              Mobile <span style={{ color: "red" }}>*</span>
+            </Form.Label>
+            <Form.Control
+              type="text"
+              className={formErrors.mobileNumber && "is-invalid"}
+              name="mobileNumber"
+              value={formData.mobileNumber}
+              onChange={handleChange}
+            />
+            {formErrors.mobileNumber && <span className="text-danger">{formErrors.mobileNumber}</span>}
+
           <Form.Group as={Row} controlId="formZipCode" className="mb-2">
             <Form.Label column sm="3">
               Zip Code
@@ -144,6 +236,7 @@ export default function EditAddress({ show, onHide, addressData }) {
               />
               <Form.Control.Feedback type="invalid">{formErrors.zipCode}</Form.Control.Feedback>
             </Col>
+
           </Form.Group>
         </Form>
       </Modal.Body>

@@ -42,7 +42,7 @@ function CategoriesComponent() {
 
   return (
     <div className="ui-categories-container">
-      <h2 className="ui-Category-component"><b>Popular Categories to Sell Online</b></h2>
+      <h2 style={{ fontSize: '22px' }}><b>Popular Categories to Sell Online</b></h2>
       <ul className="ui-categories-list">
         {displayedCategories.map((category, index) => (
           <li key={index}>{category}</li>

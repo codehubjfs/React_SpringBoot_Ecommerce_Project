@@ -6,16 +6,18 @@ import '../App.css';
 
 function BenefitPromotion() {
   return (
-    <div className="ui-container mb-5">
-      <div className="ui-row">
-        <div className="col-md-6">
-          <div className="ui-button-box">
-            <h1 id="ui-button-container"><b>Why Suppliers like Horizon?</b></h1>
-            <p id="ui-button-box">All the benefits that come with selling on Horizon<br /> are designed to help you sell more,<br /> and make it easier to grow your business.</p>
+    <div className="ui-container mb-5" style={{backgroundColor:' #d6d6d6',borderRadius:'10px'}}>
+      <div className="ui-row row">
+        <div className="col-md-6  ">
+          <div className="ui-card seller-ui-button-box" style={{width:'80%',height:'100%'}}>
+            <h1 id="seller-ui-button-container">Why Suppliers like Horizon?</h1>
+            <p id="seller-ui-button-box">
+              All the benefits that come with selling on Horizon are designed to help you sell more, and make it easier to grow your business.
+            </p>
           </div>
         </div>
-        <div className="col-md-6">
-          <div className="ui-benefits-container">
+        <div className="col-md-6 d-flex align-items-stretch">
+          <div className="seller-ui-benefits-container">
             <BenefitComponent
               icon={penaltyIcon}
               title="0 Penalty Charges"

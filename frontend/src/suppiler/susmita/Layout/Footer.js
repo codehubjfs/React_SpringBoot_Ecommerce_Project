@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Footer() {
   return (
     <footer>
-      <div className="footer-content" style={{ backgroundColor: 'black', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr' }}>
+      <div className="footer-content" style={{ backgroundColor: 'black', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr' ,textAlign:'center',padding:'20px'}}>
         <div className="footer-section">
           <p id="ui-footer" style={{ color: 'white',fontSize:'18px'}}>Sell your products to crores of<br /> customers on Horizon</p>
           <p id="ui-footer" style={{ color: 'white',fontSize:'18px' }}>at 0% commission</p>
@@ -12,7 +12,7 @@ function Footer() {
         </div>
         <div className="ui-footer-section">
           <ul>
-            <h4 style={{ color: 'white' }}><b>Sell on Horizon</b></h4>
+            <h4 style={{ color: 'white', fontSize:'22px'}}>Sell on Horizon</h4>
             <li><Link to="/sellonline" style={{ color: 'white' }}>Sell Online</Link></li>
             <li><Link to="/howitsworks" style={{ color: 'white' }}>How it Works</Link></li>
             <li><Link to="/pricingcommission" style={{ color: 'white' }}>Pricing & Commission</Link></li>
@@ -21,7 +21,7 @@ function Footer() {
           </ul>
         </div>
         <div className="footer-section">
-          <h4 style={{ color: 'white' }}><b>Contact Us</b></h4>
+          <h4 style={{ color: 'white',fontSize:'22px' }}>Contact Us</h4>
           <p style={{ color: 'white' }}>sell@Horizon.com</p>
           <div style={{ color: 'white' }}>
             <h5>Social Media
@@ -44,7 +44,7 @@ function Footer() {
           </div>
         </div>
         <div className="footer-section">
-          <h4><b style={{ color: 'white' }}>Address</b></h4>
+          <h4 style={{ color: 'white', fontSize:'22px' }}>Address</h4>
           <div>
             <p style={{ color: 'white' }}>123 Street Name</p>
             <p style={{ color: 'white' }}>City, Country</p>

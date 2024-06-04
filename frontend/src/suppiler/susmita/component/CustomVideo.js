@@ -15,7 +15,7 @@ function CustomVideo({ title, text, image, videoUrl, play }) {
   return (
     <div className="ui-row mb-5">
       <div className="ui-col-mb-4">
-        <Card style={{ width: '20rem' }}>
+        <Card style={{ width: '27rem' }}>
           {/* Image or video */}
           {showVideo ? (
             <div className="ui-video-container">

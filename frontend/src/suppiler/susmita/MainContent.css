@@ -1,0 +1,35 @@
+.ui-MainContent {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+  margin-bottom: 0; /* Remove margin to make it full screen */
+}
+
+.ui-image-container {
+  position: relative;
+  height: 100%;
+}
+
+.ui-fullscreen-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the entire container */
+}
+
+.ui-overlay {
+  position: absolute;
+  top: 45%; /* Adjust this value to position the overlay */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(7, 6, 6); /* Text color */
+  text-align: center;
+  /* Removed the background property */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.ui-overlay h1,
+.ui-overlay h2,
+.ui-overlay p {
+  margin: 10px 0;
+}

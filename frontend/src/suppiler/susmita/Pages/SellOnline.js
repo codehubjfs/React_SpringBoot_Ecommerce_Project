@@ -3,7 +3,7 @@ import React from 'react';
 
 
 import DifferentComponent from '../component/DifferentComponent';
-
+ 
 import SupportComponent from '../component/SupportComponent';
 
 

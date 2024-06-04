@@ -28,7 +28,7 @@ function PassingFeatures() {
   const feature4Props = {
     icon: feature4Icon,
     title: "Quality Dashboard",
-    description: "You can reduce returns with Quality Dashboard. It provides detailed insights into why customers are returning your products."
+    description: "You can reduce returns with Quality Dashboard. It provides detailed insights into why customers are returning your products.It helps to maintain the inventory"
   };
 
   // Define container style outside of the return statement
@@ -36,16 +36,18 @@ function PassingFeatures() {
     display: 'flex',
     justifyContent: 'space-between', // Adjust as needed
     alignItems: 'center', // Adjust as needed
-    padding: '20px', // Adjust as needed
+    padding: '50px', // Adjust as needed
   };
 
   return (
+    <div style={{backgroundColor:'#d6d6d6',borderRadius:'10px'}}>
     <div style={containerStyle}>
       {/* Pass props to FeatureComponent */}
       <Featurecomponent {...feature1Props} />
       <Featurecomponent {...feature2Props} />
       <Featurecomponent {...feature3Props} />
       <Featurecomponent {...feature4Props} />
+    </div>
     </div>
   );
 }

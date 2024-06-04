@@ -1,40 +1,31 @@
-// Home.js
+// HomeSupplier.js
 import React from 'react';
-
+import AnotherComponent from '../component/AnotherComponent';
 import PhoneNumberInput from '../component/PhoneNumberInput';
-import ParentComponent from '../component/ParentComponent';
+import ImageComponent from '../component/ImageComponent';
 import BenefitPromotion from '../component/BenefitPromotion';
 import BenefitStep from '../component/BenefitStep';
-
 import CategoriesComponent from '../component/CategoriesComponent';
 import SupportComponent from '../component/SupportComponent';
 import CombineComponent from '../component/CombineComponent';
-
-import AnotherComponent from '../component/AnotherComponent';
+import OfferCarousel from '../component/OfferCarousel';
 import '../App.css';
 
-function Home() {
+function HomeSupplier() {
   return (
     <div>
-  <AnotherComponent />
-
+      <ImageComponent />
       <PhoneNumberInput />
-     
-     
-      <ParentComponent />
+
+      {/* <OfferCarousel offers={offers} /> */}
+      <AnotherComponent />
       <BenefitPromotion />
       <CombineComponent />
- <BenefitStep />
- <CategoriesComponent />
-
- <SupportComponent />
-
-
-   
-
-     
+      <BenefitStep />
+      <CategoriesComponent />
+      <SupportComponent />
     </div>
   );
 }
 
-export default Home;
+export default HomeSupplier;

@@ -1,6 +1,6 @@
 import React from 'react';
-import picture1 from '../assets/images/gettingorders.jpeg'; // Import the image
-import '../App.css';
+import picture1 from '../assets/images/gettingorders.jpeg';
+
 function OrderComponent() {
   const tips = [
     {
@@ -21,30 +21,27 @@ function OrderComponent() {
     },
     {
       title: 'Opt for Next Day Dispatch (NDD) Program',
-      description: 'Sign up for Horizon’s NDD program to increase your sales. TripleS provides extra visibility to all catalogs that qualify for the NDD program.'
+      description: 'Sign up for Horizon’s NDD program to increase your sales. Horizon provides extra visibility to all catalogs that qualify for the NDD program.'
     }
   ];
 
   return (
-<div className="col-md-12">
-      <div className="ui-row">
-        <div className="col-md-12">
-          <h3 className="ui-register-header" style={{ fontSize: '24px', color: 'black' }}>Getting Orders</h3>
-          <p style={{ fontSize: '18px', color: 'black' }}>Once your catalog becomes live, you can start selling on Horizon. More than 11 crore active customers across India will be able to view and purchase your products. To increase your sales and attract more customers, you can:</p>
-          <div className="ui-image-container text-center">
-            {/* Centered images go here */}
-            <img src={picture1} alt="Image 1" />
-          </div>
-          <ul className="ui-tips" style={{ fontSize: '18px', color: 'black' }}>
-            {tips.map((tip, index) => (
-              <li key={index}>
-                <strong>{tip.title}</strong><br />
-                {tip.description}
-              </li>
-            ))}
-          </ul>
-        </div>
+    <div style={{ marginBottom: '40px', padding: '20px', background: '#fff', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+      <h3 style={{ fontSize: '24px', marginBottom: '20px' }}>Getting Orders</h3>
+      <p>Once your catalog becomes live, you can start selling on Horizon. More than 11 crore active customers across India will be able to view and purchase your products. To increase your sales and attract more customers, you can:</p>
+      <div style={{ margin: '20px 0', textAlign: 'center' }}>
+        <img src={picture1} alt="Getting Orders" />
       </div>
+      <ul >
+        {tips.map((tip, index) => (
+          <div style={{marginBottom:'15px'}}>
+          <li key={index} >
+            <p style={{ fontSize: '20px' , margin:'0px'}}>{tip.title}</p>
+            <span style={{ fontSize: '16px' }}>{tip.description}</span>
+          </li>
+          </div>
+        ))}
+      </ul>
     </div>
   );
 }

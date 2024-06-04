@@ -1,28 +1,19 @@
-
 import React from 'react';
 import image1 from '../assets/images/productlisting.jpeg';
 
 function ProductListing() {
   return (
-    <div className="col-md-12">
-      <div className="row">
-        <div className="col-md-12 text-center"> {/* Added text-center class */}
-          <h1 className="ui-register-header" style={{ fontSize: '24px', color: 'black' }}>Listing Your Product</h1>
-          <div className="ui-image-container ui-text-center">
-            {/* Centered images go here */}
-            <img src={image1} alt="Image 1" />
-          </div>
-          <p style={{ fontSize: '18px', color: 'black' }}>On completing the registration, you will have access to the Horizon Supplier Panel.</p>
-          <div className="ui-sub-list" id="ui-supplier">
-            <h4 style={{ fontSize: '18px', color: 'black' }}>What is the Horizon Supplier Panel?</h4>
-            <p style={{ fontSize: '18px', color: 'black' }}>Horizon Supplier Panel is the one-stop solution for all your online selling needs. From listing your products and managing inventory to processing orders and tracking payments, log in to the Supplier panel and manage your online business with ease. The process is simple, and to know more you can watch the below video.</p>
-          </div>
-         
-          <div className="ui-sub-list">
-            <h4 style={{ fontSize: '18px', color: 'black' }}>Steps</h4>
-            <p style={{ fontSize: '18px', color: 'black' }}>Learn how to use Horizon Supplier Panel</p>
-          </div>
-        </div>
+    <div style={{ marginBottom: '40px', padding: '20px', background: '#fff', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+      <h3 style={{ fontSize: '24px', marginBottom: '20px' }}>Listing Your Product</h3>
+      <div style={{ margin: '20px 0', textAlign: 'center' }}>
+        <img src={image1} alt="Product Listing" />
+      </div>
+      <p>On completing the registration, you will have access to the Horizon Supplier Panel.</p>
+      <div style={{ marginTop: '20px' }}>
+        <h4 style={{ fontSize: '18px' }}>What is the Horizon Supplier Panel?</h4>
+        <p>Horizon Supplier Panel is the one-stop solution for all your online selling needs. From listing your products and managing inventory to processing orders and tracking payments, log in to the Supplier panel and manage your online business with ease.</p>
+        <h4 style={{ fontSize: '18px' }}>Steps</h4>
+        <p>Learn how to use Horizon Supplier Panel</p>
       </div>
     </div>
   );
